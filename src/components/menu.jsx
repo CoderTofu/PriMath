@@ -1,25 +1,16 @@
-import { useState } from "react"
+import { Link } from "react-router-dom"
 import "../css/menu.css"
 
 export default function Menu() {
-    let [menu, changeMenu] = useState(false)
-
-    const showMenu = () => {
-        changeMenu(!menu)
-    }
-
     return (
-        <div>
-            {menu ? 
-                <>
-                    <button onClick={showMenu}>Close Menu</button>
-                    <div className="menu">
-                        THIS IS THE MENU
-                    </div>
-                </>
-                :
-                <button onClick={showMenu}>Open Menu</button>
-            }
+        <div className="menu">
+            <div className="burger-menu"></div>
+            <ul className="menu-list">
+                <li><Link to={"/"}>Home</Link></li>
+                <li><Link to={"/challenges"}>Challenges</Link></li>
+                <li><Link to={"/about"}>About</Link></li>
+                <li><Link to={"/support"}>Support us</Link></li>
+            </ul>
         </div>
     )
 }
