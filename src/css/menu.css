@@ -1,18 +1,14 @@
 .menu {
     position: relative;
     display: inline-block;
+    width: fit-content;
+    height: 100px;
 }
 
 .burger-menu {
-    --burger-size: 50px;
-    --menu-to-burger-padding: 15px;
-
     background-color: black;
-    top: 0;
-    right: calc((var(--burger-size) + var(--menu-to-burger-padding)) * -1);
-    border-radius: 100%;
-    width: var(--burger-size);
-    height: var(--burger-size);
+    height: 100px;
+    width: 100px;
 }
 
 .burger-menu:hover + .menu-list {

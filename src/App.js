@@ -8,6 +8,7 @@ import Challenges from './pages/challenges';
 import About from './pages/about';
 import SupportUs from "./pages/support_us";
 
+
 // Component imports
 import Menu from "./components/menu";
 
