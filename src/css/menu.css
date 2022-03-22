@@ -1,13 +1,15 @@
 .menu {
-    position: relative;
+    position: absolute;
     width: 50px;
-    height: 100vh;
+    top: 0;
+    bottom: 0;
     background-color: black;
     transition: ease-in-out .7s;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .menu:hover {
-    height: 100vh;
     width: 250px;
 }
 
@@ -34,24 +36,34 @@
     height: 40px;
 }
 
+
+/* Menu text */
+.menu:hover .menu-list li {
+    opacity: 1;
+}
+
 .menu-list {
-    display: none;
+    display: block;
+    list-style: none;
+    min-width: fit-content;
+    padding: 0;
+    list-style-type: none;
 }
 
 .menu-link {
+    opacity: 0;
+    font-size: 0;
+    transition: 0.7s ease-in-out;
+    
+    color: #fff;
     text-decoration: none;
-    color: black;
-    transition: 2s ease-in-out;
-}
-
-.menu:hover .menu-list {
-    display: block;
-    list-style: none;
 }
 
 .menu:hover .menu-link {
-    background-color: aqua;
+    font-size: 15px;
+    opacity: 1;
 }
+
 
 
 
