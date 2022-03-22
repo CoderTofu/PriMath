@@ -1,20 +1,57 @@
 .menu {
     position: relative;
-    display: inline-block;
-    width: fit-content;
-    height: 100px;
+    width: 50px;
+    height: 100vh;
+    background-color: black;
+    transition: ease-in-out .7s;
+}
+
+.menu:hover {
+    height: 100vh;
+    width: 250px;
+}
+
+.menu:hover .burger-menu {
+    transform: scale(0);
 }
 
 .burger-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     background-color: black;
-    height: 100px;
-    width: 100px;
+    position: absolute;
+    right: 0;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    transition: 0.7s ease-in-out;
 }
 
-.burger-menu:hover + .menu-list {
-    display: block;
+.burger-icon {
+    width: 40px;
+    height: 40px;
 }
 
 .menu-list {
     display: none;
 }
+
+.menu-link {
+    text-decoration: none;
+    color: black;
+    transition: 2s ease-in-out;
+}
+
+.menu:hover .menu-list {
+    display: block;
+    list-style: none;
+}
+
+.menu:hover .menu-link {
+    background-color: aqua;
+}
+
+
+

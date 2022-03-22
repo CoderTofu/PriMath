@@ -1,11 +1,10 @@
-import { useState } from "react"
 import { Link } from "react-router-dom"
 import "../css/menu.css"
 
 export default function Menu() {
     return (
         <div className="menu">
-            <div className="burger-menu"></div>
+            <div className="burger-menu"><img className="burger-icon" src="/img/burger.png" alt="" /></div>
             <ul className={`menu-list`}>
                 <li><Link className="menu-link" to={"/"}>Home</Link></li>
                 <li><Link className="menu-link" to={"/challenges"}>Challenges</Link></li>
