@@ -5,4 +5,12 @@
 
 .App {
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    background-color: beige;
+    min-width: 80vw;
+    min-height: 100vh;
 }
