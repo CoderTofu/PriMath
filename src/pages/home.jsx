@@ -1,5 +1,5 @@
 export default function Home() {
     return (
-        <div>This is home</div>
+        <div className="dark">This is home</div>
     )
 }

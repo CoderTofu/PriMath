@@ -5,7 +5,7 @@
     top: 0;
     bottom: 0;
     background-color: black;
-    transition: ease-in-out .7s;
+    transition: var(--slow-transition);
     display: flex;
     justify-content: flex-start;
 }
@@ -29,7 +29,7 @@
     height: 50px;
     width: 50px;
     border-radius: 100%;
-    transition: 0.7s ease-in-out;
+    transition: var(--regular-transition);
 }
 
 .burger-icon {
@@ -54,7 +54,7 @@
 .menu-link {
     opacity: 0;
     font-size: 0;
-    transition: 0.7s ease-in-out;
+    transition: var(--regular-transition);
     
     color: #fff;
     text-decoration: none;

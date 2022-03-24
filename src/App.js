@@ -1,5 +1,6 @@
 // React or library imports
 import { Routes, Route } from "react-router-dom";
+import { useState } from 'react';
 
 
 // Page imports
@@ -15,6 +16,9 @@ import Menu from "./components/menu";
 
 
 function App() {
+  let [modes, changeMode] = useState("light");
+
+
   return (
     <div className="App">
       <Menu />
