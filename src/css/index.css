@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif+Caption:ital@0;1&family=Rasa:wght@300;400;500&family=Red+Hat+Display:wght@300;400;500&family=Red+Rose:wght@300;400;500&family=Sansita:wght@700&display=swap');
+
 *, *::before, *::after {
     margin: 0;
     box-sizing: border-box;
+    
+    --heading-font: 'Sansita', sans-serif;
+    --secondary-font: 'Red Rose', cursive;
+    --input-font: 'Red Hat Display', sans-serif;
+    --question-font: 'Rasa', serif;
+    --api-facts-font: 'PT Serif Caption', serif;
+
 }
 
 :root {

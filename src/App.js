@@ -16,7 +16,6 @@ import Menu from "./components/menu";
 
 
 function App() {
-  let [modes, changeMode] = useState("light");
 
 
   return (
