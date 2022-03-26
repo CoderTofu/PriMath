@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/view-mode.css"
+import "../css/component-css/view-mode.css"
 
 export default function ViewMode() {
     let [view, changeView] = useState("dark_mode_view")

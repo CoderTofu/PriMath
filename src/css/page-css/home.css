@@ -1,0 +1,24 @@
+.home-container {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    font-family: var(--heading-font);
+    font-style: italic;
+    font-size: 100px;
+}
+
+.site-title {
+    font-family: var(--secondary-font);
+    font-size: 50px;
+} 
+
+.generate-btn {
+    font-family: var(--input-font);
+    font-size: 20px;
+}
