@@ -16,20 +16,20 @@ import Menu from "./components/menu";
 
 
 function App() {
-
+  let [mode, changeMode] = useState()
 
   return (
     <div className="App">
-      <Menu />
+      <Menu viewMode={mode}/>
       <main className="content">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/challenges" element={<Challenges />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/support" element={<SupportUs />} />
+          <Route path="/" element={<Home viewMode={mode}/>} />
+          <Route path="/challenges" element={<Challenges viewMode={mode}/>} />
+          <Route path="/about" element={<About viewMode={mode}/>} />
+          <Route path="/support" element={<SupportUs viewMode={mode}/>} />
         </Routes>
       </main>
-      <ViewMode />
+      <ViewMode changeMode={changeMode}/>
     </div>
   );
 }
