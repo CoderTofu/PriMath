@@ -31,7 +31,7 @@ function App() {
   let [mode, changeMode] = useState(setViewTo)
 
   return (
-    <div className="App">
+    <div className={`App ${mode}`}>
       <Menu viewMode={mode}/>
       <main className="content">
         <Routes>

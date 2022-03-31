@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../css/component-css/view-mode.css"
 
 export default function ViewMode(props) {

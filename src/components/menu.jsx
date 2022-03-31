@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
 import "../css/component-css/menu.css"
 
-export default function Menu() {
+export default function Menu(props) {
+let viewMode = props.viewMode;
+
     function openMenu() {
         document.getElementById("menu-list").style.left = "0px";
         document.getElementById("burger-menu").style.opacity = "0";
@@ -14,7 +16,7 @@ export default function Menu() {
 
     return (
         <div className="menu">
-            <div onClick={openMenu} id="burger-menu" className="burger-menu"><img className="burger-icon" src="/img/burger.png" alt="" /></div>
+            <div onClick={openMenu} id="burger-menu" className={`burger-menu ${viewMode}`}><img className="burger-icon" src="/img/burger.png" alt="" /></div>
             <ul id="menu-list" className={`menu-list`}>
                 <div onClick={closeMenu} className="close-btn"><h3 className="close-sign">X</h3></div>
                 <h2><Link onClick={closeMenu} className="menu-link" to={"/"}>PriMath</Link></h2>

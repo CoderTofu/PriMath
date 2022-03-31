@@ -19,6 +19,17 @@
     transition: var(--reg-animation);
 }
 
+.burger-menu.dark{
+    background-color: rgb(199, 199, 199);
+}
+.burger-menu.dark .burger-icon{
+    filter: invert(100%);
+}
+
+.burger-menu.light {
+    background-color: #111;
+}
+
 .burger-icon {
     width: 25px;
     height: 25px;
