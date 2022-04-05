@@ -19,16 +19,8 @@ function App() {
   let localView = window.localStorage.getItem("view_mode")
 
   // Block of code to check what view mode we would want to use in a website
-  let setViewTo = ""
-  if (localView === "light") {
-    setViewTo = "dark"
-  } else if (localView === "dark") {
-    setViewTo = "light"
-  } else {
-    setViewTo = "light" // In case of unexpected results just set site to light mode
-  }
 
-  let [mode, changeMode] = useState(setViewTo)
+  let [mode, changeMode] = useState(localView) // The view mode changes with the help of the view-mode component 
 
   return (
     <div className={`App ${mode}`}>
