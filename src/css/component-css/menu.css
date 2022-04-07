@@ -1,0 +1,110 @@
+.menu {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.burger-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111;
+    padding: 10px;
+    border-radius: 100%;
+    transition: var(--reg-animation);
+    cursor: pointer;
+    transition: var(--short-animation);
+}
+
+.burger-menu:hover {
+    transform: scale(1.1);
+}
+
+.burger-menu.dark{
+    background-color: rgb(199, 199, 199);
+}
+
+.burger-menu.dark .burger-icon{
+    filter: invert(100%);
+}
+
+.burger-menu.light {
+    background-color: #111;
+}
+
+.burger-icon {
+    width: 25px;
+    height: 25px;
+}
+
+.menu-list {
+    --menu-list-width: 300px;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: fixed;
+    background-color: #111;
+    overflow-x: hidden;
+    border-radius: 0px 50px 50px 0px;
+    z-index: 1;
+    top: 0;
+    height: 100vh;
+    width: var(--menu-list-width);
+    left: calc(var(--menu-list-width) * -1);
+    padding: 0;
+
+    transition: var(--reg-animation);
+}
+
+/* Inside the menu */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+
+    /* To make button not selectable */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.close-sign {
+    font-size: 30px;
+    color: #fff;
+}
+
+.menu-list > * {
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.menu-list h2 {
+    font-family: var(--heading-font);
+    font-style: italic;
+    font-size: 40px;
+    padding: 3rem;
+    border-bottom: 1px solid #fff;
+}
+
+.menu-list li {
+    font-family: var(--secondary-font);
+    padding: 2rem;
+    font-size: 18px;
+}
+
+.menu-link {
+    color: #fff;
+    text-decoration: none;
+    transition: var(--short-animation);
+}
+
+.menu-link:hover {
+    color: rgb(189, 189, 189);
+}

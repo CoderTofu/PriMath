@@ -1,23 +1,28 @@
-import { useState } from "react";
-import "../css/view-mode.css"
+import "../css/component-css/view-mode.css"
 
-export default function ViewMode() {
-    let [view, changeView] = useState("dark_mode_view")
-    let [viewClass, changeViewClass] = useState("dark")
+export default function ViewMode(props) {
+    let viewMode = props.viewMode;
+    let changeMode = props.changeMode;
 
-    function canYouSee() {
-        if (view === "dark_mode_view") {
-            changeViewClass("light")
-            changeView("light_mode_view")
-        } else if (view === "light_mode_view") {
-            changeView("dark_mode_view")
-            changeViewClass("dark")
+    function changeViewMode() {
+        let localView = window.localStorage.getItem("view_mode")
+        // console.log(`Currently: ${localView}`)
+        let setViewTo = ""
+        if (localView === "light") {
+            setViewTo = "dark"
+        } else if (localView === "dark") {
+            setViewTo = "light"
+        } else {
+            setViewTo = "light" // In case of unexpected results just set site to light mode
         }
+        window.localStorage.setItem("view_mode", setViewTo)
+        changeMode(setViewTo)
+        // console.log(`Changed to: ${setViewTo}`)
     }
 
     return (
-        <div className={`mode-container ${viewClass}`}>
-            <img onClick={canYouSee} src={`/img/${view}.png`} alt="" />
+        <div className={`mode-container ${viewMode}`}>
+            <img onClick={changeViewMode} src={`/img/${viewMode}_mode_view.png`} alt="" />
         </div>
     )
 }

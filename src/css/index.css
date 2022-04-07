@@ -10,6 +10,8 @@
     --question-font: 'Rasa', serif;
     --api-facts-font: 'PT Serif Caption', serif;
 
+    --reg-animation: all 0.5s ease-in-out;
+    --short-animation: all 0.25s ease-in-out;
 }
 
 :root {
@@ -23,17 +25,19 @@
     align-items: center;
 }
 
+.App.dark {
+    background-color: black;
+}
+
+.App.light {
+    background-color: #fff;
+}
+
 .content {
     min-width: 80vw;
     min-height: 100vh;
 }
 
-.dark {
+.content.dark {
     background-color: black;
-    color: white;
-}
-
-.light {
-    background-color: white;
-    color: black;
 }
