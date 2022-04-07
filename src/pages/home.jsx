@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import "../css/page-css/home.css"
 
 export default function Home(props) {
@@ -9,7 +10,7 @@ export default function Home(props) {
                 <h1 className={`title ${mode}`}>PriMath</h1>
                 <h3 className={`site-title ${mode}`}>For all the math lovers</h3>
             </div>
-            <button className={`generate-btn ${mode}`}>generate a problem</button>
+            <Link className={`generate-btn ${mode}`} to={"/challenges"}>let's go</Link>
         </div>
     )
 }

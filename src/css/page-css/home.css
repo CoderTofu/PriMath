@@ -24,6 +24,7 @@
 
 .generate-btn {
     padding: 0.5rem 1rem;
+    text-decoration: none;
     cursor: pointer;
     border: none;
     border-radius: 0.5rem;
