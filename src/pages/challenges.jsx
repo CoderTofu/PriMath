@@ -1,11 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Challenges(props) {
     // let mode = props.viewMode
-    // let [selected, changeSelect] = useState([])
+
+    // Available challenges buttons
+    let [available, changeAvailable] = useState(["Addition", "Subtraction", "Multiplication", "Division"])
+    let [availableButtons, changeAvailableButtons] = useState([])
+
+    // Selected challenges buttons
+    let [selected, changeSelect] = useState([])
+    let [selectedButtons, changeSelectButtons] = useState([])
+
 
     function addChallenge() {
-
+        
     }
 
     function removeChallenge() {
@@ -16,21 +24,41 @@ export default function Challenges(props) {
 
     }
 
+    useEffect(() => {
+        changeAvailableButtons([])
+        available.map((type, index) => {
+            try {
+                let createID = `available${index}`
+
+                let createdButton = (
+                    <button 
+                    id={createID} 
+                    key={createID}>
+                        {type}
+                    </button>
+                )
+
+                changeAvailableButtons(arr => [...arr, createdButton])
+                return "success"   
+            } catch(e) {
+                console.log(e)
+                return "fail"
+            }
+        })
+    }, [])
+
     return (
         <div>
             <div>
                 <div>Available Challenges:</div>
                 <div>
-                    <button>Addition</button>
-                    <button>Subtraction</button>
-                    <button>Multiplication</button>
-                    <button>Division</button>
+                    {availableButtons}
                 </div>
             </div>
             <div>
                 <div>Selected Challenges:</div>
                 <div>
-                    {/* Put the challenges selected here */}
+                    {/* {selected} */}
                 </div>
             </div>
         </div>
