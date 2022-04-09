@@ -1,8 +1,10 @@
 import React from "react"
 import { useEffect, useState } from 'react';
 
+import "../css/page-css/challenges.css"
+
 export default function Challenges(props) {
-    // let mode = props.viewMode
+    let mode = props.viewMode
 
     // Available challenges buttons
     let available = ["Addition", "Subtraction", "Multiplication", "Division"];
@@ -12,36 +14,64 @@ export default function Challenges(props) {
     let [selected, changeSelected] = useState([])
     let [selectedButtons, changeSelectButtons] = useState([])
 
+    // For edit form
+    let [editSelect, changeEditSelect] = useState("")
+    let [showEdit, changeShowEdit] = useState("hide")
 
-    function addChallenge(id) {
+
+    function addChallenge(index, id) {
         let element = document.getElementById(id);
+        removeAvailable(index)
         changeSelected(arr => [...arr, {
             name: element.value,
             min_range: 0,
             max_range: 10
         }])
-        element.remove() // Removes the button that you pressed
+        
     }
-
-    function removeChallenge() {
-
+    // To future me: find a way to remove the indexed button on available buttons once clicked
+    function removeAvailable(index) {
+        console.log(availableButtons)
     }
 
     function challengeRange() {
 
     }
 
+    function removeChallenge(type, id) {
+        let element = document.getElementById(id)
+        element.remove()
+
+        let index = availableButtons.length()
+        let createID = `available${index}`
+        let createdButton = (
+            <button
+                className="available-btn"
+                id={createID}
+                onClick={() => { addChallenge(createID) }}
+                key={createID}
+                value={type}>
+                {type.name}
+            </button>
+        )
+    }
+
+    function editChallenge(type) {
+        changeShowEdit("show")
+        changeEditSelect(type.name)
+    }
+
     // This useEffect is made to initialize the buttons utilized to select the challenges that a user can pick.
     useEffect(() => {
-        changeAvailableButtons([])
         available.map((type, index) => {
             try {
                 let createID = `available${index}`
 
                 let createdButton = (
-                    <button 
+                    <button
+                    className="available-btn" 
                     id={createID}
-                    onClick={() => {addChallenge(createID)}} 
+                    onClick={() => {addChallenge(index, createID)}} 
                     key={createID}
                     value={type}>
                         {type}
@@ -65,12 +95,21 @@ export default function Challenges(props) {
                 let createID = `selected${index}`
 
                 let createdButton = (
-                    <button
+                    <div
                         id={createID}
-                        key={createID}
-                        value={type.name}>
+                        key={createID}>
                         {type.name}
-                    </button>
+                        <div>
+                            <button 
+                                onClick={() => {editChallenge(type)}}>
+                                    Edit
+                            </button>
+                            <button
+                                onClick={() => {removeChallenge(type, createID)}}>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
                 )
 
                 changeSelectButtons(arr => [...arr, createdButton])
@@ -83,33 +122,34 @@ export default function Challenges(props) {
     }, [selected])
 
     return (
-        <div>
+        <div className={`challenge-container ${mode}`}>
 
-            <div>
-                <div>Available Challenges:</div>
-                <div>
+            <div className={`available-container ${mode}`}>
+                <div className="content-header">Available Challenges:</div>
+                <div className="button-container">
                     {availableButtons}
                 </div>
             </div>
 
-            <div>
-                <div>Selected Challenges:</div>
+            <div className={`selected-container ${mode}`}>
+                <div className="content-header">Selected Challenges:</div>
                 <div>
                     {selectedButtons}
                 </div>
             </div>
 
-            <div>
-                <div>Edit the challenge range here:</div>
+            <div className={`edit-container ${showEdit} ${mode}`}>
+                <div className="content-header">Edit the challenge range!</div>
                 <form>
-                    <h2>{/* The challenge selected */}</h2>
+                    <h2>{editSelect}</h2>
                     <label htmlFor="min_range">Minimum: </label>
                     <input type="number" name="min_range" placeholder="1" />
                     <br />
                     <label htmlFor="min_range">Maximum: </label>
-                    <input type="number" name="min_range" placeholder="1" />
+                    <input type="number" name="min_range" placeholder="10" />
                 </form>
             </div>
+
         </div>
     )
 }
