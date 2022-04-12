@@ -7,7 +7,7 @@ export default function Challenges(props) {
     let mode = props.viewMode
 
     // Available challenges buttons
-    let available = ["Addition", "Subtraction", "Multiplication", "Division"];
+    let [available, changeAvailable] = useState(["Addition", "Subtraction", "Multiplication", "Division"]);
     let [availableButtons, changeAvailableButtons] = useState([])
 
     // Selected challenges buttons
@@ -19,50 +19,47 @@ export default function Challenges(props) {
     let [showEdit, changeShowEdit] = useState("hide")
 
 
-    function addChallenge(index, id) {
+    function addChallenge(id) {
         let element = document.getElementById(id);
-        removeAvailable(index)
+
+        changeAvailable(arr => arr.filter((value) => {
+            return value !== element.value
+        }))
+            
         changeSelected(arr => [...arr, {
             name: element.value,
             min_range: 0,
             max_range: 10
         }])
-        
-    }
-    // To future me: find a way to remove the indexed button on available buttons once clicked
-    function removeAvailable(index) {
-        console.log(availableButtons)
     }
 
-    function challengeRange() {
+    function removeChallenge(type) {
+        changeSelected(arr => arr.filter((value) => {
+            return value !== type
+        }))
 
+        changeAvailable(arr => [...arr, type.name])
     }
 
-    function removeChallenge(type, id) {
-        let element = document.getElementById(id)
-        element.remove()
-
-        let index = availableButtons.length()
-        let createID = `available${index}`
-        let createdButton = (
-            <button
-                className="available-btn"
-                id={createID}
-                onClick={() => { addChallenge(createID) }}
-                key={createID}
-                value={type}>
-                {type.name}
-            </button>
-        )
-    }
-
-    function editChallenge(type) {
+    function editChallenge(type) { // Function that will show the hidden edit section
         changeShowEdit("show")
         changeEditSelect(type.name)
     }
 
+    function onInputMinRange() {
+
+    }
+
+    function onInputMaxRange() {
+        
+    }
+
     // This useEffect is made to initialize the buttons utilized to select the challenges that a user can pick.
     useEffect(() => {
+        changeAvailableButtons([])
+        console.log("cleared")
+
+        available.sort()
         available.map((type, index) => {
             try {
                 let createID = `available${index}`
@@ -71,7 +68,7 @@ export default function Challenges(props) {
                     <button
                     className="available-btn" 
                     id={createID}
-                    onClick={() => {addChallenge(index, createID)}} 
+                    onClick={() => {addChallenge(createID)}} 
                     key={createID}
                     value={type}>
                         {type}
@@ -85,11 +82,12 @@ export default function Challenges(props) {
                 return "fail"
             }
         })
-    }, [])
+    }, [available])
 
-    // This useEffect is made to create a set of buttons that the player chose.
+    // This useEffect is made to create a set of buttons that the player already chose.
     useEffect(() => {
         changeSelectButtons([])
+        
         selected.map((type, index) => {
             try {
                 let createID = `selected${index}`
