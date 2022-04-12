@@ -15,7 +15,7 @@ export default function Challenges(props) {
     let [selectedButtons, changeSelectButtons] = useState([])
 
     // For edit form
-    let [editSelect, changeEditSelect] = useState({})
+    let [editSelect, changeEditSelect] = useState("")
     let [showEdit, changeShowEdit] = useState("hide")
     let [minRange, setMinRange] = useState(1)
     let [maxRange, setMaxRange] = useState(10)
@@ -44,6 +44,11 @@ export default function Challenges(props) {
     }
 
     function editChallenge(type) { 
+        if (editSelect !== "") {
+            onInputMinRange(editSelect.min_range, editSelect)
+            onInputMaxRange(editSelect.max_range, editSelect)
+        }
+
         changeShowEdit("show") // show the hidden edit section
         changeEditSelect(type) // selects the user selected type
 
@@ -52,17 +57,33 @@ export default function Challenges(props) {
         onInputMaxRange(type.max_range, type)
     }
 
-    // To future me: Find a way to replace the old value of min range and max range to the edited version
     function onInputMinRange(value, userSelected) {
-        setMinRange(value);
-        let index = selected.indexOf(userSelected);
-        userSelected.min_range = minRange;
+        try {
+            let numberValue = parseInt(value) || 1;
+            setMinRange(numberValue);
+            let index = selected.indexOf(userSelected);
+            userSelected.min_range = numberValue;
+            selected[index] = userSelected;
+        } catch (e) {
+            console.log("Something went wrong: " + e);
+        }
+    }
+    // To future me: create an error case in which the user can only give
+    // a (value in max higher than minimum) and a (value in minimum lower than maximum)
+    function onInputMaxRange(value, userSelected) {
+        try {
+            let numberValue = parseInt(value) || 1;
+            setMaxRange(numberValue);
+            let index = selected.indexOf(userSelected);
+            userSelected.max_range = numberValue;
+            selected[index] = userSelected
+        } catch (e) {
+            console.log("Something went wrong: " + e);
+        }
     }
 
-    function onInputMaxRange(value, userSelected) {
-        setMaxRange(value);
-        let index = selected.indexOf(userSelected);
-        userSelected.max_range = maxRange;
+    function start() {
+        console.log(selected)
     }
 
     // This useEffect is made to initialize the buttons utilized to select the challenges that a user can pick.
@@ -149,6 +170,7 @@ export default function Challenges(props) {
             <div className={`edit-container ${showEdit} ${mode}`}>
                 <div className="content-header">Edit the challenge range!</div>
                 <form>
+
                     <h2>{editSelect.name}</h2>
                     <label htmlFor="min_range">Minimum: </label>
                     <input 
@@ -157,7 +179,9 @@ export default function Challenges(props) {
                         value={minRange}
                         onChange={e => onInputMinRange(e.target.value, editSelect)} 
                     />
+
                     <br />
+
                     <label htmlFor="min_range">Maximum: </label>
                     <input 
                         type="number" 
@@ -165,9 +189,11 @@ export default function Challenges(props) {
                         value={maxRange}
                         onChange={e => onInputMaxRange(e.target.value, editSelect)} 
                     />
-                    <button type="submit">Start!</button>
+
                 </form>
             </div>
+
+            <button onClick={start}>START!</button>
 
         </div>
     )
