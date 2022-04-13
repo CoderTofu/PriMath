@@ -60,6 +60,10 @@ export default function Challenges(props) {
     function onInputMinRange(value, userSelected) {
         try {
             let numberValue = parseInt(value) || 1;
+            if (numberValue > maxRange) {
+                console.log("Minimum value can't be higher than the maximum value.")
+                return
+            }
             setMinRange(numberValue);
             let index = selected.indexOf(userSelected);
             userSelected.min_range = numberValue;
@@ -68,11 +72,14 @@ export default function Challenges(props) {
             console.log("Something went wrong: " + e);
         }
     }
-    // To future me: create an error case in which the user can only give
-    // a (value in max higher than minimum) and a (value in minimum lower than maximum)
+    
     function onInputMaxRange(value, userSelected) {
         try {
             let numberValue = parseInt(value) || 1;
+            if (numberValue < minRange) {
+                console.log("Maximum value can't be lower than the minimum value.")
+                return
+            }
             setMaxRange(numberValue);
             let index = selected.indexOf(userSelected);
             userSelected.max_range = numberValue;
