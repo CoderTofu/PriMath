@@ -1,0 +1,45 @@
+.challenge-container {
+    margin-top: 50px;
+}
+
+.challenge-container > div {
+    padding-bottom: 25px;
+    min-height: 200px;
+    width: 100%;
+}
+
+.content-header {
+    font-family: var(--heading-font);
+    font-style: italic;
+    font-size: 50px;
+    margin-bottom: 1rem;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    gap: 10px;
+}
+
+.available-btn {
+    height: 70px;
+    width: 300px;
+    font-family: var(--input-font);
+}
+
+.edit-container.show {
+    display: block;
+}
+
+.edit-container.hide {
+    display: none;
+}
+
+.available-container {
+    
+}
+
+.selected-container {
+
+}

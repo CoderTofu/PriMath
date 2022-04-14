@@ -1,3 +1,4 @@
+import React from "react";
 import "../css/component-css/view-mode.css"
 
 export default function ViewMode(props) {
@@ -6,7 +7,6 @@ export default function ViewMode(props) {
 
     function changeViewMode() {
         let localView = window.localStorage.getItem("view_mode")
-        // console.log(`Currently: ${localView}`)
         let setViewTo = ""
         if (localView === "light") {
             setViewTo = "dark"
@@ -17,7 +17,6 @@ export default function ViewMode(props) {
         }
         window.localStorage.setItem("view_mode", setViewTo)
         changeMode(setViewTo)
-        // console.log(`Changed to: ${setViewTo}`)
     }
 
     return (
