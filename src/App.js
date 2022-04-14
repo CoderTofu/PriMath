@@ -9,6 +9,8 @@ import Challenges from './pages/challenges';
 import About from './pages/about';
 import SupportUs from "./pages/support_us";
 import ViewMode from "./components/view-mode";
+import NotFound from "./pages/not_found";
+import Game from "./pages/game"
 
 
 // Component imports
@@ -28,9 +30,11 @@ function App() {
       <main className="content">
         <Routes>
           <Route path="/" element={<Home viewMode={mode}/>} />
-          <Route path="/challenges" element={<Challenges viewMode={mode}/>} />
+          <Route path="/challenges" element={<Challenges viewMode={mode} />} />
+          <Route path="/challenges/game" element={<Game viewMode={mode} />} />
           <Route path="/about" element={<About viewMode={mode}/>} />
           <Route path="/support" element={<SupportUs viewMode={mode}/>} />
+          <Route path="*" element={<NotFound viewMode={mode} />} />
         </Routes>
       </main>
       <ViewMode changeMode={changeMode} viewMode={mode}/>

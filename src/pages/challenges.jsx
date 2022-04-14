@@ -1,10 +1,13 @@
 import React from "react"
 import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import "../css/page-css/challenges.css"
 
 export default function Challenges(props) {
     let mode = props.viewMode
+
+    let navigate = useNavigate();
 
     // Available challenges buttons
     let [available, changeAvailable] = useState(["Addition", "Subtraction", "Multiplication", "Division"]);
@@ -72,7 +75,7 @@ export default function Challenges(props) {
             console.log("Something went wrong: " + e);
         }
     }
-    
+
     function onInputMaxRange(value, userSelected) {
         try {
             let numberValue = parseInt(value) || 1;
@@ -90,7 +93,17 @@ export default function Challenges(props) {
     }
 
     function start() {
-        console.log(selected)
+        const routeChange = () => {
+            let path = `game`;
+            navigate(path);
+        }
+        if (selected.length === 0) {
+            alert("You have to select at least one challenge.")
+        } else  {
+            routeChange()
+            let stringed = JSON.stringify(selected)
+            window.localStorage.setItem("challenges", stringed)
+        }
     }
 
     // This useEffect is made to initialize the buttons utilized to select the challenges that a user can pick.
@@ -147,7 +160,6 @@ export default function Challenges(props) {
                         </div>
                     </div>
                 )
-
                 changeSelectButtons(arr => [...arr, createdButton])
                 return "success"
             } catch (e) {
@@ -199,6 +211,13 @@ export default function Challenges(props) {
 
                 </form>
             </div>
+
+            {/* 
+                Save the challenge list with their values in local storage.
+                Redirect to challenges/game. 
+                If walang nakasave sa localstorage na list of challenges or if error, 
+                just do an alert and prevent them from accessing the game page. 
+            */}
 
             <button onClick={start}>START!</button>
 
