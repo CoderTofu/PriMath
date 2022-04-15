@@ -20,8 +20,8 @@ export default function Challenges(props) {
     // For edit form
     let [editSelect, changeEditSelect] = useState("")
     let [showEdit, changeShowEdit] = useState("hide")
-    let [minRange, setMinRange] = useState(1)
-    let [maxRange, setMaxRange] = useState(10)
+    let [minVal, setMinRange] = useState(1)
+    let [maxVal, setMaxRange] = useState(10)
 
 
     function addChallenge(id) {
@@ -33,8 +33,8 @@ export default function Challenges(props) {
             
         changeSelected(arr => [...arr, {
             name: element.value,
-            min_range: 1,
-            max_range: 10
+            min_val: 1,
+            max_val: 10
         }])
     }
 
@@ -48,22 +48,25 @@ export default function Challenges(props) {
 
     function editChallenge(type) { 
         if (editSelect !== "") {
-            onInputMinRange(editSelect.min_range, editSelect)
-            onInputMaxRange(editSelect.max_range, editSelect)
+            onInputMinValue(editSelect.min_val, editSelect)
+            onInputMaxValue(editSelect.max_val, editSelect)
         }
 
         changeShowEdit("show") // show the hidden edit section
         changeEditSelect(type) // selects the user selected type
 
         // set the input to appropriate value
-        onInputMinRange(type.min_range, type)
-        onInputMaxRange(type.max_range, type)
+        onInputMinValue(type.min_val, type)
+        onInputMaxValue(type.max_val, type)
     }
 
-    function onInputMinRange(value, userSelected) {
+    function onInputMinValue(value, userSelected) {
         try {
-            let numberValue = parseInt(value) || 1;
-            if (numberValue > maxRange) {
+            let numberValue = parseInt(value);
+            if (numberValue <= 0) {
+                console.log("Minimum value can't be zero.")
+                return
+            } else if (numberValue > maxVal) {
                 console.log("Minimum value can't be higher than the maximum value.")
                 return
             }
@@ -76,10 +79,14 @@ export default function Challenges(props) {
         }
     }
 
-    function onInputMaxRange(value, userSelected) {
+    function onInputMaxValue(value, userSelected) {
         try {
             let numberValue = parseInt(value) || 1;
-            if (numberValue < minRange) {
+            if (numberValue > 1000) {
+                numberValue = 1000
+                console.log("Can't go higher than 1000.")
+            }
+            if (numberValue < minVal) {
                 console.log("Maximum value can't be lower than the minimum value.")
                 return
             }
@@ -169,6 +176,11 @@ export default function Challenges(props) {
         })
     }, [selected])
 
+    /**
+     * Add a problem section for the container. 
+     * This way the user would know what the problem could be.
+     */
+
     return (
         <div className={`challenge-container ${mode}`}>
 
@@ -195,8 +207,8 @@ export default function Challenges(props) {
                     <input 
                         type="number"
                         name="min_range"
-                        value={minRange}
-                        onChange={e => onInputMinRange(e.target.value, editSelect)} 
+                        value={minVal}
+                        onChange={e => onInputMinValue(e.target.value, editSelect)} 
                     />
 
                     <br />
@@ -205,8 +217,8 @@ export default function Challenges(props) {
                     <input 
                         type="number" 
                         name="min_range"
-                        value={maxRange}
-                        onChange={e => onInputMaxRange(e.target.value, editSelect)} 
+                        value={maxVal}
+                        onChange={e => onInputMaxValue(e.target.value, editSelect)} 
                     />
 
                 </form>
