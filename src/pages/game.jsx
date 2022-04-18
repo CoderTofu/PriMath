@@ -3,6 +3,7 @@ import React from "react"
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
+    console.log(parsedChallenges)
 
     /**
      * Set a timer for 3 seconds before the game actually starts.
@@ -50,8 +51,8 @@ export default function Game(props) {
                 return (
                     <div key={index}>
                         <h2>Type: {item.name}</h2>
-                        <h3>Min Val: {item.min_range}</h3>
-                        <h3>Max Val: {item.max_range}</h3>
+                        <h3>Min Val: {item.min_val}</h3>
+                        <h3>Max Val: {item.max_val}</h3>
                     </div>
                 )
             })}

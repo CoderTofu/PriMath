@@ -20,6 +20,7 @@ export default function Challenges(props) {
     // For edit form
     let [editSelect, changeEditSelect] = useState("")
     let [showEdit, changeShowEdit] = useState("hide")
+    let [problems, updateProblems] = useState([])
     let [minVal, setMinRange] = useState(1)
     let [maxVal, setMaxRange] = useState(10)
 
@@ -58,6 +59,9 @@ export default function Challenges(props) {
         // set the input to appropriate value
         onInputMinValue(type.min_val, type)
         onInputMaxValue(type.max_val, type)
+
+        // reset the problems
+        updateProblems([])
     }
 
     function onInputMinValue(value, userSelected) {
@@ -65,9 +69,17 @@ export default function Challenges(props) {
             let numberValue = parseInt(value);
             if (numberValue <= 0) {
                 console.log("Minimum value can't be zero.")
+                updateProblems([...problems, {
+                    text: "Minimum value can't be zero.",
+                    type: "min value"
+                }])
                 return
             } else if (numberValue > maxVal) {
                 console.log("Minimum value can't be higher than the maximum value.")
+                updateProblems([...problems, {
+                    text: "Minimum value can't be higher than the maximum value.",
+                    type: "min value"
+                }])
                 return
             }
             setMinRange(numberValue);
@@ -80,16 +92,46 @@ export default function Challenges(props) {
     }
 
     function onInputMaxValue(value, userSelected) {
+        let type_val = "max value"
         try {
             let numberValue = parseInt(value) || 1;
             if (numberValue > 1000) {
-                numberValue = 1000
-                console.log("Can't go higher than 1000.")
-            }
-            if (numberValue < minVal) {
-                console.log("Maximum value can't be lower than the minimum value.")
+                let msg = {
+                    text: "Can't go higher than 1000.",
+                    type: type_val
+                }
+                numberValue = 1000;
+
+                /** 
+                 * BUG HERE
+                 * 
+                 * Should have been able to check if we already put the
+                 * exact same message in to the problem array.
+                 */
+
+                if (problems.indexOf(msg) === -1) {
+                    updateProblems([...problems, msg])
+                    console.log(problems)
+                }
+
                 return
             }
+            if (numberValue < minVal) {
+                console.log("Maximum value can't be lower than the minimum value.");
+                updateProblems([...problems, {
+                    text: "Maximum value can't be lower than the minimum value.",
+                    type: "max value"
+                }])
+                return
+            }
+            /**
+                 * BUG HERE
+                 * 
+                 * Should have been able to clear up any 
+                 * message objects that has a max val type
+            */
+            updateProblems(problems.filter(problem => problem.type !== "max val"));
+
             setMaxRange(numberValue);
             let index = selected.indexOf(userSelected);
             userSelected.max_range = numberValue;
@@ -199,9 +241,8 @@ export default function Challenges(props) {
             </div>
 
             <div className={`edit-container ${showEdit} ${mode}`}>
-                <div className="content-header">Edit the challenge range!</div>
                 <form>
-
+                    <div className="content-header">Edit the challenge range!</div>
                     <h2>{editSelect.name}</h2>
                     <label htmlFor="min_range">Minimum: </label>
                     <input 
@@ -220,8 +261,14 @@ export default function Challenges(props) {
                         value={maxVal}
                         onChange={e => onInputMaxValue(e.target.value, editSelect)} 
                     />
-
                 </form>
+                <div className="edit-problems">
+                    {problems.map((item, index) => {
+                        return (
+                            <p key={`problem-${index}`}>{item.text}</p>
+                        )
+                    })}
+                </div>
             </div>
 
             {/* 
