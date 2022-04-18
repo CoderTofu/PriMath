@@ -29,21 +29,21 @@ export default function Game(props) {
      * difference of 501-1000 *2.5
      */
 
-    function genChallengeAddition() {
+    // function genChallengeAddition() {
 
-    }
+    // }
 
-    function genChallengeSubtraction() {
+    // function genChallengeSubtraction() {
 
-    }
+    // }
 
-    function genChallengeMultiplication() {
+    // function genChallengeMultiplication() {
 
-    }
+    // }
 
-    function genChallengeDivision() {
+    // function genChallengeDivision() {
 
-    }
+    // }
 
     return (
         <div>

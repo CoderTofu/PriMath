@@ -66,7 +66,8 @@ export default function Challenges(props) {
 
     function onInputMinValue(value, userSelected) {
         try {
-            let numberValue = parseInt(value);
+            let numberValue = parseInt(value) || "";
+            setMinRange(numberValue);
             if (numberValue <= 0) {
                 console.log("Minimum value can't be zero.")
                 updateProblems([...problems, {
@@ -82,7 +83,6 @@ export default function Challenges(props) {
                 }])
                 return
             }
-            setMinRange(numberValue);
             let index = selected.indexOf(userSelected);
             userSelected.min_val = numberValue;
             selected[index] = userSelected;
@@ -92,9 +92,10 @@ export default function Challenges(props) {
     }
 
     function onInputMaxValue(value, userSelected) {
-        let type_val = "max value"
+        let type_val = "max value";
         try {
-            let numberValue = parseInt(value) || 1;
+            let numberValue = parseInt(value) || "";
+            setMaxRange(numberValue);
             if (numberValue > 1000) {
                 let msg = {
                     text: "Can't go higher than 1000.",
@@ -113,23 +114,30 @@ export default function Challenges(props) {
                 }
                 return
             }
-            if (numberValue < minVal) {
-                console.log("Maximum value can't be lower than the minimum value.");
-                updateProblems([...problems, {
-                    text: "Maximum value can't be lower than the minimum value.",
-                    type: "max value"
-                }])
+            if (numberValue <= minVal) {
+                let msg = {
+                    text: "Maximum value can't be equal or lower than minimum value.",
+                    type: type_val
+                }
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
                 return
             }
+
             /**
                  * BUG HERE
                  * 
                  * Should have been able to clear up any 
                  * message objects that has a max val type
             */
-            updateProblems(problems.filter(problem => problem.type !== "max val"));
-
-            setMaxRange(numberValue);
+            updateProblems(problems.filter(problem => {return problem.type == type_val}));
             let index = selected.indexOf(userSelected);
             userSelected.max_val = numberValue;
             selected[index] = userSelected
