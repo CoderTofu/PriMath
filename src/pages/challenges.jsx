@@ -84,7 +84,7 @@ export default function Challenges(props) {
             }
             setMinRange(numberValue);
             let index = selected.indexOf(userSelected);
-            userSelected.min_range = numberValue;
+            userSelected.min_val = numberValue;
             selected[index] = userSelected;
         } catch (e) {
             console.log("Something went wrong: " + e);
@@ -101,19 +101,16 @@ export default function Challenges(props) {
                     type: type_val
                 }
                 numberValue = 1000;
-
-                /** 
-                 * BUG HERE
-                 * 
-                 * Should have been able to check if we already put the
-                 * exact same message in to the problem array.
-                 */
-
-                if (problems.indexOf(msg) === -1) {
-                    updateProblems([...problems, msg])
-                    console.log(problems)
+                setMaxRange(numberValue);
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
                 }
-
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
                 return
             }
             if (numberValue < minVal) {
@@ -134,7 +131,7 @@ export default function Challenges(props) {
 
             setMaxRange(numberValue);
             let index = selected.indexOf(userSelected);
-            userSelected.max_range = numberValue;
+            userSelected.max_val = numberValue;
             selected[index] = userSelected
         } catch (e) {
             console.log("Something went wrong: " + e);
