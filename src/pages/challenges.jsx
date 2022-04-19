@@ -65,24 +65,51 @@ export default function Challenges(props) {
     }
 
     function onInputMinValue(value, userSelected) {
+        let type_val = "min value";
         try {
             let numberValue = parseInt(value) || "";
             setMinRange(numberValue);
+
+            // CONDITION #1
             if (numberValue <= 0) {
-                console.log("Minimum value can't be zero.")
-                updateProblems([...problems, {
+                let msg = {
                     text: "Minimum value can't be zero.",
-                    type: "min value"
-                }])
+                    type: type_val
+                }
+                numberValue = 1;
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
                 return
-            } else if (numberValue > maxVal) {
-                console.log("Minimum value can't be higher than the maximum value.")
-                updateProblems([...problems, {
+            } 
+
+            // CONDITION #2
+            if (numberValue > maxVal) {
+                let msg = {
                     text: "Minimum value can't be higher than the maximum value.",
-                    type: "min value"
-                }])
+                    type: type_val
+                }
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
                 return
             }
+
+            updateProblems(problems.filter(problem => {
+                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
+            }));
             let index = selected.indexOf(userSelected);
             userSelected.min_val = numberValue;
             selected[index] = userSelected;
@@ -96,13 +123,15 @@ export default function Challenges(props) {
         try {
             let numberValue = parseInt(value) || "";
             setMaxRange(numberValue);
+            
+            // CONDITION #1
             if (numberValue > 1000) {
                 let msg = {
                     text: "Can't go higher than 1000.",
                     type: type_val
                 }
                 numberValue = 1000;
-                setMaxRange(numberValue);
+                setMaxRange(numberValue); // If user tries to type something higher than 1k sets the input back to just 1k
                 let updateCondition = true;
                 for (let i in problems) {
                     if (problems[i].text === msg.text && problems[i].type === msg.type) {
@@ -114,6 +143,8 @@ export default function Challenges(props) {
                 }
                 return
             }
+
+            // CONDITION #2
             if (numberValue <= minVal) {
                 let msg = {
                     text: "Maximum value can't be equal or lower than minimum value.",
@@ -131,13 +162,10 @@ export default function Challenges(props) {
                 return
             }
 
-            /**
-                 * BUG HERE
-                 * 
-                 * Should have been able to clear up any 
-                 * message objects that has a max val type
-            */
-            updateProblems(problems.filter(problem => {return problem.type == type_val}));
+            updateProblems(problems.filter(problem => {
+                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
+            }));
+
             let index = selected.indexOf(userSelected);
             userSelected.max_val = numberValue;
             selected[index] = userSelected
