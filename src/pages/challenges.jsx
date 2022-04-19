@@ -1,6 +1,6 @@
 import React from "react"
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import "../css/page-css/challenges.css"
 
@@ -251,11 +251,6 @@ export default function Challenges(props) {
         })
     }, [selected])
 
-    /**
-     * Add a problem section for the container. 
-     * This way the user would know what the problem could be.
-     */
-
     return (
         <div className={`challenge-container ${mode}`}>
 
@@ -295,6 +290,7 @@ export default function Challenges(props) {
                         onChange={e => onInputMaxValue(e.target.value, editSelect)} 
                     />
                 </form>
+
                 <div className="edit-problems">
                     {problems.map((item, index) => {
                         return (
