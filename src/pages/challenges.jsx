@@ -228,14 +228,15 @@ export default function Challenges(props) {
                 let createdButton = (
                     <div
                         id={createID}
-                        key={createID}>
+                        key={createID}
+                        className={`selected-btn`}>
                         {type.name}
-                        <div>
-                            <button 
+                        <div className="util-btn">
+                            <button className="edit-btn"
                                 onClick={() => {editChallenge(type)}}>
                                     Edit
                             </button>
-                            <button
+                            <button className="del-btn"
                                 onClick={() => {removeChallenge(type, createID)}}>
                                 Delete
                             </button>
@@ -256,47 +257,50 @@ export default function Challenges(props) {
 
             <div className={`available-container ${mode}`}>
                 <div className="content-header">Available Challenges:</div>
-                <div className="button-container">
+                <div className="available-btn-container">
                     {availableButtons}
                 </div>
             </div>
 
             <div className={`selected-container ${mode}`}>
                 <div className="content-header">Selected Challenges:</div>
-                <div>
-                    {selectedButtons}
+                <div className={`selected-btn-container ${mode}`}>
+                    {selectedButtons.length !== 0 ? selectedButtons : "None"}
                 </div>
             </div>
 
             <div className={`edit-container ${showEdit} ${mode}`}>
-                <form>
-                    <div className="content-header">Edit the challenge range!</div>
-                    <h2>{editSelect.name}</h2>
-                    <label htmlFor="min_range">Minimum: </label>
-                    <input 
-                        type="number"
-                        name="min_range"
-                        value={minVal}
-                        onChange={e => onInputMinValue(e.target.value, editSelect)} 
-                    />
+                <div className="content-header">Edit the challenge range!</div>
+                <div className="edit-input-container">
+                    <form>
+                        <h2 className="selected-type">{editSelect.name}</h2>
+                        <label className="label-input-min" htmlFor="min_range">Minimum: </label>
+                        <input
+                            className="input-min"
+                            type="number"
+                            name="min_range"
+                            value={minVal}
+                            onChange={e => onInputMinValue(e.target.value, editSelect)}
+                        />
 
-                    <br />
 
-                    <label htmlFor="min_range">Maximum: </label>
-                    <input 
-                        type="number" 
-                        name="min_range"
-                        value={maxVal}
-                        onChange={e => onInputMaxValue(e.target.value, editSelect)} 
-                    />
-                </form>
+                        <label className="label-input-max" htmlFor="min_range">Maximum: </label>
+                        <input
+                            className="input-max"
+                            type="number"
+                            name="max_range"
+                            value={maxVal}
+                            onChange={e => onInputMaxValue(e.target.value, editSelect)}
+                        />
+                    </form>
 
-                <div className="edit-problems">
-                    {problems.map((item, index) => {
-                        return (
-                            <p key={`problem-${index}`}>{item.text}</p>
-                        )
-                    })}
+                    <div className="edit-problems">
+                        {problems.map((item, index) => {
+                            return (
+                                <p key={`problem-${index}`}>{item.text}</p>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
 

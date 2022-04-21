@@ -3,8 +3,7 @@
 }
 
 .challenge-container > div {
-    padding-bottom: 25px;
-    min-height: 200px;
+    min-height: 150px;
     width: 100%;
 }
 
@@ -12,23 +11,32 @@
     font-family: var(--heading-font);
     font-style: italic;
     font-size: 50px;
-    margin-bottom: 1rem;
+    padding-bottom: 10px;
+}
+
+.available-container,
+.selected-container,
+.edit-container {
+    transition: var(--short-animation);
 }
 
 .available-container.dark .content-header,
 .selected-container.dark .content-header,
 .edit-container.dark .content-header {
+    border-bottom: 1px solid #fff;
     color: #fff;
 }
 
 .available-container.light .content-header,
 .selected-container.light .content-header,
 .edit-container.light .content-header {
+    border-bottom: 1px solid #000;
     color: #000;
 }
 
 /* Available container div */
-.button-container {
+.available-btn-container {
+    margin-top: 1.1rem;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: center;
@@ -38,20 +46,166 @@
 .available-btn {
     height: 70px;
     width: 300px;
+    cursor: pointer;
+    font-size: 30px;
+    border-radius: 150px;
+    transition: var(--short-animation);
     font-family: var(--input-font);
 }
 
+.available-container.light .available-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+
+.available-container.light .available-btn:hover {
+    background-color: rgb(39, 39, 39);
+}
+
+.available-container.dark .available-btn {
+    background-color: #fff;
+    color: #000;
+    border: none;
+}
+
+.available-container.dark .available-btn:hover {
+    background-color: rgb(212, 212, 212);
+}
+
 /* Selected container div */
-.selected-container {
-    
+.selected-btn-container {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.selected-btn {
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+    padding: 25px;
+    border-radius: 30px;
+    font-size: 20px;
+    font-family: var(--input-font);
+}
+
+.selected-btn-container.light .selected-btn {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.selected-btn-container.dark .selected-btn {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.selected-btn-container.light .selected-btn .util-btn {
+    border-left: 1px solid #000;
+}
+
+.selected-btn-container.dark .selected-btn .util-btn {
+    border-left: 1px solid #fff;
+}
+
+.util-btn {
+    display: flex;
+    width: 50%;
+    justify-content: right;
+    align-items: center;
+}
+
+.util-btn button {
+    margin-left: 5px;
+    height: 30px;
+    width: 55px;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    border-radius: 15px;
+    transition: var(--short-animation);
+}
+
+.util-btn button:hover {
+    opacity: 0.75;
+}
+
+.edit-btn {
+    background-color: rgb(6, 146, 211);
+}
+
+.del-btn {
+    background-color: rgb(255, 0, 0);
 }
 
 /* Edit container div */
-.edit-container.show {
-    display: block;
+.edit-container {
+    animation: edit-appears 1s;
 }
 
 .edit-container.hide {
+    opacity: 0;
     display: none;
 }
 
+.edit-container.show {
+    opacity: 1;
+}
+
+.edit-input-container {
+    display: flex;
+}
+
+.edit-input-container form {
+    display: grid;
+    grid-template-areas:
+        "title title title"
+        "question1 answer1 answer1"
+        "question2 answer2 answer2"
+    ;
+}
+
+.edit-input-container .selected-type {
+    font-family: var(--secondary-font);
+    grid-area: title;
+}
+
+.label-input-min {
+    grid-area: question1;
+}
+
+.label-input-max {
+    grid-area: question2;
+}
+
+.input-min {
+    grid-area: answer1;
+}
+
+.input-max {
+    grid-area: answer2;
+}
+
+@keyframes edit-appears {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    50% {
+        height: fit-content;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
