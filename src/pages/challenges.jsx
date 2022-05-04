@@ -265,18 +265,18 @@ export default function Challenges(props) {
             <div className={`selected-container ${mode}`}>
                 <div className="content-header">Selected Challenges:</div>
                 <div className={`selected-btn-container ${mode}`}>
-                    {selectedButtons.length !== 0 ? selectedButtons : "None"}
+                    {selectedButtons.length !== 0 ? selectedButtons : ""}
                 </div>
             </div>
 
             <div className={`edit-container ${showEdit} ${mode}`}>
                 <div className="content-header">Edit the challenge range!</div>
-                <div className="edit-input-container">
+                <div className={`edit-input-container ${mode}`}>
+                    <h2 className={`selected-type ${mode}`}>~~{editSelect.name}~~</h2>
                     <form>
-                        <h2 className="selected-type">{editSelect.name}</h2>
-                        <label className="label-input-min" htmlFor="min_range">Minimum: </label>
+                        <label className={`label-input-min label-input ${mode}`}htmlFor="min_range">Minimum: </label>
                         <input
-                            className="input-min"
+                            className={`input-min num-input ${mode}`}
                             type="number"
                             name="min_range"
                             value={minVal}
@@ -284,9 +284,9 @@ export default function Challenges(props) {
                         />
 
 
-                        <label className="label-input-max" htmlFor="min_range">Maximum: </label>
+                        <label className={`label-input-max label-input ${mode}`} htmlFor="min_range">Maximum: </label>
                         <input
-                            className="input-max"
+                            className={`input-max num-input ${mode}`}
                             type="number"
                             name="max_range"
                             value={maxVal}

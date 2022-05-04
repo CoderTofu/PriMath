@@ -12,12 +12,7 @@
     font-style: italic;
     font-size: 50px;
     padding-bottom: 10px;
-}
-
-.available-container,
-.selected-container,
-.edit-container {
-    transition: var(--short-animation);
+    transition: var(--reg-animation);
 }
 
 .available-container.dark .content-header,
@@ -41,6 +36,7 @@
     grid-template-columns: auto auto;
     justify-content: center;
     gap: 10px;
+    min-height: 70px;
 }
 
 .available-btn {
@@ -75,11 +71,12 @@
 
 /* Selected container div */
 .selected-btn-container {
-    padding: 15px;
+    padding-top: 15px;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: center;
     width: 100%;
+    min-height: 70px;
     gap: 10px;
 }
 
@@ -91,6 +88,7 @@
     border-radius: 30px;
     font-size: 20px;
     font-family: var(--input-font);
+    transition: var(--short-animation);
 }
 
 .selected-btn-container.light .selected-btn {
@@ -151,6 +149,7 @@
 
 /* Edit container div */
 .edit-container {
+    margin-top: 0;
     animation: edit-appears 1s;
 }
 
@@ -165,20 +164,75 @@
 
 .edit-input-container {
     display: flex;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected-type,
+.label-input,
+.num-input {
+    transition: var(--short-animation);
+}
+
+.selected-type.light,
+.label-input.light,
+.num-input.light {
+    color: #000;
+}
+
+.selected-type.dark,
+.label-input.dark,
+.num-input.dark {
+    color: #fff;
+}
+
+.num-input.light {
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+.num-input.dark {
+    background-color: #000;
+    border: 1px solid #fff;
 }
 
 .edit-input-container form {
     display: grid;
+    row-gap: 5px;
+    align-items: center;
     grid-template-areas:
-        "title title title"
         "question1 answer1 answer1"
         "question2 answer2 answer2"
     ;
 }
 
+.label-input {
+    font-family: var(--input-font);
+    /* padding-top: 0.5rem; */
+    padding-right: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.selected-type {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: lighter;
+    margin-bottom: 0.5rem;
+}
+
 .edit-input-container .selected-type {
     font-family: var(--secondary-font);
     grid-area: title;
+}
+
+.num-input {
+    height: 1.8rem;
+    border-radius: 5px;
+    text-align: center;
+    width: 4rem;
+    font-size: 0.8rem;
 }
 
 .label-input-min {
