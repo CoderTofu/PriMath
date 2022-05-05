@@ -314,8 +314,11 @@ export default function Challenges(props) {
                 If walang nakasave sa localstorage na list of challenges or if error, 
                 just do an alert and prevent them from accessing the game page. 
             */}
-
-            <button onClick={start}>START!</button>
+            <div className="game-start-container">
+                {selected.length == 0 ? "" :
+                    <button className={`game-start-btn ${mode}`} onClick={start}>START</button>
+                }
+            </div>
 
         </div>
     )

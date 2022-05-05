@@ -251,6 +251,39 @@
     grid-area: answer2;
 }
 
+/* Start button */
+.game-start-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-start-btn {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: var(--input-font);
+    font-size: 20px;
+    transition: var(--short-animation)
+}
+
+.game-start-btn:hover {
+    transform: scale(1.1);
+}
+
+.game-start-btn.light {
+    color: #fff;
+    background-color: #000;
+}
+
+.game-start-btn.dark {
+    color: #000;
+    background-color: #fff;
+}
+
 @keyframes edit-appears {
     0% {
         opacity: 0;
