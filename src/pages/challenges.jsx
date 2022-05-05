@@ -220,7 +220,7 @@ export default function Challenges(props) {
     // This useEffect is made to create a set of buttons that the player already chose.
     useEffect(() => {
         changeSelectButtons([])
-        
+
         selected.map((type, index) => {
             try {
                 let createID = `selected${index}`
@@ -250,6 +250,10 @@ export default function Challenges(props) {
                 return "fail"
             }
         })
+
+        if (!selected.includes(editSelect)) { // In case user tries to edit a challenge they already deleted
+            changeShowEdit("hide")
+        }
     }, [selected])
 
     return (
