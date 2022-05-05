@@ -257,7 +257,7 @@ export default function Challenges(props) {
     }, [selected])
 
     return (
-        <div className={`challenge-container ${mode}`}>
+        <div className={`challenge-container`}>
 
             <div className={`available-container ${mode}`}>
                 <div className="content-header">Available Challenges:</div>

@@ -5,6 +5,7 @@
 .challenge-container > div {
     min-height: 150px;
     width: 100%;
+    margin-bottom: 2rem;
 }
 
 .content-header {
@@ -84,6 +85,7 @@
     display: flex;
     width: 300px;
     justify-content: space-between;
+    align-items: center;
     padding: 25px;
     border-radius: 30px;
     font-size: 20px;
@@ -294,5 +296,138 @@
     }
     100% {
         opacity: 100%;
+    }
+}
+
+@media (max-width: 800px) {
+    .challenge-container>div {
+        min-height: 150px;
+        margin-bottom: 1rem;
+    }
+
+    .content-header {
+        font-size: 40px;
+    }
+
+    .available-btn {
+        height: 60px;
+        width: 250px;
+        font-size: 20px;
+    }
+
+    .selected-btn {
+        height: 60px;
+        width: 250px;
+        font-size: 15px;
+    }
+
+    .util-btn {
+        width: fit-content;
+    }
+
+    .util-btn button {
+        height: 25px;
+        width: 40px;
+        font-size: 10px;
+    }
+
+    .selected-type {
+        font-size: 2rem;
+    }
+
+    .label-input {
+        font-size: 1rem;
+    }
+
+    .num-input {
+        width: 3.5rem;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .challenge-container>div {
+        min-height: 120px;
+        margin-bottom: 0.5rem;
+    }
+
+    .challenge-container>div {
+        margin-bottom: 0.5rem;
+    }
+
+    .content-header {
+        font-size: 35px;
+    }
+
+    .available-btn {
+        height: 50px;
+        width: 200px;
+        font-size: 20px;
+    }
+
+    .selected-btn {
+        height: 50px;
+        width: 200px;
+        font-size: 12px;
+    }
+
+    .util-btn button {
+        height: 20px;
+        width: 20px;
+        padding: 0.2rem 1.2rem;
+        font-size: 7px;
+    }
+}
+
+@media (max-width: 450px) {
+    .challenge-container>div {
+        min-height: 100px;
+        margin-bottom: 0.25rem;
+    }
+
+    .available-btn-container {
+        min-height: 0;
+    }
+
+    .challenge-container {
+        margin-top: 3.5rem;
+    }
+
+    .content-header {
+        font-size: 28px;
+    }
+
+    .available-btn {
+        height: 40px;
+        width: 150px;
+        font-size: 16px;
+    }
+
+    .selected-btn {
+        height: 40px;
+        width: 150px;
+        font-size: 10px;
+        padding: 1rem 1rem;
+    }
+
+    .util-btn button {
+        height: 15px;
+        width: 12px;
+        padding: 0.1rem 0.8rem;
+        font-size: 5px;
+    }
+
+    .selected-type {
+        font-size: 1.5rem;
+    }
+
+    .label-input {
+        font-size: 0.7rem;
+    }
+
+    .num-input {
+        width: 3rem;
+        height: 1.5rem;
+        font-size: 0.5rem;
     }
 }
