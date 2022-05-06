@@ -94,17 +94,11 @@
 }
 
 .selected-btn-container.light .selected-btn {
-    /* background-color: #fff;
-    color: #000;
-    border: 1px solid #000; */
     background-color: #000;
     color: #fff;
 }
 
 .selected-btn-container.dark .selected-btn {
-    /* background-color: #000;
-    color: #fff;
-    border: 1px solid #fff; */
     background-color: #fff;
     color: #000;
 }
