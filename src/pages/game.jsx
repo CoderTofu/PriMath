@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
@@ -44,6 +44,10 @@ export default function Game(props) {
     // function genChallengeDivision() {
 
     // }
+
+    useEffect(() => {
+        document.title = "Game"
+    }, [])
 
     return (
         <div>

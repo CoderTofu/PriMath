@@ -1,10 +1,14 @@
-import React from "react"
+import React, {useEffect} from "react"
 
 import { Link } from "react-router-dom"
 import "../css/page-css/home.css"
 
 export default function Home(props) {
     let mode = props.viewMode
+
+    useEffect(() => {
+        document.title = "Home"
+    }, [])
 
     return (
         <div className="home-container">

@@ -1,5 +1,4 @@
-import React from "react"
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 
 import "../css/page-css/challenges.css"
@@ -256,6 +255,10 @@ export default function Challenges(props) {
         }
     }, [selected])
 
+    useEffect(() => {
+        document.title = "Challenge Select"
+    }, [])
+    
     return (
         <div className={`challenge-container`}>
 
