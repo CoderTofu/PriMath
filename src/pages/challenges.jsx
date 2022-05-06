@@ -63,10 +63,26 @@ export default function Challenges(props) {
         updateProblems([])
     }
 
+    function hasSpecialChars(str) {
+        const specialChars = /[`!@#$%^&*()_+\-={};':"\\|,.<>?~]/g;
+        return specialChars.test(str)
+    }
+
     function onInputMinValue(value, userSelected) {
         let type_val = "min value";
         try {
-            let numberValue = parseInt(value) || "";
+            if (hasSpecialChars(value)) {
+                // So we can check if user is trying to input scpecial characters
+                let msg = {
+                    text: "Can't use special characters on minimum value.",
+                    type: type_val
+                }
+                inputProblem(msg)
+                return
+            }
+
+            let numberValue = parseInt(value);
+
             setMinRange(numberValue);
 
             // CONDITION #1
@@ -76,15 +92,7 @@ export default function Challenges(props) {
                     type: type_val
                 }
                 numberValue = 1;
-                let updateCondition = true;
-                for (let i in problems) {
-                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
-                        updateCondition = false;
-                    }
-                }
-                if (updateCondition) {
-                    updateProblems([...problems, msg])
-                }
+                inputProblem(msg)
                 return
             } 
 
@@ -94,15 +102,7 @@ export default function Challenges(props) {
                     text: "Minimum value can't be higher than the maximum value.",
                     type: type_val
                 }
-                let updateCondition = true;
-                for (let i in problems) {
-                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
-                        updateCondition = false;
-                    }
-                }
-                if (updateCondition) {
-                    updateProblems([...problems, msg])
-                }
+                inputProblem(msg)
                 return
             }
 
@@ -120,9 +120,22 @@ export default function Challenges(props) {
     function onInputMaxValue(value, userSelected) {
         let type_val = "max value";
         try {
+            if (hasSpecialChars(value)) { 
+                // So we can check if user is trying to input scpecial characters
+                let msg = {
+                    text: "Can't use special characters on max value.",
+                    type: type_val
+                }
+                inputProblem(msg)
+                return
+            }
+
             let numberValue = parseInt(value) || "";
+
+            if (numberValue === "") return
+
             setMaxRange(numberValue);
-            
+
             // CONDITION #1
             if (numberValue > 1000) {
                 let msg = {
@@ -130,16 +143,9 @@ export default function Challenges(props) {
                     type: type_val
                 }
                 numberValue = 1000;
-                setMaxRange(numberValue); // If user tries to type something higher than 1k sets the input back to just 1k
-                let updateCondition = true;
-                for (let i in problems) {
-                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
-                        updateCondition = false;
-                    }
-                }
-                if (updateCondition) {
-                    updateProblems([...problems, msg])
-                }
+                setMaxRange(numberValue); 
+                // If user tries to type something higher than 1k sets the input back to just 1k
+                inputProblem(msg)
                 return
             }
 
@@ -149,15 +155,7 @@ export default function Challenges(props) {
                     text: "Maximum value can't be equal or lower than minimum value.",
                     type: type_val
                 }
-                let updateCondition = true;
-                for (let i in problems) {
-                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
-                        updateCondition = false;
-                    }
-                }
-                if (updateCondition) {
-                    updateProblems([...problems, msg])
-                }
+                inputProblem(msg)
                 return
             }
 
@@ -170,6 +168,19 @@ export default function Challenges(props) {
             selected[index] = userSelected
         } catch (e) {
             console.log("Something went wrong: " + e);
+        }
+    }
+
+    function inputProblem(msg) {
+        let updateCondition = true;
+        for (let i in problems) {
+            if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                updateCondition = false;
+            }
+        }
+        console.log(updateCondition)
+        if (updateCondition) {
+            updateProblems([...problems, msg])
         }
     }
 
@@ -279,35 +290,38 @@ export default function Challenges(props) {
             <div className={`edit-container ${showEdit} ${mode}`}>
                 <div className="content-header">Edit the challenge range!</div>
                 <div className={`edit-input-container ${mode}`}>
-                    <h2 className={`selected-type ${mode}`}>~~{editSelect.name}~~</h2>
-                    <form>
-                        <label className={`label-input-min label-input ${mode}`}htmlFor="min_range">Minimum: </label>
-                        <input
-                            className={`input-min num-input ${mode}`}
-                            type="number"
-                            name="min_range"
-                            value={minVal}
-                            onChange={e => onInputMinValue(e.target.value, editSelect)}
-                        />
+                    <div className={`form-container ${mode}`}>
+                        <h2 className={`selected-type ${mode}`}>~~{editSelect.name}~~</h2>
+                        <form>
+                            <label className={`label-input-min label-input ${mode}`} htmlFor="min_range">Minimum: </label>
+                            <input
+                                className={`input-min num-input ${mode}`}
+                                type="number"
+                                name="min_range"
+                                value={minVal}
+                                onChange={e => onInputMinValue(e.target.value, editSelect)}
+                            />
 
 
-                        <label className={`label-input-max label-input ${mode}`} htmlFor="min_range">Maximum: </label>
-                        <input
-                            className={`input-max num-input ${mode}`}
-                            type="number"
-                            name="max_range"
-                            value={maxVal}
-                            onChange={e => onInputMaxValue(e.target.value, editSelect)}
-                        />
-                    </form>
-
+                            <label className={`label-input-max label-input ${mode}`} htmlFor="min_range">Maximum: </label>
+                            <input
+                                className={`input-max num-input ${mode}`}
+                                type="number"
+                                name="max_range"
+                                value={maxVal}
+                                onChange={e => onInputMaxValue(e.target.value, editSelect)}
+                            />
+                        </form>
+                    </div>
+                    {problems.length === 0 ? "" : 
                     <div className="edit-problems">
+                        Reminder:
                         {problems.map((item, index) => {
                             return (
-                                <p key={`problem-${index}`}>{item.text}</p>
+                                <li key={`problem-${index}`}>{item.text}</li>
                             )
                         })}
-                    </div>
+                    </div>}
                 </div>
             </div>
 
@@ -318,7 +332,7 @@ export default function Challenges(props) {
                 just do an alert and prevent them from accessing the game page. 
             */}
             <div className="game-start-container">
-                {selected.length == 0 ? "" :
+                {selected.length === 0 ? "" :
                     <button className={`game-start-btn ${mode}`} onClick={start}>START</button>
                 }
             </div>

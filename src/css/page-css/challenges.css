@@ -163,11 +163,28 @@
 }
 
 .edit-input-container {
-    display: flex;
-    flex-direction: column;
     padding: 15px;
+    display: flex;
+    min-width: 260px;
+    min-height: 150px;
     justify-content: center;
     align-items: center;
+}
+
+.form-container {
+    border-radius: 1rem;
+    border: 1px solid #000;
+    padding: 1rem;
+}
+
+.edit-problems {
+    margin-left: 1rem;
+    border-radius: 1rem;
+    border: 1px solid #000;
+    padding: 1rem;
+    min-width: 220px;
+    max-width: 300px;
+    min-height: 150px;
 }
 
 .selected-type,
