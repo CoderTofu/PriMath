@@ -18,7 +18,11 @@ import Menu from "./components/menu";
 
 
 function App() {
-  let localView = window.localStorage.getItem("view_mode")
+  let localView = window.localStorage.getItem("view_mode");
+  if (localView === null) {
+    localView = "light"
+    window.localStorage.setItem("view_mode", "light")
+  }
 
   // Block of code to check what view mode we would want to use in a website
 

@@ -1,6 +1,6 @@
 import React from "react"
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import "../css/page-css/challenges.css"
 
@@ -20,8 +20,9 @@ export default function Challenges(props) {
     // For edit form
     let [editSelect, changeEditSelect] = useState("")
     let [showEdit, changeShowEdit] = useState("hide")
-    let [minRange, setMinRange] = useState(1)
-    let [maxRange, setMaxRange] = useState(10)
+    let [problems, updateProblems] = useState([])
+    let [minVal, setMinRange] = useState(1)
+    let [maxVal, setMaxRange] = useState(10)
 
 
     function addChallenge(id) {
@@ -33,8 +34,8 @@ export default function Challenges(props) {
             
         changeSelected(arr => [...arr, {
             name: element.value,
-            min_range: 1,
-            max_range: 10
+            min_val: 1,
+            max_val: 10
         }])
     }
 
@@ -48,44 +49,125 @@ export default function Challenges(props) {
 
     function editChallenge(type) { 
         if (editSelect !== "") {
-            onInputMinRange(editSelect.min_range, editSelect)
-            onInputMaxRange(editSelect.max_range, editSelect)
+            onInputMinValue(editSelect.min_val, editSelect)
+            onInputMaxValue(editSelect.max_val, editSelect)
         }
 
         changeShowEdit("show") // show the hidden edit section
         changeEditSelect(type) // selects the user selected type
 
         // set the input to appropriate value
-        onInputMinRange(type.min_range, type)
-        onInputMaxRange(type.max_range, type)
+        onInputMinValue(type.min_val, type)
+        onInputMaxValue(type.max_val, type)
+
+        // reset the problems
+        updateProblems([])
     }
 
-    function onInputMinRange(value, userSelected) {
+    function onInputMinValue(value, userSelected) {
+        let type_val = "min value";
         try {
-            let numberValue = parseInt(value) || 1;
-            if (numberValue > maxRange) {
-                console.log("Minimum value can't be higher than the maximum value.")
+            let numberValue = parseInt(value) || "";
+            setMinRange(numberValue);
+
+            // CONDITION #1
+            if (numberValue <= 0) {
+                let msg = {
+                    text: "Minimum value can't be zero.",
+                    type: type_val
+                }
+                numberValue = 1;
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
+                return
+            } 
+
+            // CONDITION #2
+            if (numberValue > maxVal) {
+                let msg = {
+                    text: "Minimum value can't be higher than the maximum value.",
+                    type: type_val
+                }
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
                 return
             }
-            setMinRange(numberValue);
+
+            updateProblems(problems.filter(problem => {
+                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
+            }));
             let index = selected.indexOf(userSelected);
-            userSelected.min_range = numberValue;
+            userSelected.min_val = numberValue;
             selected[index] = userSelected;
         } catch (e) {
             console.log("Something went wrong: " + e);
         }
     }
 
-    function onInputMaxRange(value, userSelected) {
+    function onInputMaxValue(value, userSelected) {
+        let type_val = "max value";
         try {
-            let numberValue = parseInt(value) || 1;
-            if (numberValue < minRange) {
-                console.log("Maximum value can't be lower than the minimum value.")
+            let numberValue = parseInt(value) || "";
+            setMaxRange(numberValue);
+            
+            // CONDITION #1
+            if (numberValue > 1000) {
+                let msg = {
+                    text: "Can't go higher than 1000.",
+                    type: type_val
+                }
+                numberValue = 1000;
+                setMaxRange(numberValue); // If user tries to type something higher than 1k sets the input back to just 1k
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
                 return
             }
-            setMaxRange(numberValue);
+
+            // CONDITION #2
+            if (numberValue <= minVal) {
+                let msg = {
+                    text: "Maximum value can't be equal or lower than minimum value.",
+                    type: type_val
+                }
+                let updateCondition = true;
+                for (let i in problems) {
+                    if (problems[i].text === msg.text && problems[i].type === msg.type) {
+                        updateCondition = false;
+                    }
+                }
+                if (updateCondition) {
+                    updateProblems([...problems, msg])
+                }
+                return
+            }
+
+            updateProblems(problems.filter(problem => {
+                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
+            }));
+
             let index = selected.indexOf(userSelected);
-            userSelected.max_range = numberValue;
+            userSelected.max_val = numberValue;
             selected[index] = userSelected
         } catch (e) {
             console.log("Something went wrong: " + e);
@@ -138,7 +220,7 @@ export default function Challenges(props) {
     // This useEffect is made to create a set of buttons that the player already chose.
     useEffect(() => {
         changeSelectButtons([])
-        
+
         selected.map((type, index) => {
             try {
                 let createID = `selected${index}`
@@ -146,14 +228,15 @@ export default function Challenges(props) {
                 let createdButton = (
                     <div
                         id={createID}
-                        key={createID}>
+                        key={createID}
+                        className={`selected-btn`}>
                         {type.name}
-                        <div>
-                            <button 
+                        <div className="util-btn">
+                            <button className="edit-btn"
                                 onClick={() => {editChallenge(type)}}>
                                     Edit
                             </button>
-                            <button
+                            <button className="del-btn"
                                 onClick={() => {removeChallenge(type, createID)}}>
                                 Delete
                             </button>
@@ -167,49 +250,62 @@ export default function Challenges(props) {
                 return "fail"
             }
         })
+
+        if (!selected.includes(editSelect)) { // In case user tries to edit a challenge they already deleted
+            changeShowEdit("hide")
+        }
     }, [selected])
 
     return (
-        <div className={`challenge-container ${mode}`}>
+        <div className={`challenge-container`}>
 
             <div className={`available-container ${mode}`}>
                 <div className="content-header">Available Challenges:</div>
-                <div className="button-container">
+                <div className="available-btn-container">
                     {availableButtons}
                 </div>
             </div>
 
             <div className={`selected-container ${mode}`}>
                 <div className="content-header">Selected Challenges:</div>
-                <div>
-                    {selectedButtons}
+                <div className={`selected-btn-container ${mode}`}>
+                    {selectedButtons.length !== 0 ? selectedButtons : ""}
                 </div>
             </div>
 
             <div className={`edit-container ${showEdit} ${mode}`}>
                 <div className="content-header">Edit the challenge range!</div>
-                <form>
+                <div className={`edit-input-container ${mode}`}>
+                    <h2 className={`selected-type ${mode}`}>~~{editSelect.name}~~</h2>
+                    <form>
+                        <label className={`label-input-min label-input ${mode}`}htmlFor="min_range">Minimum: </label>
+                        <input
+                            className={`input-min num-input ${mode}`}
+                            type="number"
+                            name="min_range"
+                            value={minVal}
+                            onChange={e => onInputMinValue(e.target.value, editSelect)}
+                        />
 
-                    <h2>{editSelect.name}</h2>
-                    <label htmlFor="min_range">Minimum: </label>
-                    <input 
-                        type="number"
-                        name="min_range"
-                        value={minRange}
-                        onChange={e => onInputMinRange(e.target.value, editSelect)} 
-                    />
 
-                    <br />
+                        <label className={`label-input-max label-input ${mode}`} htmlFor="min_range">Maximum: </label>
+                        <input
+                            className={`input-max num-input ${mode}`}
+                            type="number"
+                            name="max_range"
+                            value={maxVal}
+                            onChange={e => onInputMaxValue(e.target.value, editSelect)}
+                        />
+                    </form>
 
-                    <label htmlFor="min_range">Maximum: </label>
-                    <input 
-                        type="number" 
-                        name="min_range"
-                        value={maxRange}
-                        onChange={e => onInputMaxRange(e.target.value, editSelect)} 
-                    />
-
-                </form>
+                    <div className="edit-problems">
+                        {problems.map((item, index) => {
+                            return (
+                                <p key={`problem-${index}`}>{item.text}</p>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
 
             {/* 
@@ -218,8 +314,11 @@ export default function Challenges(props) {
                 If walang nakasave sa localstorage na list of challenges or if error, 
                 just do an alert and prevent them from accessing the game page. 
             */}
-
-            <button onClick={start}>START!</button>
+            <div className="game-start-container">
+                {selected.length == 0 ? "" :
+                    <button className={`game-start-btn ${mode}`} onClick={start}>START</button>
+                }
+            </div>
 
         </div>
     )

@@ -3,43 +3,434 @@
 }
 
 .challenge-container > div {
-    padding-bottom: 25px;
-    min-height: 200px;
+    min-height: 150px;
     width: 100%;
+    margin-bottom: 2rem;
 }
 
 .content-header {
     font-family: var(--heading-font);
     font-style: italic;
     font-size: 50px;
-    margin-bottom: 1rem;
+    padding-bottom: 10px;
+    transition: var(--reg-animation);
 }
 
-.button-container {
+.available-container.dark .content-header,
+.selected-container.dark .content-header,
+.edit-container.dark .content-header {
+    border-bottom: 1px solid #fff;
+    color: #fff;
+}
+
+.available-container.light .content-header,
+.selected-container.light .content-header,
+.edit-container.light .content-header {
+    border-bottom: 1px solid #000;
+    color: #000;
+}
+
+/* Available container div */
+.available-btn-container {
+    margin-top: 1.1rem;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: center;
     gap: 10px;
+    min-height: 70px;
 }
 
 .available-btn {
     height: 70px;
     width: 300px;
+    cursor: pointer;
+    font-size: 30px;
+    border-radius: 150px;
+    transition: var(--short-animation);
     font-family: var(--input-font);
 }
 
-.edit-container.show {
-    display: block;
+.available-container.light .available-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+
+.available-container.light .available-btn:hover {
+    background-color: rgb(39, 39, 39);
+}
+
+.available-container.dark .available-btn {
+    background-color: #fff;
+    color: #000;
+    border: none;
+}
+
+.available-container.dark .available-btn:hover {
+    background-color: rgb(212, 212, 212);
+}
+
+/* Selected container div */
+.selected-btn-container {
+    padding-top: 15px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    width: 100%;
+    min-height: 70px;
+    gap: 10px;
+}
+
+.selected-btn {
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    border-radius: 300px;
+    font-size: 20px;
+    font-family: var(--input-font);
+    transition: var(--short-animation);
+}
+
+.selected-btn-container.light .selected-btn {
+    /* background-color: #fff;
+    color: #000;
+    border: 1px solid #000; */
+    background-color: #000;
+    color: #fff;
+}
+
+.selected-btn-container.dark .selected-btn {
+    /* background-color: #000;
+    color: #fff;
+    border: 1px solid #fff; */
+    background-color: #fff;
+    color: #000;
+}
+
+.selected-btn-container.light .selected-btn .util-btn {
+    border-left: 1px solid #fff;
+}
+
+.selected-btn-container.dark .selected-btn .util-btn {
+    border-left: 1px solid #000;
+}
+
+.util-btn {
+    display: flex;
+    width: 50%;
+    justify-content: right;
+    align-items: center;
+}
+
+.util-btn button {
+    margin-left: 5px;
+    height: 30px;
+    width: 55px;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    border-radius: 15px;
+    transition: var(--short-animation);
+}
+
+.util-btn button:hover {
+    opacity: 0.75;
+}
+
+.edit-btn {
+    background-color: rgb(6, 146, 211);
+}
+
+.del-btn {
+    background-color: rgb(255, 0, 0);
+}
+
+/* Edit container div */
+.edit-container {
+    margin-top: 0;
+    animation: edit-appears 1s;
 }
 
 .edit-container.hide {
+    opacity: 0;
     display: none;
 }
 
-.available-container {
-    
+.edit-container.show {
+    opacity: 1;
 }
 
-.selected-container {
+.edit-input-container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
 
+.selected-type,
+.label-input,
+.num-input {
+    transition: var(--short-animation);
+}
+
+.selected-type.light,
+.label-input.light,
+.num-input.light {
+    color: #000;
+}
+
+.selected-type.dark,
+.label-input.dark,
+.num-input.dark {
+    color: #fff;
+}
+
+.num-input.light {
+    background-color: #fff;
+    border: 1px solid #000;
+}
+
+.num-input.dark {
+    background-color: #000;
+    border: 1px solid #fff;
+}
+
+.edit-input-container form {
+    display: grid;
+    row-gap: 5px;
+    align-items: center;
+    grid-template-areas:
+        "question1 answer1 answer1"
+        "question2 answer2 answer2"
+    ;
+}
+
+.label-input {
+    font-family: var(--input-font);
+    padding-right: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.selected-type {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: lighter;
+    margin-bottom: 0.5rem;
+}
+
+.edit-input-container .selected-type {
+    font-family: var(--secondary-font);
+    grid-area: title;
+}
+
+.num-input {
+    height: 1.8rem;
+    border-radius: 5px;
+    text-align: center;
+    width: 4rem;
+    font-size: 0.8rem;
+}
+
+.label-input-min {
+    grid-area: question1;
+}
+
+.label-input-max {
+    grid-area: question2;
+}
+
+.input-min {
+    grid-area: answer1;
+}
+
+.input-max {
+    grid-area: answer2;
+}
+
+/* Start button */
+.game-start-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-start-btn {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: var(--input-font);
+    font-size: 20px;
+    transition: var(--short-animation)
+}
+
+.game-start-btn:hover {
+    transform: scale(1.1);
+}
+
+.game-start-btn.light {
+    color: #fff;
+    background-color: #000;
+}
+
+.game-start-btn.dark {
+    color: #000;
+    background-color: #fff;
+}
+
+@keyframes edit-appears {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    50% {
+        height: fit-content;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+@media (max-width: 800px) {
+    .challenge-container>div {
+        min-height: 150px;
+        margin-bottom: 1rem;
+    }
+
+    .content-header {
+        font-size: 40px;
+    }
+
+    .available-btn {
+        height: 60px;
+        width: 250px;
+        font-size: 20px;
+    }
+
+    .selected-btn {
+        height: 60px;
+        width: 250px;
+        font-size: 15px;
+    }
+
+    .util-btn {
+        width: fit-content;
+    }
+
+    .util-btn button {
+        height: 25px;
+        width: 40px;
+        font-size: 10px;
+    }
+
+    .selected-type {
+        font-size: 2rem;
+    }
+
+    .label-input {
+        font-size: 1rem;
+    }
+
+    .num-input {
+        width: 3.5rem;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .challenge-container>div {
+        min-height: 120px;
+        margin-bottom: 0.5rem;
+    }
+
+    .challenge-container>div {
+        margin-bottom: 0.5rem;
+    }
+
+    .content-header {
+        font-size: 35px;
+    }
+
+    .available-btn {
+        height: 50px;
+        width: 200px;
+        font-size: 20px;
+    }
+
+    .selected-btn {
+        height: 50px;
+        width: 200px;
+        font-size: 12px;
+    }
+
+    .util-btn button {
+        height: 20px;
+        width: 20px;
+        padding: 0.2rem 1.2rem;
+        font-size: 7px;
+    }
+}
+
+@media (max-width: 450px) {
+    .challenge-container>div {
+        min-height: 100px;
+        margin-bottom: 0.25rem;
+    }
+
+    .available-btn-container {
+        min-height: 0;
+    }
+
+    .challenge-container {
+        margin-top: 3.5rem;
+    }
+
+    .content-header {
+        font-size: 28px;
+    }
+
+    .available-btn {
+        height: 40px;
+        width: 150px;
+        font-size: 16px;
+    }
+
+    .selected-btn {
+        height: 40px;
+        width: 150px;
+        font-size: 10px;
+        padding: 1rem 1rem;
+    }
+
+    .util-btn button {
+        height: 15px;
+        width: 12px;
+        padding: 0.1rem 0.8rem;
+        font-size: 5px;
+    }
+
+    .selected-type {
+        font-size: 1.5rem;
+    }
+
+    .label-input {
+        font-size: 0.7rem;
+    }
+
+    .num-input {
+        width: 3rem;
+        height: 1.5rem;
+        font-size: 0.5rem;
+    }
 }
