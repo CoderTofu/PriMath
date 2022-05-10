@@ -191,6 +191,8 @@ export default function Challenges(props) {
         }
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
+        } else if (problems.length > 0) {
+            alert("You still have current issues!")
         } else  {
             routeChange()
             let stringed = JSON.stringify(selected)
@@ -315,22 +317,18 @@ export default function Challenges(props) {
                     </div>
                     {problems.length === 0 ? "" : 
                     <div className="edit-problems">
-                        Reminder:
-                        {problems.map((item, index) => {
-                            return (
-                                <li key={`problem-${index}`}>{item.text}</li>
-                            )
-                        })}
+                        <h3>Reminder:</h3>
+                        <ul className="problem-list">
+                            {problems.map((item, index) => {
+                                return (
+                                    <li key={`problem-${index}`}>{item.text}</li>
+                                )
+                            })}
+                        </ul>
                     </div>}
                 </div>
             </div>
 
-            {/* 
-                Save the challenge list with their values in local storage.
-                Redirect to challenges/game. 
-                If walang nakasave sa localstorage na list of challenges or if error, 
-                just do an alert and prevent them from accessing the game page. 
-            */}
             <div className="game-start-container">
                 {selected.length === 0 ? "" :
                     <button className={`game-start-btn ${mode}`} onClick={start}>START</button>

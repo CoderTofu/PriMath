@@ -173,18 +173,47 @@
 
 .form-container {
     border-radius: 1rem;
-    border: 1px solid #000;
     padding: 1rem;
+    transition: var(--reg-animation);
+}
+
+.form-container.light {
+    border: 1px solid #000;
+}
+
+.form-container.dark {
+    border: 1px solid #fff;
 }
 
 .edit-problems {
-    margin-left: 1rem;
+    margin-left: 2rem;
     border-radius: 1rem;
-    border: 1px solid #000;
+    background-color: rgb(255, 145, 0);
+    position: relative;
     padding: 1rem;
-    min-width: 220px;
-    max-width: 300px;
-    min-height: 150px;
+    max-width: 80%;
+}
+
+.edit-problems h3 {
+    font-family: var(--tertiary-font);
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.problem-list {
+    font-family: var(--quaternary-font);
+    font-weight: 300;
+    font-size: 1rem;
+    padding-left: 2rem;
+}
+
+.edit-problems::before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    border-top: 10px solid transparent;
+    border-right: 20px solid rgb(255, 145, 0);
+    border-bottom: 10px solid transparent;
 }
 
 .selected-type,
@@ -391,6 +420,32 @@
         padding: 0.2rem 1.2rem;
         font-size: 7px;
     }
+
+    .edit-input-container {
+        flex-direction: column;
+    }
+
+    .edit-problems {
+        margin: 0;
+        margin-top: 2rem;
+    }
+
+    .edit-problems::before {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 20px solid rgb(255, 145, 0);
+        left: 50%;
+        top: -20px;
+    }
+
+    .edit-problems h3 {
+        font-size: 1rem;
+    }
+
+    .problem-list {
+        font-size: 0.8rem;
+        padding-left: 1.6rem;
+    }
 }
 
 @media (max-width: 450px) {
@@ -444,4 +499,13 @@
         height: 1.5rem;
         font-size: 0.5rem;
     }
+
+        .edit-problems h3 {
+            font-size: 0.8rem;
+        }
+    
+        .problem-list {
+            font-size: 0.6rem;
+            padding-left: 1.2rem;
+        }
 }
