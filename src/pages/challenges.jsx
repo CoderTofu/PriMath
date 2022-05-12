@@ -200,6 +200,14 @@ export default function Challenges(props) {
         }
     }
 
+    /**
+     * To future me:
+     *  When a reminder occurs to an input.
+     *  Like for example min val can't be higher than max val.
+     *  Only to be fixed by adjusting the max val.
+     *  The problem is the reminder still exists for that particular type.
+     */
+
     // This useEffect is made to initialize the buttons utilized to select the challenges that a user can pick.
     useEffect(() => {
         changeAvailableButtons([]);
