@@ -2,7 +2,7 @@ import React, {useEffect} from "react"
 
 export default function NotFound() {
     useEffect(() => {
-        document.title = "404"
+        document.title = "PriMath | 404"
     }, [])
 
     return (

@@ -269,7 +269,7 @@ export default function Challenges(props) {
     }, [selected])
 
     useEffect(() => {
-        document.title = "Challenge Select"
+        document.title = "PriMath | Challenge Select"
     }, [])
     
     return (
