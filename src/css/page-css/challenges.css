@@ -402,23 +402,31 @@
         font-size: 35px;
     }
 
+    .available-btn-container {
+        grid-template-columns: auto;
+    }
+
     .available-btn {
         height: 50px;
-        width: 200px;
+        width: 350px;
         font-size: 20px;
     }
 
+    .selected-btn-container {
+        grid-template-columns: auto;
+    }
+
     .selected-btn {
-        height: 50px;
-        width: 200px;
-        font-size: 12px;
+        height: 60px;
+        width: 300px;
+        font-size: 21px;
     }
 
     .util-btn button {
         height: 20px;
-        width: 20px;
+        width: 45px;
         padding: 0.2rem 1.2rem;
-        font-size: 7px;
+        font-size: 11px;
     }
 
     .edit-input-container {
@@ -439,11 +447,11 @@
     }
 
     .edit-problems h3 {
-        font-size: 1rem;
+        font-size: 1.2rem;
     }
 
     .problem-list {
-        font-size: 0.8rem;
+        font-size: 1rem;
         padding-left: 1.6rem;
     }
 }
@@ -463,49 +471,49 @@
     }
 
     .content-header {
-        font-size: 28px;
+        font-size: 32px;
     }
 
     .available-btn {
-        height: 40px;
-        width: 150px;
-        font-size: 16px;
+        height: 60px;
+        width: 300px;
+        font-size: 24px;
     }
 
     .selected-btn {
-        height: 40px;
-        width: 150px;
-        font-size: 10px;
+        height: 60px;
+        width: 250px;
+        font-size: 18px;
         padding: 1rem 1rem;
     }
 
     .util-btn button {
-        height: 15px;
-        width: 12px;
+        height: 25px;
+        width: 45px;
         padding: 0.1rem 0.8rem;
-        font-size: 5px;
+        font-size: 12px;
     }
 
     .selected-type {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 
     .label-input {
-        font-size: 0.7rem;
+        font-size: 1.2rem;
     }
 
     .num-input {
-        width: 3rem;
+        width: 5rem;
         height: 1.5rem;
-        font-size: 0.5rem;
+        font-size: 0.9rem;
     }
 
-        .edit-problems h3 {
-            font-size: 0.8rem;
-        }
-    
-        .problem-list {
-            font-size: 0.6rem;
-            padding-left: 1.2rem;
-        }
+    .edit-problems h3 {
+        font-size: 1.5rem;
+    }
+
+    .problem-list {
+        font-size: 0.8rem;
+        padding-left: 1.2rem;
+    }
 }
