@@ -46,7 +46,7 @@ export default function Game(props) {
     // }
 
     useEffect(() => {
-        document.title = "Game"
+        document.title = "PriMath | Game"
     }, [])
 
     return (

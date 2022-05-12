@@ -2,7 +2,7 @@ import React, {useEffect} from "react"
 
 export default function SupportUs() {
     useEffect(() => {
-        document.title = "Support us"
+        document.title = "PriMath | Support us"
     }, [])
 
     return (
