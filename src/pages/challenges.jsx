@@ -69,125 +69,28 @@ export default function Challenges(props) {
     }
 
     function onInputMinValue(value, userSelected) {
-        let type_val = "min value";
         try {
-            if (hasSpecialChars(value)) {
-                // So we can check if user is trying to input scpecial characters
-                let msg = {
-                    text: "Can't use special characters on minimum value.",
-                    type: type_val,
-                }
-                inputProblem(msg)
-                return
-            }
-
             let numberValue = parseInt(value);
-
             setMinVal(numberValue);
 
-            // CONDITION #1
-            if (numberValue <= 0) {
-                let msg = {
-                    text: "Minimum value can't be zero.",
-                    type: type_val,
-                    important: false
-                }
-                numberValue = 1;
-                inputProblem(msg)
-                return
-            } 
-
-            // CONDITION #2
-            if (numberValue > 999) {
-                let msg = {
-                    text: "Minimum value can't go higher than 1000.",
-                    type: type_val,
-                    important: false
-                }
-                numberValue = 999
-                inputProblem(msg)
-                setMinVal(numberValue);
-                return
-            }
-
-            // CONDITION #3
-            if (numberValue > maxVal) {
-                let msg = {
-                    text: "IMPORTANT: Minimum value can't be higher than the maximum value.",
-                    type: type_val,
-                    important: true
-                }
-                inputProblem(msg)
-                return
-            }
-
-            updateProblems(problems.filter(problem => {
-                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
-            }));
+            // This 3 lines of code rewrites the user selected type values for min and max range
             let index = selected.indexOf(userSelected);
             userSelected.min_val = numberValue;
             selected[index] = userSelected;
-
-            checkReminder(type_val, numberValue)
         } catch (e) {
             console.log("Something went wrong: " + e);
         }
     }
 
     function onInputMaxValue(value, userSelected) {
-        let type_val = "max value";
         try {
-            if (hasSpecialChars(value)) { 
-                // So we can check if user is trying to input scpecial characters
-                let msg = {
-                    text: "Can't use special characters on max value.",
-                    type: type_val
-                }
-                inputProblem(msg)
-                return
-            }
-
             let numberValue = parseInt(value) || "";
-
-            if (numberValue !== "") {
-                setMaxVal(numberValue);
-            }
-
-            // CONDITION #1
-            if (numberValue > 1000) {
-                let msg = {
-                    text: "Max value can't go higher than 1000.",
-                    type: type_val,
-                    important: false
-                }
-                numberValue = 1000;
-                setMaxVal(numberValue); 
-                // If user tries to type something higher than 1k sets the input back to just 1k
-                inputProblem(msg)
-                return
-            }
-
-            // CONDITION #2
-            if (numberValue <= minVal) {
-                let msg = {
-                    text: "IMPORTANT: Maximum value can't be equal or lower than minimum value.",
-                    type: type_val,
-                    important: true
-                }
-                inputProblem(msg)
-                return
-            }
-
-            updateProblems(problems.filter(problem => {
-                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
-            }));
+            setMaxVal(numberValue);
 
             // This 3 lines of code rewrites the user selected type values for min and max range
             let index = selected.indexOf(userSelected);
             userSelected.max_val = numberValue;
-            selected[index] = userSelected
-
-            // checkReminder(type_val, numberValue);
+            selected[index] = userSelected;
         } catch (e) {
             console.log("Something went wrong: " + e);
         }
@@ -202,7 +105,14 @@ export default function Challenges(props) {
         }
         if (updateCondition) {
             updateProblems([...problems, msg])
+            console.log(problems)
         }
+    }
+
+    function checkToStart() {
+        console.log(minVal)
+        console.log(maxVal)
+        // This function is to check whether it is good to start
     }
 
     function start() {
@@ -210,55 +120,15 @@ export default function Challenges(props) {
             let path = `game`;
             navigate(path);
         }
-        let importantProb = 0;
-        for (let i = 0; i < problems.length; i++) {
-            if (problems[i].important) {
-                importantProb += 1
-            }
-        }
-
+        checkToStart()
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
-        } else if (importantProb > 0) {
-            alert("You still have important issues!")
         } else  {
             routeChange()
             let stringed = JSON.stringify(selected)
             window.localStorage.setItem("challenges", stringed)
         }
     }
-
-    function checkReminder(type, passedValue) {
-        let otherType = "";
-        updateProblems(problems.filter(problem => {
-            return problem.text !== "Max value can't go higher than 1000."
-        }));
-        if (type === "max value") {
-            // Where passedValue is the max val
-            otherType = "min value";
-            if (passedValue > minVal) {
-                updateProblems(problems.filter(problem => {
-                    return problem.text !== "IMPORTANT: Minimum value can't be higher than the maximum value."
-                }));
-            }
-        } else if (type === "min value") {
-            // Where passedValue is the min val
-            otherType = "max value";
-            if (passedValue < maxVal) {
-                updateProblems(problems.filter(problem => {
-                    return problem.text !== "IMPORTANT: Maximum value can't be equal or lower than minimum value."
-                }));
-            }
-        }
-    }
-
-    /**
-     * To future me:
-     *  When a reminder occurs to an input.
-     *  Like for example min val can't be higher than max val.
-     *  Only to be fixed by adjusting the max val.
-     *  The problem is the reminder still exists for that particular type.
-     */
 
     // This useEffect is made to initialize the buttons utilized to select the challenges that a user can pick.
     useEffect(() => {
