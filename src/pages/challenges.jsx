@@ -54,18 +54,12 @@ export default function Challenges(props) {
 
         changeShowEdit("show") // show the hidden edit section
         changeEditSelect(type) // selects the user selected type
-
         // set the input to appropriate value
         onInputMinValue(type.min_val, type)
         onInputMaxValue(type.max_val, type)
 
         // reset the problems
         updateProblems([])
-    }
-
-    function hasSpecialChars(str) {
-        const specialChars = /[`!@#$%^&*()_+\-={};':"\\|,.<>?~]/g;
-        return specialChars.test(str)
     }
 
     function onInputMinValue(value, userSelected) {
@@ -109,10 +103,23 @@ export default function Challenges(props) {
         }
     }
 
-    function checkToStart() {
-        console.log(minVal)
-        console.log(maxVal)
-        // This function is to check whether it is good to start
+    function checkVals(objType) {
+        // This function is to check whether the value given is appropriate
+        if (objType === undefined) return true
+
+        // Use the current inputs to determine values
+        // Check for:
+        // Special Characters
+        // Mixing up order of values
+        // Going past 1000 for max value
+        // Going below 1 for min value
+        // Having null or empty strings for input
+        // Remember to also be able to check for all selected, see if every value is appropriate
+
+        // After checking remember to add a reminder/warning after they submitted
+        // If there are no reminders to give. By all means start the game.
+
+        return true
     }
 
     function start() {
@@ -120,7 +127,6 @@ export default function Challenges(props) {
             let path = `game`;
             navigate(path);
         }
-        checkToStart()
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
         } else  {
