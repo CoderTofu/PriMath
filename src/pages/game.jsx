@@ -1,9 +1,16 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
-    console.log(parsedChallenges)
+    // console.log(parsedChallenges)
+
+    let [countdownTime, setCountdownTime] = useState(3);
+    let timer = 0;
+
+    function stopCountdown() {
+        clearTimeout(timer)
+    }
 
     /**
      * Set a timer for 3 seconds before the game actually starts.
@@ -29,6 +36,14 @@ export default function Game(props) {
      * difference of 501-1000 *2.5
      */
 
+    // function countdownToStart() {
+
+    //}
+
+    // function timeTaken() {
+
+    // }
+
     // function genChallengeAddition() {
 
     // }
@@ -49,8 +64,18 @@ export default function Game(props) {
         document.title = "Game"
     }, [])
 
+    useEffect(() => {
+        timer = setInterval(() => {
+            setCountdownTime(count => {
+                if (count === 1) return stopCountdown()
+                return count - 1
+            })
+        }, 1000)
+    }, [])
+
     return (
         <div>
+            <h1>{countdownTime}</h1>
             {parsedChallenges.map((item, index) => {
                 return (
                     <div key={index}>
