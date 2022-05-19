@@ -78,7 +78,7 @@ export default function Challenges(props) {
 
     function onInputMaxValue(value, userSelected) {
         try {
-            let numberValue = parseInt(value) || "";
+            let numberValue = parseInt(value);
             setMaxVal(numberValue);
 
             // This 3 lines of code rewrites the user selected type values for min and max range
@@ -90,36 +90,50 @@ export default function Challenges(props) {
         }
     }
 
-    function inputProblem(msg) {
-        let updateCondition = true;
-        for (let i in problems) {
-            if (problems[i].text === msg.text && problems[i].type === msg.type) {
-                updateCondition = false;
+    function checkVals() {
+        // This function is to check whether the values given are appropriate
+        let problemList = [];
+        for (let i = 0; i < selected.length; i++) {
+            let value = selected[i];
+            let value_name = value.name;
+            let maximum_value = value.max_val;
+            let minimum_value = value.min_val;
+
+            // Check if min val is greater than max val
+            if (minimum_value > maximum_value) {
+                problemList.push(`In ${value_name} challenge: The minimum value can't be greater than maximum value.`)
+            }
+
+            // Check if max val has value greater than 1000
+            if (maximum_value > 1000) {
+                problemList.push(`In ${value_name} challenge: The maximum value can't be greater than 1000.`)
+            }
+
+            if (minimum_value > 1000) {
+                problemList.push(`In ${value_name} challenge: The minimum value can't be greater than 1000.`)
+            }
+
+            // Going below 1 for min value
+            if (minimum_value < 1) {
+                problemList.push(`In ${value_name} challenge: The minimum value can't be lower than 1.`)
+            }
+
+            if (maximum_value < 1) {
+                problemList.push(`In ${value_name} challenge: The maximum value can't be lower than 1.`)
+            }
+
+            // Having null or empty strings for input
+            if (minimum_value === "" || maximum_value === "") {
+                problemList.push(`In ${value_name} challenge: Values can't be empty.`)
             }
         }
-        if (updateCondition) {
-            updateProblems([...problems, msg])
-            console.log(problems)
+
+        if (problemList.length === 0) {
+            return true
+        } else {
+            updateProblems(problemList)
+            return false
         }
-    }
-
-    function checkVals(objType) {
-        // This function is to check whether the value given is appropriate
-        if (objType === undefined) return true
-
-        // Use the current inputs to determine values
-        // Check for:
-        // Special Characters
-        // Mixing up order of values
-        // Going past 1000 for max value
-        // Going below 1 for min value
-        // Having null or empty strings for input
-        // Remember to also be able to check for all selected, see if every value is appropriate
-
-        // After checking remember to add a reminder/warning after they submitted
-        // If there are no reminders to give. By all means start the game.
-
-        return true
     }
 
     function start() {
@@ -129,7 +143,7 @@ export default function Challenges(props) {
         }
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
-        } else  {
+        } else if (checkVals())  {
             routeChange()
             let stringed = JSON.stringify(selected)
             window.localStorage.setItem("challenges", stringed)
@@ -257,7 +271,7 @@ export default function Challenges(props) {
                         <ul className="problem-list">
                             {problems.map((item, index) => {
                                 return (
-                                    <li key={`problem-${index}`}>{item.text}</li>
+                                    <li key={`problem-${index}`}>{item}</li>
                                 )
                             })}
                         </ul>
