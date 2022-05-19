@@ -20,8 +20,8 @@ export default function Challenges(props) {
     let [editSelect, changeEditSelect] = useState("")
     let [showEdit, changeShowEdit] = useState("hide")
     let [problems, updateProblems] = useState([])
-    let [minVal, setMinRange] = useState(1)
-    let [maxVal, setMaxRange] = useState(10)
+    let [minVal, setMinVal] = useState(1)
+    let [maxVal, setMaxVal] = useState(10)
 
 
     function addChallenge(id) {
@@ -54,7 +54,6 @@ export default function Challenges(props) {
 
         changeShowEdit("show") // show the hidden edit section
         changeEditSelect(type) // selects the user selected type
-
         // set the input to appropriate value
         onInputMinValue(type.min_val, type)
         onInputMaxValue(type.max_val, type)
@@ -63,52 +62,12 @@ export default function Challenges(props) {
         updateProblems([])
     }
 
-    function hasSpecialChars(str) {
-        const specialChars = /[`!@#$%^&*()_+\-={};':"\\|,.<>?~]/g;
-        return specialChars.test(str)
-    }
-
     function onInputMinValue(value, userSelected) {
-        let type_val = "min value";
         try {
-            if (hasSpecialChars(value)) {
-                // So we can check if user is trying to input scpecial characters
-                let msg = {
-                    text: "Can't use special characters on minimum value.",
-                    type: type_val
-                }
-                inputProblem(msg)
-                return
-            }
-
             let numberValue = parseInt(value);
+            setMinVal(numberValue);
 
-            setMinRange(numberValue);
-
-            // CONDITION #1
-            if (numberValue <= 0) {
-                let msg = {
-                    text: "Minimum value can't be zero.",
-                    type: type_val
-                }
-                numberValue = 1;
-                inputProblem(msg)
-                return
-            } 
-
-            // CONDITION #2
-            if (numberValue > maxVal) {
-                let msg = {
-                    text: "Minimum value can't be higher than the maximum value.",
-                    type: type_val
-                }
-                inputProblem(msg)
-                return
-            }
-
-            updateProblems(problems.filter(problem => {
-                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
-            }));
+            // This 3 lines of code rewrites the user selected type values for min and max range
             let index = selected.indexOf(userSelected);
             userSelected.min_val = numberValue;
             selected[index] = userSelected;
@@ -118,69 +77,62 @@ export default function Challenges(props) {
     }
 
     function onInputMaxValue(value, userSelected) {
-        let type_val = "max value";
         try {
-            if (hasSpecialChars(value)) { 
-                // So we can check if user is trying to input scpecial characters
-                let msg = {
-                    text: "Can't use special characters on max value.",
-                    type: type_val
-                }
-                inputProblem(msg)
-                return
-            }
+            let numberValue = parseInt(value);
+            setMaxVal(numberValue);
 
-            let numberValue = parseInt(value) || "";
-
-            if (numberValue === "") return
-
-            setMaxRange(numberValue);
-
-            // CONDITION #1
-            if (numberValue > 1000) {
-                let msg = {
-                    text: "Can't go higher than 1000.",
-                    type: type_val
-                }
-                numberValue = 1000;
-                setMaxRange(numberValue); 
-                // If user tries to type something higher than 1k sets the input back to just 1k
-                inputProblem(msg)
-                return
-            }
-
-            // CONDITION #2
-            if (numberValue <= minVal) {
-                let msg = {
-                    text: "Maximum value can't be equal or lower than minimum value.",
-                    type: type_val
-                }
-                inputProblem(msg)
-                return
-            }
-
-            updateProblems(problems.filter(problem => {
-                return problem.type !== type_val // removes objects that item if the object.type matches with type_val
-            }));
-
+            // This 3 lines of code rewrites the user selected type values for min and max range
             let index = selected.indexOf(userSelected);
             userSelected.max_val = numberValue;
-            selected[index] = userSelected
+            selected[index] = userSelected;
         } catch (e) {
             console.log("Something went wrong: " + e);
         }
     }
 
-    function inputProblem(msg) {
-        let updateCondition = true;
-        for (let i in problems) {
-            if (problems[i].text === msg.text && problems[i].type === msg.type) {
-                updateCondition = false;
+    function checkVals() {
+        // This function is to check whether the values given are appropriate
+        let problemList = [];
+        for (let i = 0; i < selected.length; i++) {
+            let value = selected[i];
+            let value_name = value.name;
+            let maximum_value = value.max_val;
+            let minimum_value = value.min_val;
+
+            // Check if min val is greater than max val
+            if (minimum_value > maximum_value) {
+                problemList.push(`In ${value_name} challenge: The minimum value can't be greater than maximum value.`)
+            }
+
+            // Check if max val has value greater than 1000
+            if (maximum_value > 1000) {
+                problemList.push(`In ${value_name} challenge: The maximum value can't be greater than 1000.`)
+            }
+
+            if (minimum_value > 1000) {
+                problemList.push(`In ${value_name} challenge: The minimum value can't be greater than 1000.`)
+            }
+
+            // Going below 1 for min value
+            if (minimum_value < 1) {
+                problemList.push(`In ${value_name} challenge: The minimum value can't be lower than 1.`)
+            }
+
+            if (maximum_value < 1) {
+                problemList.push(`In ${value_name} challenge: The maximum value can't be lower than 1.`)
+            }
+
+            // Having null or empty strings for input
+            if (minimum_value === "" || maximum_value === "") {
+                problemList.push(`In ${value_name} challenge: Values can't be empty.`)
             }
         }
-        console.log(updateCondition)
-        if (updateCondition) {
-            updateProblems([...problems, msg])
+
+        if (problemList.length === 0) {
+            return true
+        } else {
+            updateProblems(problemList)
+            return false
         }
     }
 
@@ -191,9 +143,7 @@ export default function Challenges(props) {
         }
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
-        } else if (problems.length > 0) {
-            alert("You still have current issues!")
-        } else  {
+        } else if (checkVals())  {
             routeChange()
             let stringed = JSON.stringify(selected)
             window.localStorage.setItem("challenges", stringed)
@@ -321,7 +271,7 @@ export default function Challenges(props) {
                         <ul className="problem-list">
                             {problems.map((item, index) => {
                                 return (
-                                    <li key={`problem-${index}`}>{item.text}</li>
+                                    <li key={`problem-${index}`}>{item}</li>
                                 )
                             })}
                         </ul>
