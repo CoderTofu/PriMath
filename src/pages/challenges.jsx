@@ -178,7 +178,6 @@ export default function Challenges(props) {
                 updateCondition = false;
             }
         }
-        console.log(updateCondition)
         if (updateCondition) {
             updateProblems([...problems, msg])
         }

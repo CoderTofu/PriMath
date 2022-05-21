@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from "react"
 
+import "../css/page-css/game.css"
+
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
     // console.log(parsedChallenges)
 
+    // Countdown to start the game
     let [countdownTime, setCountdownTime] = useState(3);
     let timer = 0;
+
+    // Questions
+    let [listOfQuestions, setListOfQuestions] = useState([]);
+    let [currentQuestion, setCurrectQuestion] = useState();
 
     function stopCountdown() {
         clearTimeout(timer)
@@ -15,7 +22,6 @@ export default function Game(props) {
     /**
      * Set a timer for 3 seconds before the game actually starts.
      * Set a timer for how long the player would take to answer.
-     * Generate 20 questions in random types of challenges.
      * Create the questions with appropriate types and min max values.
      * Once all 20 questions are completed and generated present them one by one to the user.
      * The user should be able to press enter and click a button to submit their answer.
@@ -36,47 +42,90 @@ export default function Game(props) {
      * difference of 501-1000 *2.5
      */
 
-    // function countdownToStart() {
+    // 
+    
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+    }
 
-    //}
+    function roundToTwo(num) {
+        return +(Math.round(num + "e+2") + "e-2");
+    }
+
+    function generateQuestions() {
+        let questionType = parsedChallenges[Math.floor(Math.random() * parsedChallenges.length)];
+        let operation = questionType.name;
+        let firstValue = getRandomInt(questionType.min_val, questionType.max_val);
+        let secondValue = getRandomInt(questionType.min_val, questionType.max_val);
+        let answer;
+        if (operation === "Addition") {
+            answer = genChallengeAddition(firstValue, secondValue);
+        } else if (operation === "Subtraction") {
+            answer = genChallengeSubtraction(firstValue, secondValue);
+        } else if (operation === "Multiplication") {
+            answer = genChallengeMultiplication(firstValue, secondValue);
+        } else if (operation === "Division") {
+            answer = genChallengeDivision(firstValue, secondValue);
+        }
+        const question = {
+            type: operation,
+            first_value: firstValue,
+            second_value: secondValue,
+            answer: answer
+        }
+        // setListOfQuestions([...listOfQuestions, question])
+        // console.log(listOfQuestions)
+        console.log(question)
+    }
 
     // function timeTaken() {
 
     // }
 
-    // function genChallengeAddition() {
+    function genChallengeAddition(value1, value2) {
+        return value1 + value2
+    }
 
-    // }
+    function genChallengeSubtraction(value1, value2) {
+        return value1 - value2
+    }
 
-    // function genChallengeSubtraction() {
+    function genChallengeMultiplication(value1, value2) {
+        return value1 * value2
+    }
 
-    // }
-
-    // function genChallengeMultiplication() {
-
-    // }
-
-    // function genChallengeDivision() {
-
-    // }
+    function genChallengeDivision(value1, value2) {
+        return value1 / value2
+    }
 
     useEffect(() => {
         document.title = "Game"
     }, [])
 
     useEffect(() => {
+        // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
                 if (count === 1) return stopCountdown()
                 return count - 1
             })
         }, 1000)
+        // Generate 20 questions
+        for (let i = 0; i < 20; i++) {
+            generateQuestions(parsedChallenges)
+        }
     }, [])
 
     return (
         <div>
-            <h1>{countdownTime}</h1>
-            {parsedChallenges.map((item, index) => {
+            {countdownTime > 0 ? (
+                <div className={`screen`}>
+                    <h1>{countdownTime}</h1>
+                </div>
+            ) : ("")}
+            {/* {parsedChallenges.map((item, index) => {
                 return (
                     <div key={index}>
                         <h2>Type: {item.name}</h2>
@@ -84,7 +133,7 @@ export default function Game(props) {
                         <h3>Max Val: {item.max_val}</h3>
                     </div>
                 )
-            })}
+            })} */}
         </div>
     )
 }
