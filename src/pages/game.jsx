@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useState, useRef} from "react"
 
 import "../css/page-css/game.css"
 
@@ -12,10 +12,11 @@ export default function Game(props) {
     let timer = 0;
 
     // Questions
-    let [listOfQuestions, setListOfQuestions] = useState([]);
-    let [currentQuestion, setCurrectQuestion] = useState();
+    const listOfQuestions = useRef([])
+    let [currentQuestion, setCurrentQuestion] = useState();
 
     function stopCountdown() {
+        setCurrentQuestion(listOfQuestions.current[0])
         clearTimeout(timer)
     }
 
@@ -73,16 +74,10 @@ export default function Game(props) {
             type: operation,
             first_value: firstValue,
             second_value: secondValue,
-            answer: answer
+            answer: roundToTwo(answer)
         }
-        // setListOfQuestions([...listOfQuestions, question])
-        // console.log(listOfQuestions)
-        console.log(question)
+        return question
     }
-
-    // function timeTaken() {
-
-    // }
 
     function genChallengeAddition(value1, value2) {
         return value1 + value2
@@ -108,14 +103,17 @@ export default function Game(props) {
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
-                if (count === 1) return stopCountdown()
+                if (count === 1) {
+                    // Generate 20 questions
+                    for (let i = 0; i < 20; i++) {
+                        listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
+                    }
+                    // Stop countdown
+                    return stopCountdown()
+                }
                 return count - 1
             })
         }, 1000)
-        // Generate 20 questions
-        for (let i = 0; i < 20; i++) {
-            generateQuestions(parsedChallenges)
-        }
     }, [])
 
     return (
