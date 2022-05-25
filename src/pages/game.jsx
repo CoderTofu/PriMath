@@ -12,11 +12,16 @@ export default function Game(props) {
     let timer = 0;
 
     // Questions
-    const listOfQuestions = useRef([])
-    let [currentQuestion, setCurrentQuestion] = useState();
+    const listOfQuestions = useRef([]);
+    let [questionCount, setQuestionCount] = useState(0)
+    let [currentQuestion, setCurrentQuestion] = useState("");
+
+    // Form
+    let [answer, setAnswer] = useState("");
 
     function stopCountdown() {
-        setCurrentQuestion(listOfQuestions.current[0])
+        setCurrentQuestion(listOfQuestions.current[questionCount])
+        setQuestionCount(questionCount + 1)
         clearTimeout(timer)
     }
 
@@ -60,46 +65,60 @@ export default function Game(props) {
         let operation = questionType.name;
         let firstValue = getRandomInt(questionType.min_val, questionType.max_val);
         let secondValue = getRandomInt(questionType.min_val, questionType.max_val);
-        let answer;
+        let answer, symbol;
         if (operation === "Addition") {
             answer = genChallengeAddition(firstValue, secondValue);
+            symbol = "+";
         } else if (operation === "Subtraction") {
             answer = genChallengeSubtraction(firstValue, secondValue);
+            symbol = "-";
         } else if (operation === "Multiplication") {
             answer = genChallengeMultiplication(firstValue, secondValue);
+            symbol = "x";
         } else if (operation === "Division") {
             answer = genChallengeDivision(firstValue, secondValue);
+            symbol = "/"
         }
         const question = {
             type: operation,
             first_value: firstValue,
             second_value: secondValue,
+            symbol: symbol,
             answer: roundToTwo(answer)
         }
         return question
     }
 
-    function genChallengeAddition(value1, value2) {
-        return value1 + value2
-    }
+    // Basic Arithmetic Functions
+        function genChallengeAddition(value1, value2) {
+            return value1 + value2
+        }
 
-    function genChallengeSubtraction(value1, value2) {
-        return value1 - value2
-    }
+        function genChallengeSubtraction(value1, value2) {
+            return value1 - value2
+        }
 
-    function genChallengeMultiplication(value1, value2) {
-        return value1 * value2
-    }
+        function genChallengeMultiplication(value1, value2) {
+            return value1 * value2
+        }
 
-    function genChallengeDivision(value1, value2) {
-        return value1 / value2
+        function genChallengeDivision(value1, value2) {
+            return value1 / value2
+        }
+    // 
+
+    function updateQuestion() {
+        if (answer === "") return
+        currentQuestion.user_answer = answer; // Add a key for user's answer
+        listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
+
+        setQuestionCount(questionCount += 1); // Move up to the next question
+        setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
+        setAnswer(""); // Reset the input
     }
 
     useEffect(() => {
         document.title = "Game"
-    }, [])
-
-    useEffect(() => {
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
@@ -123,15 +142,21 @@ export default function Game(props) {
                     <h1>{countdownTime}</h1>
                 </div>
             ) : ("")}
-            {/* {parsedChallenges.map((item, index) => {
-                return (
-                    <div key={index}>
-                        <h2>Type: {item.name}</h2>
-                        <h3>Min Val: {item.min_val}</h3>
-                        <h3>Max Val: {item.max_val}</h3>
-                    </div>
-                )
-            })} */}
+
+            <div>
+                <form>
+                    <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
+                    <input 
+                    type="number" 
+                    name="answer" 
+                    value={answer} 
+                    onChange={e => setAnswer(e.target.value)}/>
+                    <button onClick={e => {
+                        e.preventDefault();
+                        updateQuestion()
+                    }}>Submit</button>
+                </form>
+            </div>
         </div>
     )
 }
