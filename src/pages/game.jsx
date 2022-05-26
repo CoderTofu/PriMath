@@ -109,8 +109,16 @@ export default function Game(props) {
 
     function updateQuestion() {
         if (answer === "") return
+        const correctSFX = document.getElementById("correct-sound");
+        const wrongSFX = document.getElementById("wrong-sound");
         currentQuestion.user_answer = answer; // Add a key for user's answer
         listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
+
+        if (currentQuestion.user_answer == currentQuestion.answer) {
+            correctSFX.play()
+        } else {
+            wrongSFX.play()
+        }
 
         setQuestionCount(questionCount += 1); // Move up to the next question
         setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
@@ -156,6 +164,8 @@ export default function Game(props) {
                         updateQuestion()
                     }}>Submit</button>
                 </form>
+                <audio id="correct-sound" src="/correct.mp4"></audio>
+                <audio id="wrong-sound" src="/wrong.mp4"></audio>
             </div>
         </div>
     )
