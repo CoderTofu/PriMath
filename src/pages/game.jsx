@@ -17,6 +17,8 @@ export default function Game(props) {
     let [currentQuestion, setCurrentQuestion] = useState("");
 
     // Form
+    const correctSFX = document.getElementById("correct-sound");
+    const wrongSFX = document.getElementById("wrong-sound");
     let [answer, setAnswer] = useState("");
 
     function stopCountdown() {
@@ -40,12 +42,19 @@ export default function Game(props) {
      * division *1.7
      * 
      * This is how the score should be calculated by their range (max range - min range):
-     * difference of 1-5 *0.5
-     * difference of 6-20 *1
-     * difference of 21-50 *1.5
-     * difference of 51-100 *1.8
-     * difference of 101-500 *2.2
-     * difference of 501-1000 *2.5
+     * difference of 1-5 + *0.5
+     * difference of 6-20 + *1
+     * difference of 21-50 + *1.5
+     * difference of 51-100 + *1.8
+     * difference of 101-500 + *2.2
+     * difference of 501-1000 + *2.5
+     * 
+     * This is how the score should be calculated by time (time it took to answer)
+     * <2 seconds 150
+     * >2<5 seconds 110
+     * >5>7 seconds 90
+     * >7>10 seconds 70
+     * >10 seconds 50
      */
 
     // 
@@ -109,20 +118,31 @@ export default function Game(props) {
 
     function updateQuestion() {
         if (answer === "") return
-        const correctSFX = document.getElementById("correct-sound");
-        const wrongSFX = document.getElementById("wrong-sound");
         currentQuestion.user_answer = answer; // Add a key for user's answer
         listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
 
         if (currentQuestion.user_answer == currentQuestion.answer) {
             correctSFX.play()
+            updateQuestion(currentQuestion)
         } else {
             wrongSFX.play()
+        }
+
+        if (listOfQuestions.current[questionCount + 1] === undefined) {
+            // Stop going to the next question because you are now in last
+            console.log("STOP")
+            return
         }
 
         setQuestionCount(questionCount += 1); // Move up to the next question
         setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
         setAnswer(""); // Reset the input
+    }
+
+    function updateScore(question) {
+        let typeMultiplier;
+        let firstSecondDifference;
+        let offPoints;
     }
 
     useEffect(() => {
@@ -160,6 +180,10 @@ export default function Game(props) {
                     value={answer} 
                     onChange={e => setAnswer(e.target.value)}/>
                     <button onClick={e => {
+                        correctSFX.pause();
+                        correctSFX.currentTime = 0;
+                        wrongSFX.pause();
+                        wrongSFX.currentTime = 0;
                         e.preventDefault();
                         updateQuestion()
                     }}>Submit</button>
