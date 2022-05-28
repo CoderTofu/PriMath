@@ -5,7 +5,8 @@ import "../css/page-css/game.css"
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
-    // console.log(parsedChallenges)
+
+    // DON'T FORGET TO CHECK IF PARSEDCHALLENGES IS NULL
 
     // Countdown to start the game
     let [countdownTime, setCountdownTime] = useState(3);
@@ -21,10 +22,16 @@ export default function Game(props) {
     const wrongSFX = document.getElementById("wrong-sound");
     let [answer, setAnswer] = useState("");
 
+    // Scoring
+    let timeStarted = useRef("");
+    let timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question 
+
     function stopCountdown() {
-        setCurrentQuestion(listOfQuestions.current[questionCount])
-        setQuestionCount(questionCount + 1)
-        clearTimeout(timer)
+        setCurrentQuestion(listOfQuestions.current[questionCount]);
+        setQuestionCount(questionCount + 1);
+        clearTimeout(timer);
+        timeStarted.current = new Date();
+        timeCheck.current = timeStarted.current;
     }
 
     /**
@@ -118,30 +125,36 @@ export default function Game(props) {
 
     function updateQuestion() {
         if (answer === "") return
-        currentQuestion.user_answer = answer; // Add a key for user's answer
+        currentQuestion.user_answer = parseInt(answer); // Add a key for user's answer
+        
+        let newTime = new Date();
+        let miliToSeconds = 1000 
+        currentQuestion.time_taken = (newTime.getTime() - timeCheck.current.getTime()) / 1000;
+        
         listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
 
-        if (currentQuestion.user_answer == currentQuestion.answer) {
+        if (currentQuestion.user_answer === currentQuestion.answer) {
             correctSFX.play()
-            updateQuestion(currentQuestion)
         } else {
             wrongSFX.play()
         }
 
+        console.log(currentQuestion.time_taken)
+
         if (listOfQuestions.current[questionCount + 1] === undefined) {
             // Stop going to the next question because you are now in last
-            console.log("STOP")
             return
         }
 
         setQuestionCount(questionCount += 1); // Move up to the next question
         setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
         setAnswer(""); // Reset the input
+        timeCheck.current = newTime
     }
 
     function updateScore(question) {
         let typeMultiplier;
-        let firstSecondDifference;
+        let valueDifference;
         let offPoints;
     }
 
