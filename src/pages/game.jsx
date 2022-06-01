@@ -23,8 +23,9 @@ export default function Game(props) {
     let [answer, setAnswer] = useState("");
 
     // Scoring
-    let timeStarted = useRef("");
-    let timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question 
+    const timeStarted = useRef("");
+    const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
+    const score = useRef(""); 
 
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
@@ -57,7 +58,8 @@ export default function Game(props) {
      * difference of 501-1000 + *2.5
      * 
      * This is how the score should be calculated by time (time it took to answer)
-     * <2 seconds 150
+     * <1 seconds 200
+     * >1<2 seconds 150
      * >2<5 seconds 110
      * >5>7 seconds 90
      * >7>10 seconds 70
@@ -81,27 +83,53 @@ export default function Game(props) {
         let operation = questionType.name;
         let firstValue = getRandomInt(questionType.min_val, questionType.max_val);
         let secondValue = getRandomInt(questionType.min_val, questionType.max_val);
-        let answer, symbol;
+        let answer, symbol, type_multiplier, range_multiplier;
+
+        // Set keys for important and specific to type questions
         if (operation === "Addition") {
             answer = genChallengeAddition(firstValue, secondValue);
             symbol = "+";
+            type_multiplier = 1;
         } else if (operation === "Subtraction") {
             answer = genChallengeSubtraction(firstValue, secondValue);
             symbol = "-";
+            type_multiplier = 1.2;
         } else if (operation === "Multiplication") {
             answer = genChallengeMultiplication(firstValue, secondValue);
             symbol = "x";
+            type_multiplier = 1.5;
         } else if (operation === "Division") {
             answer = genChallengeDivision(firstValue, secondValue);
-            symbol = "/"
+            symbol = "/";
+            type_multiplier = 1.7;
         }
+
+        // Set additional points multiplier for value range
+        let valueDifference = Math.abs(firstValue, secondValue);
+        if (valueDifference <= 5) {
+            range_multiplier = 1.5;
+        } else if (valueDifference <= 20) {
+            range_multiplier = 2;
+        } else if (valueDifference <= 50) {
+            range_multiplier = 2.5;
+        } else if (valueDifference <= 100) {
+            range_multiplier = 3;
+        } else if (valueDifference <= 500) {
+            range_multiplier = 3.5;
+        } else if (valueDifference <= 1000) {
+            range_multiplier = 4;
+        }
+
         const question = {
             type: operation,
             first_value: firstValue,
             second_value: secondValue,
             symbol: symbol,
-            answer: roundToTwo(answer)
+            answer: roundToTwo(answer),
+            type_multiplier,
+            range_multiplier
         }
+        
         return question
     }
 
@@ -125,49 +153,50 @@ export default function Game(props) {
 
     function updateQuestion() {
         if (answer === "") return
-        currentQuestion.user_answer = parseInt(answer); // Add a key for user's answer
+        currentQuestion.user_answer = parseFloat(answer); // Add a key for user's answer
         
         let newTime = new Date();
         let miliToSeconds = 1000 
-        currentQuestion.time_taken = (newTime.getTime() - timeCheck.current.getTime()) / 1000;
+        currentQuestion.time_taken = (newTime.getTime() - timeCheck.current.getTime()) / miliToSeconds;
         
         listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
-
-        if (currentQuestion.user_answer === currentQuestion.answer) {
-            correctSFX.play()
-        } else {
-            wrongSFX.play()
-        }
-
-        console.log(currentQuestion.time_taken)
 
         if (listOfQuestions.current[questionCount + 1] === undefined) {
             // Stop going to the next question because you are now in last
             return
         }
 
+        updateScore(questionCount);
+
         setQuestionCount(questionCount += 1); // Move up to the next question
         setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
         setAnswer(""); // Reset the input
-        timeCheck.current = newTime
+        timeCheck.current = newTime;
     }
 
-    function updateScore(question) {
-        let typeMultiplier;
-        let valueDifference;
-        let offPoints;
+    function updateScore(questionNum) {
+        const QUESTION = listOfQuestions.current[questionNum];
+        if (currentQuestion.user_answer === currentQuestion.answer) {
+            correctSFX.play()
+            let typeMultiplier;
+            let valueDifference;
+            let offPoints;
+        } else {
+            wrongSFX.play()
+            return
+        }
     }
 
     useEffect(() => {
-        document.title = "Game"
+        document.title = "Game";
+        // Generate 20 questions
+        for (let i = 0; i < 20; i++) {
+            listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
+        }
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
                 if (count === 1) {
-                    // Generate 20 questions
-                    for (let i = 0; i < 20; i++) {
-                        listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
-                    }
                     // Stop countdown
                     return stopCountdown()
                 }
