@@ -123,11 +123,12 @@ export default function Challenges(props) {
             }
 
             // Having null or empty strings for input
-            if (minimum_value === "" || maximum_value === "") {
+            if (minimum_value === "" || maximum_value === "" || isNaN(minimum_value) || isNaN(maximum_value)) {
                 problemList.push(`In ${value_name} challenge: Values can't be empty.`)
             }
         }
 
+        console.log(problemList)
         if (problemList.length === 0) {
             return true
         } else {
@@ -141,6 +142,7 @@ export default function Challenges(props) {
             let path = `game`;
             navigate(path);
         }
+        console.log(checkVals())
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
         } else if (checkVals())  {
@@ -250,7 +252,7 @@ export default function Challenges(props) {
                                 className={`input-min num-input ${mode}`}
                                 type="number"
                                 name="min_range"
-                                value={minVal}
+                                value={isNaN(minVal) ? "" : minVal}
                                 onChange={e => onInputMinValue(e.target.value, editSelect)}
                             />
 
@@ -260,7 +262,7 @@ export default function Challenges(props) {
                                 className={`input-max num-input ${mode}`}
                                 type="number"
                                 name="max_range"
-                                value={maxVal}
+                                value={isNaN(maxVal) ? "": maxVal}
                                 onChange={e => onInputMaxValue(e.target.value, editSelect)}
                             />
                         </form>
