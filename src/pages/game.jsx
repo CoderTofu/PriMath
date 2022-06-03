@@ -27,6 +27,9 @@ export default function Game(props) {
     const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
     const score = useRef(0); 
 
+    // Facts
+    let [fact, changeFact] = useState("")
+
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
         setQuestionCount(questionCount + 1);
@@ -196,10 +199,7 @@ export default function Game(props) {
 
             const POINTS = Math.ceil((((basePoints) * typeMultiplier) * valueDifference) + offPoints);
 
-            console.log("SCORE UPDATED")
-            console.log(POINTS)
             score.current = score.current + POINTS
-
         } else {
             wrongSFX.play()
             return
@@ -212,7 +212,6 @@ export default function Game(props) {
         for (let i = 0; i < 20; i++) {
             listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
         }
-        console.log(listOfQuestions.current)
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
@@ -224,6 +223,18 @@ export default function Game(props) {
             })
         }, 1000)
     }, [])
+
+    useEffect(() => {
+        if (currentQuestion === "") return
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `http://numbersapi.com/${currentQuestion.first_value}`);
+        xhr.send();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                changeFact(xhr.response);
+            }
+        };
+    }, [currentQuestion])
 
     return (
         <div>
@@ -252,8 +263,12 @@ export default function Game(props) {
                 </form>
                 <audio id="correct-sound" src="/correct.mp4"></audio>
                 <audio id="wrong-sound" src="/wrong.mp4"></audio>
+                {score.current}
             </div>
-            {score.current}
+
+            <div>
+                {fact}
+            </div>
         </div>
     )
 }
