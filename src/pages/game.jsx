@@ -224,6 +224,10 @@ export default function Game(props) {
         }, 1000)
     }, [])
 
+
+    // To replace the facts everytime the question changes
+    // Still needs a randomiser for math trivia and date
+    // And randomiser for what values to use
     useEffect(() => {
         if (currentQuestion === "") return
         const xhr = new XMLHttpRequest();
@@ -235,6 +239,13 @@ export default function Game(props) {
             }
         };
     }, [currentQuestion])
+
+    /**
+     * Things to work on:
+     * Randomizer for number trivias
+     * CSS design
+     * End screen
+     */
 
     return (
         <div>
