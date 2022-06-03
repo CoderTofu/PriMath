@@ -7,7 +7,7 @@ export default function Home(props) {
     let mode = props.viewMode
 
     useEffect(() => {
-        document.title = "Home"
+        document.title = "PriMath | Home"
     }, [])
 
     return (

@@ -3,7 +3,7 @@ import React, {useEffect} from "react"
 export default function About() {
 
     useEffect(() => {
-        document.title = "About us"
+        document.title = "PriMath | About us"
     }, [])
 
     return (
