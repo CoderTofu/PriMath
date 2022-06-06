@@ -128,7 +128,7 @@ export default function Game(props) {
 
     useEffect(() => {
         if (currentQuestion === "") return
-        axios.get(`https://numbersapi.com/${currentQuestion.value}`)
+        axios.get(`https://numbersapi.com/${currentQuestion.first_value}`)
         .then(res => {
             changeFact(res.data);
         })
