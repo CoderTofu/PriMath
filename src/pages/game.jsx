@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from "react"
+import axios from "axios";
 
 import "../css/page-css/game.css"
 
@@ -230,14 +231,13 @@ export default function Game(props) {
     // And randomiser for what values to use
     useEffect(() => {
         if (currentQuestion === "") return
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", `http://numbersapi.com/${currentQuestion.first_value}`);
-        xhr.send();
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                changeFact(xhr.response);
-            }
-        };
+        axios.get(`http://numbersapi.com/${currentQuestion.first_value}`)
+        .then(res => {
+            changeFact(res.data);
+        })
+        .catch(error => {
+            console.error(`Error: ${error}`);
+        })
     }, [currentQuestion])
 
     /**
