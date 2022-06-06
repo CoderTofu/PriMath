@@ -1,5 +1,9 @@
 import React, {useEffect, useState, useRef} from "react"
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import generateQuestions from "./gameFuncs/questionGen";
+import checkVals from './gameFuncs/checkValue';
 
 import "../css/page-css/game.css"
 
@@ -7,7 +11,7 @@ export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
 
-    // DON'T FORGET TO CHECK IF PARSEDCHALLENGES IS NULL
+    let navigate = useNavigate()
 
     // Countdown to start the game
     let [countdownTime, setCountdownTime] = useState(3);
@@ -38,121 +42,6 @@ export default function Game(props) {
         timeStarted.current = new Date();
         timeCheck.current = timeStarted.current;
     }
-
-    /**
-     * Set a timer for 3 seconds before the game actually starts.
-     * Set a timer for how long the player would take to answer.
-     * Create the questions with appropriate types and min max values.
-     * Once all 20 questions are completed and generated present them one by one to the user.
-     * The user should be able to press enter and click a button to submit their answer.
-     * After they submit it, the next question would then be presented to them.
-     * 
-     * This is how the score should be calculated by their type:
-     * addition *1
-     * subtraction *1.2
-     * mulitplication *1.5
-     * division *1.7
-     * 
-     * This is how the score should be calculated by their range (max range - min range):
-     * difference of 1-5 + *0.5
-     * difference of 6-20 + *1
-     * difference of 21-50 + *1.5
-     * difference of 51-100 + *1.8
-     * difference of 101-500 + *2.2
-     * difference of 501-1000 + *2.5
-     * 
-     * This is how the score should be calculated by time (time it took to answer)
-     * <1 seconds 200
-     * >1<2 seconds 150
-     * >2<5 seconds 110
-     * >5>7 seconds 90
-     * >7>10 seconds 70
-     * >10 seconds 50
-     */
-    // 
-    
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-    }
-
-    function roundToTwo(num) {
-        return +(Math.round(num + "e+2") + "e-2");
-    }
-
-    function generateQuestions() {
-        let questionType = parsedChallenges[Math.floor(Math.random() * parsedChallenges.length)];
-        let operation = questionType.name;
-        let firstValue = getRandomInt(questionType.min_val, questionType.max_val);
-        let secondValue = getRandomInt(questionType.min_val, questionType.max_val);
-        let answer, symbol, type_multiplier, range_multiplier;
-
-        // Set keys for important and specific to type questions
-        if (operation === "Addition") {
-            answer = genChallengeAddition(firstValue, secondValue);
-            symbol = "+";
-            type_multiplier = 1;
-        } else if (operation === "Subtraction") {
-            answer = genChallengeSubtraction(firstValue, secondValue);
-            symbol = "-";
-            type_multiplier = 1.2;
-        } else if (operation === "Multiplication") {
-            answer = genChallengeMultiplication(firstValue, secondValue);
-            symbol = "x";
-            type_multiplier = 1.5;
-        } else if (operation === "Division") {
-            answer = genChallengeDivision(firstValue, secondValue);
-            symbol = "/";
-            type_multiplier = 1.7;
-        }
-
-        // Set additional points multiplier for value range
-        let valueDifference = Math.abs(firstValue, secondValue);
-        if (valueDifference <= 5) {
-            range_multiplier = 1.5;
-        } else if (valueDifference <= 20) {
-            range_multiplier = 2;
-        } else if (valueDifference <= 50) {
-            range_multiplier = 2.5;
-        } else if (valueDifference <= 100) {
-            range_multiplier = 3;
-        } else if (valueDifference <= 500) {
-            range_multiplier = 3.5;
-        } else if (valueDifference <= 1000) {
-            range_multiplier = 4;
-        }
-
-        const question = {
-            type: operation,
-            first_value: firstValue,
-            second_value: secondValue,
-            symbol: symbol,
-            answer: roundToTwo(answer),
-            type_multiplier,
-            range_multiplier
-        }
-        
-        return question
-    }
-
-    // Basic Arithmetic Functions
-        function genChallengeAddition(value1, value2) {
-            return value1 + value2
-        }
-
-        function genChallengeSubtraction(value1, value2) {
-            return value1 - value2
-        }
-
-        function genChallengeMultiplication(value1, value2) {
-            return value1 * value2
-        }
-
-        function genChallengeDivision(value1, value2) {
-            return value1 / value2
-        }
-    // 
 
     function updateQuestion() {
         if (answer === "") return
@@ -209,6 +98,13 @@ export default function Game(props) {
 
     useEffect(() => {
         document.title = "Game";
+        // Checks if values are valid and can be used properly
+        if (parsedChallenges === null || typeof (checkVals(parsedChallenges)) === "object") {
+            alert("Your challenges are invalid.")
+            console.log(navigate('../challenges'))
+            return
+        }
+
         // Generate 20 questions
         for (let i = 0; i < 20; i++) {
             listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
@@ -229,9 +125,10 @@ export default function Game(props) {
     // To replace the facts everytime the question changes
     // Still needs a randomiser for math trivia and date
     // And randomiser for what values to use
+
     useEffect(() => {
         if (currentQuestion === "") return
-        axios.get(`http://numbersapi.com/${currentQuestion.first_value}`)
+        axios.get(`https://numbersapi.com/${currentQuestion.value}`)
         .then(res => {
             changeFact(res.data);
         })
@@ -245,7 +142,7 @@ export default function Game(props) {
      * Randomizer for number trivias
      * CSS design
      * End screen
-     */
+    */
 
     return (
         <div>

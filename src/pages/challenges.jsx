@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 
+import checkVals from "./gameFuncs/checkValue";
+
 import "../css/page-css/challenges.css"
 
 export default function Challenges(props) {
@@ -90,64 +92,19 @@ export default function Challenges(props) {
         }
     }
 
-    function checkVals() {
-        // This function is to check whether the values given are appropriate
-        let problemList = [];
-        for (let i = 0; i < selected.length; i++) {
-            let value = selected[i];
-            let value_name = value.name;
-            let maximum_value = value.max_val;
-            let minimum_value = value.min_val;
-
-            // Check if min val is greater than max val
-            if (minimum_value > maximum_value) {
-                problemList.push(`In ${value_name} challenge: The minimum value can't be greater than maximum value.`)
-            }
-
-            // Check if max val has value greater than 1000
-            if (maximum_value > 1000) {
-                problemList.push(`In ${value_name} challenge: The maximum value can't be greater than 1000.`)
-            }
-
-            if (minimum_value > 1000) {
-                problemList.push(`In ${value_name} challenge: The minimum value can't be greater than 1000.`)
-            }
-
-            // Going below 1 for min value
-            if (minimum_value < 1) {
-                problemList.push(`In ${value_name} challenge: The minimum value can't be lower than 1.`)
-            }
-
-            if (maximum_value < 1) {
-                problemList.push(`In ${value_name} challenge: The maximum value can't be lower than 1.`)
-            }
-
-            // Having null or empty strings for input
-            if (minimum_value === "" || maximum_value === "" || isNaN(minimum_value) || isNaN(maximum_value)) {
-                problemList.push(`In ${value_name} challenge: Values can't be empty.`)
-            }
-        }
-
-        if (problemList.length === 0) {
-            return true
-        } else {
-            updateProblems(problemList)
-            return false
-        }
-    }
-
     function start() {
         const routeChange = () => {
             let path = `game`;
             navigate(path);
         }
-        console.log(checkVals())
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
-        } else if (checkVals())  {
+        } else if (checkVals(selected) === true)  {
             routeChange()
             let stringed = JSON.stringify(selected)
             window.localStorage.setItem("challenges", stringed)
+        } else {
+            updateProblems(checkVals(selected))
         }
     }
 
