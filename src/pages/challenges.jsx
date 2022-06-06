@@ -128,7 +128,6 @@ export default function Challenges(props) {
             }
         }
 
-        console.log(problemList)
         if (problemList.length === 0) {
             return true
         } else {
