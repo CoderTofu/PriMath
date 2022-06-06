@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from "react"
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import generateQuestions from "./gameFuncs/questionGen";
@@ -125,9 +125,10 @@ export default function Game(props) {
     // To replace the facts everytime the question changes
     // Still needs a randomiser for math trivia and date
     // And randomiser for what values to use
+
     useEffect(() => {
         if (currentQuestion === "") return
-        axios.get(`http://numbersapi.com/${currentQuestion.first_value}`)
+        axios.get(`https://numbersapi.com/${currentQuestion.value}`)
         .then(res => {
             changeFact(res.data);
         })
