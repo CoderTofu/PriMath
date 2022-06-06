@@ -97,10 +97,9 @@ export default function Challenges(props) {
             let path = `game`;
             navigate(path);
         }
-        console.log(checkVals())
         if (selected.length === 0) {
             alert("You have to select at least one challenge.")
-        } else if (checkVals() === true)  {
+        } else if (checkVals(selected) === true)  {
             routeChange()
             let stringed = JSON.stringify(selected)
             window.localStorage.setItem("challenges", stringed)
