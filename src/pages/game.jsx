@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from "react"
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import generateQuestions from "./gameFuncs/questionGen";
 import checkVals from './gameFuncs/checkValue';
@@ -31,9 +30,6 @@ export default function Game(props) {
     const timeStarted = useRef("");
     const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
     const score = useRef(0); 
-
-    // Facts
-    let [fact, changeFact] = useState("")
 
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
@@ -121,29 +117,6 @@ export default function Game(props) {
         }, 1000)
     }, [])
 
-
-    // To replace the facts everytime the question changes
-    // Still needs a randomiser for math trivia and date
-    // And randomiser for what values to use
-
-    useEffect(() => {
-        if (currentQuestion === "") return
-        axios.get(`https://numbersapi.com/${currentQuestion.first_value}`)
-        .then(res => {
-            changeFact(res.data);
-        })
-        .catch(error => {
-            console.error(`Error: ${error}`);
-        })
-    }, [currentQuestion])
-
-    /**
-     * Things to work on:
-     * Randomizer for number trivias
-     * CSS design
-     * End screen
-    */
-
     return (
         <div>
             {countdownTime > 0 ? (
@@ -172,10 +145,6 @@ export default function Game(props) {
                 <audio id="correct-sound" src="/correct.mp4"></audio>
                 <audio id="wrong-sound" src="/wrong.mp4"></audio>
                 {score.current}
-            </div>
-
-            <div>
-                {fact}
             </div>
         </div>
     )
