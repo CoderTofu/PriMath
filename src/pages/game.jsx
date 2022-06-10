@@ -25,6 +25,7 @@ export default function Game(props) {
     const correctSFX = document.getElementById("correct-sound");
     const wrongSFX = document.getElementById("wrong-sound");
     let [answer, setAnswer] = useState("");
+    let [end, setEnd] = useState(false);
 
     // Scoring
     const timeStarted = useRef("");
@@ -54,6 +55,8 @@ export default function Game(props) {
         if (listOfQuestions.current[questionCount + 1] !== undefined) { // If we are not yet on the last item
             setQuestionCount(questionCount += 1); // Move up to the next question
             setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
+        } else {
+            setEnd(true)
         }
 
         setAnswer(""); // Reset the input
@@ -117,6 +120,11 @@ export default function Game(props) {
         }, 1000)
     }, [])
 
+    // Add more things to end screen
+    // Show all challenge type included
+    // Show how much they got wrong over 20
+    // Show percentage
+
     return (
         <div>
             {countdownTime > 0 ? (
@@ -125,14 +133,21 @@ export default function Game(props) {
                 </div>
             ) : ("")}
 
+            {end ? (
+                <div>
+                    GOODBYE
+                    <h3>Score: {score.current}</h3>
+                    <h3>Time: {timeCheck.current - timeStarted.current}</h3>
+                </div>
+            ) : (
             <div>
                 <form>
                     <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
-                    <input 
-                    type="number" 
-                    name="answer" 
-                    value={answer} 
-                    onChange={e => setAnswer(e.target.value)}/>
+                    <input
+                        type="number"
+                        name="answer"
+                        value={answer}
+                        onChange={e => setAnswer(e.target.value)} />
                     <button onClick={e => {
                         correctSFX.pause();
                         correctSFX.currentTime = 0;
@@ -145,7 +160,8 @@ export default function Game(props) {
                 <audio id="correct-sound" src="/correct.mp4"></audio>
                 <audio id="wrong-sound" src="/wrong.mp4"></audio>
                 {score.current}
-            </div>
+            </div>)
+            }
         </div>
     )
 }
