@@ -9,7 +9,6 @@ import "../css/page-css/game.css"
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
-
     let navigate = useNavigate()
 
     // Countdown to start the game
@@ -18,7 +17,15 @@ export default function Game(props) {
 
     // Questions
     const listOfQuestions = useRef([]);
-    let [questionCount, setQuestionCount] = useState(0)
+    let [questionCount, setQuestionCount] = useState(0);
+    let questionStats = useRef({
+        addition: 0,
+        subtraction: 0,
+        multiplication: 0,
+        division: 0,
+        correct: 0,
+        mistake: 0
+    })
     let [currentQuestion, setCurrentQuestion] = useState("");
 
     // Form
@@ -34,7 +41,6 @@ export default function Game(props) {
 
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
-        setQuestionCount(questionCount + 1);
         clearTimeout(timer);
         timeStarted.current = new Date();
         timeCheck.current = timeStarted.current;
@@ -88,10 +94,13 @@ export default function Game(props) {
 
             const POINTS = Math.ceil((((basePoints) * typeMultiplier) * valueDifference) + offPoints);
 
-            score.current = score.current + POINTS
+            score.current = score.current + POINTS;
+            questionStats.current.correct += 1;
+            console.log(questionStats.current)
         } else {
             wrongSFX.play()
-            return
+            questionStats.current.mistake += 1;
+            console.log(questionStats.current)
         }
     }
 
@@ -100,14 +109,19 @@ export default function Game(props) {
         // Checks if values are valid and can be used properly
         if (parsedChallenges === null || typeof (checkVals(parsedChallenges)) === "object") {
             alert("Your challenges are invalid.")
-            console.log(navigate('../challenges'))
+            navigate('../challenges')
             return
         }
 
         // Generate 20 questions
         for (let i = 0; i < 20; i++) {
-            listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
+            const generatedQuestion = generateQuestions(parsedChallenges);
+            listOfQuestions.current = [...listOfQuestions.current, generatedQuestion];
+
+            // STATS
+            questionStats.current[generatedQuestion.type.toLowerCase()] += 1
         }
+        console.log(listOfQuestions.current)
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
@@ -121,9 +135,9 @@ export default function Game(props) {
     }, [])
 
     // Add more things to end screen
-    // Show all challenge type included
     // Show how much they got wrong over 20
     // Show percentage
+    // PERCENTAGE NALANG
 
     return (
         <div>
@@ -138,9 +152,22 @@ export default function Game(props) {
                     GOODBYE
                     <h3>Score: {score.current}</h3>
                     <h3>Time: {timeCheck.current - timeStarted.current}</h3>
+                    <h3>Overall: {questionStats.current.correct} / {questionStats.current.correct + questionStats.current.mistake}</h3>
+                    <div>
+                        {parsedChallenges.map((challenge, ind) => {
+                            return (
+                                <div key={`${challenge.name}${ind}`}>
+                                    <h3>{challenge.name}</h3>
+                                    <h4>Appearead: {questionStats.current[challenge.name.toLowerCase()]}</h4>
+                                    <h4>Range: {challenge.min_val} - {challenge.max_val}</h4>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
             ) : (
             <div>
+                {questionCount}
                 <form>
                     <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
                     <input
