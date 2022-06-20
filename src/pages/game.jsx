@@ -116,7 +116,6 @@ export default function Game(props) {
             // STATS
             questionStats.current[generatedQuestion.type.toLowerCase()].appearance += 1
         }
-        console.log(listOfQuestions.current)
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
