@@ -19,18 +19,16 @@ export default function Game(props) {
     const listOfQuestions = useRef([]);
     let [questionCount, setQuestionCount] = useState(0);
     let questionStats = useRef({
-        addition: 0,
-        subtraction: 0,
-        multiplication: 0,
-        division: 0,
+        addition: {appearance: 0, correct: 0},
+        subtraction: { appearance: 0, correct: 0 },
+        multiplication: { appearance: 0, correct: 0 },
+        division: { appearance: 0, correct: 0 },
         correct: 0,
         mistake: 0
     })
     let [currentQuestion, setCurrentQuestion] = useState("");
 
     // Form
-    const correctSFX = document.getElementById("correct-sound");
-    const wrongSFX = document.getElementById("wrong-sound");
     let [answer, setAnswer] = useState("");
     let [end, setEnd] = useState(false);
 
@@ -72,7 +70,6 @@ export default function Game(props) {
     function updateScore(questionNum) {
         const QUESTION = listOfQuestions.current[questionNum];
         if (currentQuestion.user_answer === currentQuestion.answer) {
-            correctSFX.play()
             let basePoints;
             let typeMultiplier = QUESTION.type_multiplier;
             let valueDifference = QUESTION.range_multiplier;
@@ -96,11 +93,9 @@ export default function Game(props) {
 
             score.current = score.current + POINTS;
             questionStats.current.correct += 1;
-            console.log(questionStats.current)
+            questionStats.current[currentQuestion.type.toLowerCase()].correct += 1
         } else {
-            wrongSFX.play()
             questionStats.current.mistake += 1;
-            console.log(questionStats.current)
         }
     }
 
@@ -119,7 +114,7 @@ export default function Game(props) {
             listOfQuestions.current = [...listOfQuestions.current, generatedQuestion];
 
             // STATS
-            questionStats.current[generatedQuestion.type.toLowerCase()] += 1
+            questionStats.current[generatedQuestion.type.toLowerCase()].appearance += 1
         }
         console.log(listOfQuestions.current)
         // Countdown timer
@@ -134,11 +129,6 @@ export default function Game(props) {
         }, 1000)
     }, [])
 
-    // Add more things to end screen
-    // Show how much they got wrong over 20
-    // Show percentage
-    // PERCENTAGE NALANG
-
     return (
         <div>
             {countdownTime > 0 ? (
@@ -152,13 +142,13 @@ export default function Game(props) {
                     GOODBYE
                     <h3>Score: {score.current}</h3>
                     <h3>Time: {timeCheck.current - timeStarted.current}</h3>
-                    <h3>Overall: {questionStats.current.correct} / {questionStats.current.correct + questionStats.current.mistake}</h3>
+                    <h3>Percentage: {Math.floor((questionStats.current.correct / (questionStats.current.correct + questionStats.current.mistake)) * 100)}</h3>
                     <div>
                         {parsedChallenges.map((challenge, ind) => {
                             return (
                                 <div key={`${challenge.name}${ind}`}>
                                     <h3>{challenge.name}</h3>
-                                    <h4>Appearead: {questionStats.current[challenge.name.toLowerCase()]}</h4>
+                                    <h4>Overall: {questionStats.current[challenge.name.toLowerCase()].correct}/{questionStats.current[challenge.name.toLowerCase()].appearance}</h4>
                                     <h4>Range: {challenge.min_val} - {challenge.max_val}</h4>
                                 </div>
                             )
@@ -167,8 +157,9 @@ export default function Game(props) {
                 </div>
             ) : (
             <div>
-                {questionCount}
+                <h1>{currentQuestion.type}</h1>
                 <form>
+                    <p>{questionCount}</p>
                     <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
                     <input
                         type="number"
@@ -176,16 +167,10 @@ export default function Game(props) {
                         value={answer}
                         onChange={e => setAnswer(e.target.value)} />
                     <button onClick={e => {
-                        correctSFX.pause();
-                        correctSFX.currentTime = 0;
-                        wrongSFX.pause();
-                        wrongSFX.currentTime = 0;
                         e.preventDefault();
                         updateQuestion()
                     }}>Submit</button>
                 </form>
-                <audio id="correct-sound" src="/correct.mp4"></audio>
-                <audio id="wrong-sound" src="/wrong.mp4"></audio>
                 {score.current}
             </div>)
             }
