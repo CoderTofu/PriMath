@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from "react"
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 import generateQuestions from "./gameFuncs/questionGen";
 import checkVals from './gameFuncs/checkValue';
@@ -10,7 +9,6 @@ import "../css/page-css/game.css"
 export default function Game(props) {
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
-
     let navigate = useNavigate()
 
     // Countdown to start the game
@@ -19,25 +17,29 @@ export default function Game(props) {
 
     // Questions
     const listOfQuestions = useRef([]);
-    let [questionCount, setQuestionCount] = useState(0)
+    let [questionCount, setQuestionCount] = useState(0);
+    let questionStats = useRef({
+        addition: {appearance: 0, correct: 0},
+        subtraction: { appearance: 0, correct: 0 },
+        multiplication: { appearance: 0, correct: 0 },
+        division: { appearance: 0, correct: 0 },
+        correct: 0,
+        mistake: 0
+    })
     let [currentQuestion, setCurrentQuestion] = useState("");
 
     // Form
-    const correctSFX = document.getElementById("correct-sound");
-    const wrongSFX = document.getElementById("wrong-sound");
     let [answer, setAnswer] = useState("");
+    let [end, setEnd] = useState(false);
 
     // Scoring
     const timeStarted = useRef("");
+    const timeFinished = useRef("");
     const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
     const score = useRef(0); 
 
-    // Facts
-    let [fact, changeFact] = useState("")
-
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
-        setQuestionCount(questionCount + 1);
         clearTimeout(timer);
         timeStarted.current = new Date();
         timeCheck.current = timeStarted.current;
@@ -58,6 +60,10 @@ export default function Game(props) {
         if (listOfQuestions.current[questionCount + 1] !== undefined) { // If we are not yet on the last item
             setQuestionCount(questionCount += 1); // Move up to the next question
             setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
+        } else {
+            const stopWatch = new Date()
+            timeFinished.current = (stopWatch.getTime() - timeStarted.current.getTime()) / miliToSeconds;
+            setEnd(true)
         }
 
         setAnswer(""); // Reset the input
@@ -67,7 +73,6 @@ export default function Game(props) {
     function updateScore(questionNum) {
         const QUESTION = listOfQuestions.current[questionNum];
         if (currentQuestion.user_answer === currentQuestion.answer) {
-            correctSFX.play()
             let basePoints;
             let typeMultiplier = QUESTION.type_multiplier;
             let valueDifference = QUESTION.range_multiplier;
@@ -89,10 +94,11 @@ export default function Game(props) {
 
             const POINTS = Math.ceil((((basePoints) * typeMultiplier) * valueDifference) + offPoints);
 
-            score.current = score.current + POINTS
+            score.current = score.current + POINTS;
+            questionStats.current.correct += 1;
+            questionStats.current[currentQuestion.type.toLowerCase()].correct += 1
         } else {
-            wrongSFX.play()
-            return
+            questionStats.current.mistake += 1;
         }
     }
 
@@ -101,13 +107,17 @@ export default function Game(props) {
         // Checks if values are valid and can be used properly
         if (parsedChallenges === null || typeof (checkVals(parsedChallenges)) === "object") {
             alert("Your challenges are invalid.")
-            console.log(navigate('../challenges'))
+            navigate('../challenges')
             return
         }
 
         // Generate 20 questions
         for (let i = 0; i < 20; i++) {
-            listOfQuestions.current = [...listOfQuestions.current, generateQuestions(parsedChallenges)]
+            const generatedQuestion = generateQuestions(parsedChallenges);
+            listOfQuestions.current = [...listOfQuestions.current, generatedQuestion];
+
+            // STATS
+            questionStats.current[generatedQuestion.type.toLowerCase()].appearance += 1
         }
         // Countdown timer
         timer = setInterval(() => {
@@ -121,29 +131,6 @@ export default function Game(props) {
         }, 1000)
     }, [])
 
-
-    // To replace the facts everytime the question changes
-    // Still needs a randomiser for math trivia and date
-    // And randomiser for what values to use
-
-    useEffect(() => {
-        if (currentQuestion === "") return
-        axios.get(`https://numbersapi.com/${currentQuestion.first_value}`)
-        .then(res => {
-            changeFact(res.data);
-        })
-        .catch(error => {
-            console.error(`Error: ${error}`);
-        })
-    }, [currentQuestion])
-
-    /**
-     * Things to work on:
-     * Randomizer for number trivias
-     * CSS design
-     * End screen
-    */
-
     return (
         <div>
             {countdownTime > 0 ? (
@@ -152,31 +139,43 @@ export default function Game(props) {
                 </div>
             ) : ("")}
 
+            {end ? (
+                <div>
+                    GOODBYE
+                    <h3>Score: {score.current}</h3>
+                    <h3>Time: {timeFinished.current}</h3>
+                    <h3>Percentage: {Math.floor((questionStats.current.correct / (questionStats.current.correct + questionStats.current.mistake)) * 100)}</h3>
+                    <div>
+                        {parsedChallenges.map((challenge, ind) => {
+                            return (
+                                <div key={`${challenge.name}${ind}`}>
+                                    <h3>{challenge.name}</h3>
+                                    <h4>Overall: {questionStats.current[challenge.name.toLowerCase()].correct}/{questionStats.current[challenge.name.toLowerCase()].appearance}</h4>
+                                    <h4>Range: {challenge.min_val} - {challenge.max_val}</h4>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            ) : (
             <div>
+                <h1>{currentQuestion.type}</h1>
                 <form>
+                    <p>{questionCount}</p>
                     <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
-                    <input 
-                    type="number" 
-                    name="answer" 
-                    value={answer} 
-                    onChange={e => setAnswer(e.target.value)}/>
+                    <input
+                        type="number"
+                        name="answer"
+                        value={answer}
+                        onChange={e => setAnswer(e.target.value)} />
                     <button onClick={e => {
-                        correctSFX.pause();
-                        correctSFX.currentTime = 0;
-                        wrongSFX.pause();
-                        wrongSFX.currentTime = 0;
                         e.preventDefault();
                         updateQuestion()
                     }}>Submit</button>
                 </form>
-                <audio id="correct-sound" src="/correct.mp4"></audio>
-                <audio id="wrong-sound" src="/wrong.mp4"></audio>
                 {score.current}
-            </div>
-
-            <div>
-                {fact}
-            </div>
+            </div>)
+            }
         </div>
     )
 }
