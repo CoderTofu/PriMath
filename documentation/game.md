@@ -44,7 +44,27 @@ For example they got an addition type question right in 2 seconds flat, the ques
     Offset Points: Additional 1 to 50 points
     Total Score: (((150 * 1) * 1.8) + (Offset Points))
 
+## Game Stats
+The stats throughout the game will be 
+
 ## Setting up the page
 I used useEffect to check whether the parsedChallenges are valid. The parsedChallenges being the object saved to localStorage in
 the Challenge Select page. After that, I will then generate 20 questions for the game with random values and operations based on 
-parsedChallenges. I then set a three second countdown before the game starts.
+parsedChallenges. The 20 questions will be represented as an object. Each  individual questions will have the following keys: type,
+first_value, second_value, symbol, answer, type_multiplier, and range multiplier. I then set a three second countdown before 
+the game starts.
+
+## Game Stage
+Once the three second countdown is over, the game will start. The questions will be shown one by one. Everytime the user finishes
+answering a question, the function updateQuestion would trigger. Using the previous question object it will add new keys namely;
+time taken to answer, and the user's answer. It would then trigger the updateScore function. This function will check if the given 
+answer is correct based on the answer key that the question object have. If it's correct the appropriate points will be added to the 
+user's score. 
+
+Back to the updateQuestion function, it will check if their's still a next question. If there is the current question will be changed 
+to the next one. If not, we take the time that the game started and take the current time to find out how long it took the user to finish
+all the 20 questions. And then we end the game by showing the end screen.
+
+## End Screen
+The end screen will feature the score, time taken, percentage of correct answers, and the individual stats for all selected challenge type.
+There it will show the overall score they got for that specific type, ie: 3 out of 5. And also the range that they had previously selected.

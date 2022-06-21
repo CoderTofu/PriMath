@@ -34,6 +34,7 @@ export default function Game(props) {
 
     // Scoring
     const timeStarted = useRef("");
+    const timeFinished = useRef("");
     const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
     const score = useRef(0); 
 
@@ -60,6 +61,8 @@ export default function Game(props) {
             setQuestionCount(questionCount += 1); // Move up to the next question
             setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
         } else {
+            const stopWatch = new Date()
+            timeFinished.current = (stopWatch.getTime() - timeStarted.current.getTime()) / miliToSeconds;
             setEnd(true)
         }
 
@@ -140,7 +143,7 @@ export default function Game(props) {
                 <div>
                     GOODBYE
                     <h3>Score: {score.current}</h3>
-                    <h3>Time: {timeCheck.current - timeStarted.current}</h3>
+                    <h3>Time: {timeFinished.current}</h3>
                     <h3>Percentage: {Math.floor((questionStats.current.correct / (questionStats.current.correct + questionStats.current.mistake)) * 100)}</h3>
                     <div>
                         {parsedChallenges.map((challenge, ind) => {

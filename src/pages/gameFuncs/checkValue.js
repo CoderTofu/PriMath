@@ -36,8 +36,8 @@ export default function checkVals(selected) {
             problemList.push(`In ${value_name} challenge: Values can't be empty.`)
         }
 
-        if (VALID_OPERATIONS.includes(value_name)) {
-            problemList.push(`TypeError: ${value_name} operation not recognized`)
+        if (!VALID_OPERATIONS.includes(value_name)) {
+            problemList.push(`TypeError: ${value_name} operation not recognized.`)
         }
     }
 
