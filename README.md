@@ -1,20 +1,11 @@
 # PriMath
-
 A website where you practice your basic math skills.
 
-Only includes:
-    -Addition
-    -Subtraction
-    -Multiplication
-    -Division
+## Challenges
+Users can select up to 4 challenges (basic operations) being, addition, subtraction, multiplication, and division.
+The default value range for all challenges is 1 to 10.
 
-## To Do:
-
-### June 2022
-    -Release the first build complete with its main functions
-
-### July 2022
-    -Build backend to save game data
-
-### August 2022
-    -Implement backend to frontend
+## Game
+The game consists of 20 questions based on the user's selection.
+The score is calculated with the base point being the time taken to answer the question.
+With additional score multipliers that is based with the challenge type, and range difference.
