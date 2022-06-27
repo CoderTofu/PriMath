@@ -7,6 +7,7 @@ import checkVals from './gameFuncs/checkValue';
 import "../css/page-css/game.css"
 
 export default function Game(props) {
+    let mode = props.viewMode
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
     let navigate = useNavigate()
@@ -134,7 +135,7 @@ export default function Game(props) {
     return (
         <div>
             {countdownTime > 0 ? (
-                <div className={`screen`}>
+                <div className={`screen ${mode}`}>
                     <h1>{countdownTime}</h1>
                 </div>
             ) : ("")}
@@ -158,10 +159,10 @@ export default function Game(props) {
                     </div>
                 </div>
             ) : (
-            <div>
-                <h1>{currentQuestion.type}</h1>
-                <form>
-                    <p>{questionCount}</p>
+            <div className={`gameplay ${mode}`}>
+                <h1 className={`question-num ${mode}`}>Question {questionCount + 1}:</h1>
+                <form className={`game-form`}>
+                    <p>{currentQuestion.type}.</p>
                     <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
                     <input
                         type="number"
