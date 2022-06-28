@@ -47,13 +47,18 @@ export default function Game(props) {
     }
 
     function updateQuestion() {
-        if (answer === "") return
-        currentQuestion.user_answer = parseFloat(answer); // Add a key for user's answer
-        
+        const FLOAT_ANSWER = parseFloat(answer);
+        if (isNaN(FLOAT_ANSWER)) {
+            setAnswer("ERROR")
+            return
+        }
+
+        currentQuestion.user_answer = FLOAT_ANSWER; // Add a key for user's answer
+
         let newTime = new Date();
-        let miliToSeconds = 1000 
+        let miliToSeconds = 1000
         currentQuestion.time_taken = (newTime.getTime() - timeCheck.current.getTime()) / miliToSeconds;
-        
+
         listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
 
         updateScore(questionCount); // update user's score
@@ -89,11 +94,15 @@ export default function Game(props) {
                 basePoints = 90;
             } else if (timeTaken <= 7) {
                 basePoints = 70;
+            } else if (timeTaken <= 10) {
+                basePoints = 50
             } else if (timeTaken > 10) {
-                basePoints = 50;
+                basePoints = 30;
             }
+            console.log(timeTaken)
 
             const POINTS = Math.ceil((((basePoints) * typeMultiplier) * valueDifference) + offPoints);
+            console.log(POINTS)
 
             score.current = score.current + POINTS;
             questionStats.current.correct += 1;
@@ -161,14 +170,19 @@ export default function Game(props) {
             ) : (
             <div className={`gameplay ${mode}`}>
                 <h1 className={`question-num ${mode}`}>Question {questionCount + 1}:</h1>
-                <form className={`game-form`}>
-                    <p>{currentQuestion.type}.</p>
-                    <label htmlFor="answer">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</label>
-                    <input
-                        type="number"
-                        name="answer"
-                        value={answer}
-                        onChange={e => setAnswer(e.target.value)} />
+                <form className={`game-form ${mode}`}>
+                    <h2 className="game-question">{currentQuestion.first_value} {currentQuestion.symbol} {currentQuestion.second_value}</h2>
+                    <div className={`input-container ${mode}`}>
+                        <p className="challenge-type">{currentQuestion.type}</p>
+                        <input
+                            autoFocus
+                            className={`game-input ${mode}`}
+                            type="number"
+                            name="answer"
+                            value={answer}
+                            onChange={e => setAnswer(e.target.value)}/>
+                    </div>
+
                     <button onClick={e => {
                         e.preventDefault();
                         updateQuestion()

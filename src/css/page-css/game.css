@@ -36,6 +36,60 @@
 }
 
 .question-num {
+    margin-top: 80px;
     font-family: var(--heading-font);
-    font-size: 70px;
+    font-size: 50px;
 }
+.question-num.light {
+    color: #000;
+}
+.question-num.dark {
+    color: #fff;
+}
+
+.game-form.light * {
+    color: black;
+}
+.game-form.dark * {
+    color: white;
+}
+
+.game-question {
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+    font-family: var(--question-font);
+    font-size: 80px;
+}
+
+.input-container {
+    padding: 1rem;
+}
+.input-container.light {
+    border-top: #000 solid 3px;
+}
+.input-container.dark {
+    border-top: #fff solid 3px;
+}
+
+.challenge-type {
+    font-family: var(--secondary-font);
+    font-size: 50px;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.game-input {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+
+    margin-top: 30px;
+    width: 300px;
+    font-size: 25px;
+    height: 45px;
+    padding: 1rem 0.3rem;
+    text-align: center;
+    border-radius: 1rem;
+    border: #000 1px solid;
+}
+
