@@ -134,6 +134,7 @@ export default function Game(props) {
             setCountdownTime(count => {
                 if (count === 1) {
                     // Stop countdown
+                    document.getElementsByClassName('game-input')[0].focus()
                     return stopCountdown()
                 }
                 return count - 1
