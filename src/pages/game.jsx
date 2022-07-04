@@ -112,6 +112,29 @@ export default function Game(props) {
         }
     }
 
+    function displayTimeTaken(given_seconds){ // To give the appropriate time to the user properly.
+        if (given_seconds < 60) {
+            return `${given_seconds.toFixed(1).toString()} seconds`
+        } else {
+            const minutes = Math.floor(given_seconds / 60);
+            const seconds = (given_seconds % 60).toFixed(1);
+            if (minutes > 1) {
+                return `${minutes.toString()} minutes and ${seconds.toString()} seconds`
+            } else {
+                return `${minutes.toString()} minute and ${seconds.toString()} seconds`
+            }
+        }
+    }
+
+    function displayRightPercent(right, wrongs) { // To give a rounded up percentage, so it can look nice.
+        const raw = Math.floor((right / (right + wrongs)) * 100);
+        return raw.toFixed(2)
+    }
+
+    function displayTotal(right, wrongs) { // To give total score in fraction form.
+        return `${right} / ${right + wrongs}`
+    }
+
     useEffect(() => {
         document.title = "Game";
         // Checks if values are valid and can be used properly
@@ -152,10 +175,10 @@ export default function Game(props) {
 
             {end ? (
                 <div>
-                    GOODBYE
-                    <h3>Score: {score.current}</h3>
-                    <h3>Time: {timeFinished.current}</h3>
-                    <h3>Percentage: {Math.floor((questionStats.current.correct / (questionStats.current.correct + questionStats.current.mistake)) * 100)}</h3>
+                    <h2>Congratulations!</h2>
+                    <h1>You scored {score.current}!</h1>
+                    <h3>Wow you just finished all 20 questions in {displayTimeTaken(timeFinished.current)}</h3>
+                    <h3>Amazing! You just got {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}% right!</h3>
                     <div>
                         {parsedChallenges.map((challenge, ind) => {
                             return (
@@ -166,12 +189,13 @@ export default function Game(props) {
                                 </div>
                             )
                         })}
+                        Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}
                     </div>
-                    <div>
-                        <button onClick={() => {
+                    <div className={`end-nav ${mode}`}>
+                        <button className="again-btn" onClick={() => {
                             window.location.reload()
                         }}>play again</button>
-                        <button onClick={() => {
+                        <button className="back-btn" onClick={() => {
                             navigate('../challenges')
                         }}>back to select</button>
                     </div>
