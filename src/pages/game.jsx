@@ -184,12 +184,11 @@ export default function Game(props) {
                             onChange={e => setAnswer(e.target.value)}/>
                     </div>
 
-                    <button onClick={e => {
+                    <button className={`ans-submit ${mode}`} onClick={e => {
                         e.preventDefault();
                         updateQuestion()
                     }}>Submit</button>
                 </form>
-                {score.current}
             </div>)
             }
         </div>
