@@ -167,6 +167,14 @@ export default function Game(props) {
                             )
                         })}
                     </div>
+                    <div>
+                        <button onClick={() => {
+                            window.location.reload()
+                        }}>play again</button>
+                        <button onClick={() => {
+                            navigate('../challenges')
+                        }}>back to select</button>
+                    </div>
                 </div>
             ) : (
             <div className={`gameplay ${mode}`}>
