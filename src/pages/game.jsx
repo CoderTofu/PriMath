@@ -178,8 +178,10 @@ export default function Game(props) {
                     <h2>Congratulations!</h2>
                     <h1>You scored {score.current}!</h1>
                     <h3>Wow you just finished all 20 questions in {displayTimeTaken(timeFinished.current)}</h3>
-                    <h3>Amazing! You just got {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}% right!</h3>
-                    <div>
+                    <h3> {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}</h3>
+
+                    <button>More</button>
+                    <div className="">
                         {parsedChallenges.map((challenge, ind) => {
                             return (
                                 <div key={`${challenge.name}${ind}`}>
@@ -191,6 +193,7 @@ export default function Game(props) {
                         })}
                         Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}
                     </div>
+
                     <div className={`end-nav ${mode}`}>
                         <button className="again-btn" onClick={() => {
                             window.location.reload()
