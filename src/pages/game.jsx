@@ -37,7 +37,7 @@ export default function Game(props) {
     const timeStarted = useRef("");
     const timeFinished = useRef("");
     const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
-    const score = useRef(0); 
+    const score = useRef(0);
 
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
@@ -67,9 +67,7 @@ export default function Game(props) {
             setQuestionCount(questionCount += 1); // Move up to the next question
             setCurrentQuestion(listOfQuestions.current[questionCount]); // Update the current question to the next
         } else {
-            const stopWatch = new Date()
-            timeFinished.current = (stopWatch.getTime() - timeStarted.current.getTime()) / miliToSeconds;
-            setEnd(true)
+            intEndGame()
         }
 
         setAnswer(""); // Reset the input
@@ -99,10 +97,8 @@ export default function Game(props) {
             } else if (timeTaken > 10) {
                 basePoints = 30;
             }
-            console.log(timeTaken)
 
             const POINTS = Math.ceil((((basePoints) * typeMultiplier) * valueDifference) + offPoints);
-            console.log(POINTS)
 
             score.current = score.current + POINTS;
             questionStats.current.correct += 1;
@@ -110,6 +106,24 @@ export default function Game(props) {
         } else {
             questionStats.current.mistake += 1;
         }
+    }
+
+    function intEndGame() { // Initiates end game phase
+        const stopWatch = new Date()
+        timeFinished.current = (stopWatch.getTime() - timeStarted.current.getTime()) / miliToSeconds;
+        setEnd(true)
+    }
+
+    function progressBarGraph() {
+        return (
+            <div></div>
+        )
+    }
+
+    function pieChartGraph() {
+        return (
+            <div></div>
+        )
     }
 
     function displayTimeTaken(given_seconds){ // To give the appropriate time to the user properly.
@@ -178,6 +192,9 @@ export default function Game(props) {
                     <h2>Congratulations!</h2>
                     <h1>You scored {score.current}!</h1>
                     <h3>Wow you just finished all 20 questions in {displayTimeTaken(timeFinished.current)}</h3>
+                    <div className={`ratio-percent-container`}>
+                        <div className="ratio-percent" id="ratio-percent"></div>
+                    </div>
                     <h3> {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}</h3>
 
                     <button>More</button>

@@ -149,4 +149,17 @@
 /* End of Game */
 
 /* End Screen */
+.ratio-percent-container {
+    border: 1px solid #000;
+    width: 500px;
+    height: 60px;
+}
+
+.ratio-percent {
+    --bar-percent: 0%;
+
+    background-color: green;
+    width: var(--bar-percent);
+    height: 100%;
+}
 /* End of End Screen */
