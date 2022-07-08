@@ -156,10 +156,9 @@
 }
 
 .ratio-percent {
-    --bar-percent: 0%;
+    /* div width is based on in line style */
 
     background-color: green;
-    width: var(--bar-percent);
     height: 100%;
 }
 /* End of End Screen */

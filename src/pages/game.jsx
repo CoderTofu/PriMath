@@ -13,6 +13,7 @@ export default function Game(props) {
     let navigate = useNavigate()
 
     // Countdown to start the game
+    const miliToSeconds = 1000;
     let [countdownTime, setCountdownTime] = useState(3);
     let timer = 0;
 
@@ -39,6 +40,9 @@ export default function Game(props) {
     const timeCheck = useRef(""); // This will help keep track how long it takes for user to answer a question
     const score = useRef(0);
 
+    // End Screen
+    let [isMore, setMore] = useState(false)
+
     function stopCountdown() {
         setCurrentQuestion(listOfQuestions.current[questionCount]);
         clearTimeout(timer);
@@ -56,7 +60,6 @@ export default function Game(props) {
         currentQuestion.user_answer = FLOAT_ANSWER; // Add a key for user's answer
 
         let newTime = new Date();
-        let miliToSeconds = 1000
         currentQuestion.time_taken = (newTime.getTime() - timeCheck.current.getTime()) / miliToSeconds;
 
         listOfQuestions.current[questionCount] = currentQuestion; // update the list of question now with the user's answer
@@ -112,18 +115,6 @@ export default function Game(props) {
         const stopWatch = new Date()
         timeFinished.current = (stopWatch.getTime() - timeStarted.current.getTime()) / miliToSeconds;
         setEnd(true)
-    }
-
-    function progressBarGraph() {
-        return (
-            <div></div>
-        )
-    }
-
-    function pieChartGraph() {
-        return (
-            <div></div>
-        )
     }
 
     function displayTimeTaken(given_seconds){ // To give the appropriate time to the user properly.
@@ -189,27 +180,33 @@ export default function Game(props) {
 
             {end ? (
                 <div>
-                    <h2>Congratulations!</h2>
-                    <h1>You scored {score.current}!</h1>
-                    <h3>Wow you just finished all 20 questions in {displayTimeTaken(timeFinished.current)}</h3>
+                    <h1>{score.current}</h1>
                     <div className={`ratio-percent-container`}>
-                        <div className="ratio-percent" id="ratio-percent"></div>
+                        <div className="ratio-percent" style={{
+                            width: `${displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}%`
+                        }} id="ratio-percent"></div>
                     </div>
-                    <h3> {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}</h3>
+                    <h3>{displayTimeTaken(timeFinished.current)}</h3>
 
-                    <button>More</button>
-                    <div className="">
-                        {parsedChallenges.map((challenge, ind) => {
-                            return (
-                                <div key={`${challenge.name}${ind}`}>
-                                    <h3>{challenge.name}</h3>
-                                    <h4>Overall: {questionStats.current[challenge.name.toLowerCase()].correct}/{questionStats.current[challenge.name.toLowerCase()].appearance}</h4>
-                                    <h4>Range: {challenge.min_val} - {challenge.max_val}</h4>
-                                </div>
-                            )
-                        })}
-                        Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}
-                    </div>
+                    <button onClick={() => {
+                        setMore(!isMore)
+                    }}>More</button>
+                    {isMore ? (
+                        <div className="">
+                            {parsedChallenges.map((challenge, ind) => {
+                                return (
+                                    <div key={`${challenge.name}${ind}`}>
+                                        <h3>{challenge.name}</h3>
+                                        <h4>Overall: {questionStats.current[challenge.name.toLowerCase()].correct}/{questionStats.current[challenge.name.toLowerCase()].appearance}</h4>
+                                        <h4>Range: {challenge.min_val} - {challenge.max_val}</h4>
+                                    </div>
+                                )
+                            })}
+                            Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}
+                            Percentage: {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}
+                        </div>
+                    ) : ("")}
+                    
 
                     <div className={`end-nav ${mode}`}>
                         <button className="again-btn" onClick={() => {
