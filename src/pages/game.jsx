@@ -179,18 +179,17 @@ export default function Game(props) {
             ) : ("")}
 
             {end ? (
-                <div>
-                    <h1>{score.current}</h1>
-                    <div className={`ratio-percent-container`}>
-                        <div className="ratio-percent" style={{
-                            width: `${displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}%`
-                        }} id="ratio-percent"></div>
+                <div className="end-screen">
+                    <div className="end-main-stats">
+                        <h1 className={`game-score ${mode}`}>{score.current}</h1>
+                        <div className={`ratio-percent-container ${mode}`}>
+                            <div className={`ratio-percent ${mode}`} style={{
+                                width: `${displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}%`
+                            }} id="ratio-percent"></div>
+                        </div>
+                        <h3 className="time-taken">{displayTimeTaken(timeFinished.current)}</h3>
                     </div>
-                    <h3>{displayTimeTaken(timeFinished.current)}</h3>
 
-                    <button onClick={() => {
-                        setMore(!isMore)
-                    }}>More</button>
                     {isMore ? (
                         <div className="">
                             {parsedChallenges.map((challenge, ind) => {
@@ -202,13 +201,18 @@ export default function Game(props) {
                                     </div>
                                 )
                             })}
-                            Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}
-                            Percentage: {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}
+                            <p>Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}</p>
+                            <p>Percentage: {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}</p>
                         </div>
                     ) : ("")}
                     
 
                     <div className={`end-nav ${mode}`}>
+                        <button onClick={() => {
+                            setMore(!isMore)
+                        }}>{isMore? ("see less"): ("see more")}</button>
+
+
                         <button className="again-btn" onClick={() => {
                             window.location.reload()
                         }}>play again</button>
