@@ -1,12 +1,410 @@
-.screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: cadetblue;
-}
+/* Pre-Game */
+    .screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        height: 100vh;
+        width: 100vw;
+        font-family: var(--heading-font);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--short-animation);
+    }
+
+    .screen.light {
+        background-color: white;
+    }
+    .screen.light h1 {
+        color: black;
+    }
+
+    .screen.dark {
+        background-color: black;
+    }
+    .screen.dark h1 {
+        color: white;
+    }
+/* End of Pre-Game */
+
+/* In Game */
+    .gameplay {
+        min-height: 500px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .question-num {
+        margin-top: 80px;
+        font-family: var(--heading-font);
+        font-size: 50px;
+        transition: var(--short-animation);
+    }
+    .question-num.light {
+        color: #000;
+    }
+    .question-num.dark {
+        color: #fff;
+    }
+
+    .game-form {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .game-form.light * {
+        color: black;
+    }
+    .game-form.dark * {
+        color: white;
+    }
+
+    .game-question {
+        width: 100%;
+        margin-top: 15px;
+        text-align: center;
+        font-family: var(--question-font);
+        font-size: 80px;
+        transition: var(--short-animation);
+    }
+
+    .input-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+    .input-container.light {
+        border-top: #000 solid 1px;
+    }
+    .input-container.dark {
+        border-top: rgb(4, 112, 9) solid 1px;
+    }
+
+    .challenge-type {
+        font-family: var(--secondary-font);
+        font-size: 50px;
+        letter-spacing: 5px;
+        text-align: center;
+        transition: var(--short-animation);
+    }
+
+    .game-input {
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+
+        outline: none;
+        margin-top: 30px;
+        width: 300px;
+        font-size: 40px;
+        height: 60px;
+        padding: 1rem 0.3rem;
+        text-align: center;
+        border-radius: 1rem;
+        transition: var(--short-animation);
+    }
+
+    .game-input.light {
+        color: #fff;
+        border: 2px solid rgb(175, 175, 175);
+        background-color: rgb(0, 0, 2);
+    }
+    .game-input.dark {
+        color: #000;
+        border: 2px solid rgb(75, 75, 75);
+        background-color: #fff;
+    }
+
+    .ans-submit {
+        font-family: var(--input-font);
+
+        border: 1px solid rgb(4, 112, 9);
+        transition: var(--short-animation);
+        margin-top: 15px;
+        cursor: pointer;
+        border-radius: 0.8rem;
+        letter-spacing: 5px;
+        font-size: 1.5rem;
+        padding: 0.5rem 2rem;
+    }
+
+    .ans-submit:hover {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
+
+    .ans-submit.light {
+        background-color: #fff;
+        border: 1px solid #000;
+    }
+    .ans-submit.dark {
+        background-color: #000;
+        border: 1px solid rgb(4, 112, 9);
+    }
+/* End of Game */
+
+/* End Screen */
+    .end-screen {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin-top: 50px;
+        padding: 10px;
+        min-height: 80vh;
+    }
+
+    .end-main-stats {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .game-score {
+        font-family: var(--heading-font);
+        font-size: 3rem;
+        margin-bottom: 15px;
+        transition: var(--reg-animation);
+    }
+    .game-score.light {
+        color: #000;
+    }
+    .game-score.dark {
+        color: #fff;
+    }
+
+    .ratio-percent-container {
+        overflow: hidden;
+        border-radius: 30px;
+        width: 500px;
+        height: 60px;
+        margin-bottom: 15px;
+        transition: var(--reg-animation);
+    }
+    .ratio-percent-container.light {
+        border: 5px solid #000;
+    }
+    .ratio-percent-container.dark {
+        border: 5px solid #fff;
+    }
+
+    .ratio-percent {
+        /* div width is based on in line style */
+        height: 100%;
+        transition: var(--reg-animation);
+    }
+    .ratio-percent.light {
+        background-color: rgb(255, 126, 148);
+    }
+    .ratio-percent.dark {
+        background-color: rgb(8, 185, 8);
+    }
+
+    .time-taken {
+        font-family: var(--secondary-font);
+        text-align: center;
+        font-weight: 200;
+        font-size: 1.5rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 15px;
+        transition: var(--reg-animation);
+    }
+    .time-taken.light {
+        color: #000;
+    }
+    .time-taken.dark {
+        color: #fff;
+    }
+
+    .end-nav {
+        margin-bottom: 30px;
+    }
+
+    .end-nav button {
+        --hsl-saturation: 100%;
+
+        font-family: var(--input-font);
+        font-size: 1rem;
+        cursor: pointer;
+        margin: 5px;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 1rem;
+        transition: var(--short-animation);
+    }
+
+    .end-nav button:hover {
+        --hsl-saturation: 80%;
+        transform: scale(1.1);
+    }
+
+    .more-btn {
+        background-color: hsl(36, var(--hsl-saturation), 57%);
+    }
+
+    .again-btn {
+        background-color: hsl(128, var(--hsl-saturation), 40%);
+    }
+
+    .back-btn {
+        background-color: hsl(0, var(--hsl-saturation), 58%);
+    }
+
+    .game-stats-container {
+        margin-bottom: 80px;
+        width: 350px;
+    }
+
+    .challenge-stats {
+        width: 100%;
+        margin-bottom: 30px;
+        transition: var(--short-animation);
+    }
+    .challenge-stats * {
+        font-family: var(--question-font);
+    }
+    .challenge-stats.light, 
+    .game-total.light,
+    .game-percent.light {
+        color: #000;
+    }
+    .challenge-stats.dark, 
+    .game-total.dark,
+    .game-percent.dark {
+        color: #fff;
+    }
+
+    .challenge-name {
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .challenge-overall {
+        font-size: 2rem;
+        font-weight: 300;
+    }
+
+    .challenge-range {
+        font-size: 1.5rem;
+        font-weight: 200;
+    }
+
+    .game-total, .game-percent {
+        font-size: 2rem;
+        font-family: var(--secondary-font);
+        letter-spacing: 2px;
+        font-weight: 100;
+        text-align: center;
+    }
+
+    @media (max-width: 650px) {
+        .ratio-percent-container {
+            width: 400px;
+        }
+
+        .game-stats-container {
+            width: 300px;
+        }
+
+        .challenge-name {
+            font-size: 2.5rem;
+        }
+
+        .challenge-overall {
+            font-size: 1.8rem;
+        }
+
+        .challenge-range {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .question-num {
+            font-size: 45px;
+        }
+
+        .game-question {
+            font-size: 70px;
+        }
+
+        .challenge-type {
+            font-size: 40px;
+        }
+
+        .ratio-percent-container {
+            width: 350px;
+        }
+
+        .game-input {
+            width: 250px;
+            height: 50px;
+            font-size: 35px;
+        }
+
+        .end-nav button {
+            padding: 0.8rem 1.1rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .question-num {
+            font-size: 40px;
+        }
+    
+        .game-question {
+            font-size: 60px;
+        }
+    
+        .challenge-type {
+            font-size: 32px;
+        }
+
+        .game-input {
+            width: 200px;
+            height: 45px;
+            font-size: 28px;
+        }
+    
+        .ratio-percent-container {
+            width: 350px;
+        }
+
+        .ratio-percent-container {
+            width: 300px;
+        }
+
+        .end-nav {
+            display: grid;
+            grid-template: 
+            "see-btn back-btn"
+            "again-btn again-btn";
+        }
+
+        .more-btn {
+            grid-area: see-btn;
+        }
+
+        .back-btn {
+            grid-area: back-btn;
+        }
+
+        .again-btn {
+            grid-area: again-btn;
+        }
+
+        .game-total,
+        .game-percent {
+            font-size: 1.5rem;
+        }
+    }
+
+/* End of End Screen */

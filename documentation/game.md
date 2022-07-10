@@ -33,8 +33,10 @@ This is how the score should be calculated by time (time it took to answer)
         basePoints = 90;
     } else if (timeTaken <= 7) {
         basePoints = 70;
+    } else if (timeTaken <= 10) {
+        basePoints = 50
     } else if (timeTaken > 10) {
-        basePoints = 50;
+        basePoints = 30;
     }
 
 For example they got an addition type question right in 2 seconds flat, the question being 10 + 100:
