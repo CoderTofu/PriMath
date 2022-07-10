@@ -187,28 +187,11 @@ export default function Game(props) {
                                 width: `${displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}%`
                             }} id="ratio-percent"></div>
                         </div>
-                        <h3 className="time-taken">{displayTimeTaken(timeFinished.current)}</h3>
+                        <h3 className={`time-taken ${mode}`}>{displayTimeTaken(timeFinished.current)}</h3>
                     </div>
 
-                    {isMore ? (
-                        <div className="">
-                            {parsedChallenges.map((challenge, ind) => {
-                                return (
-                                    <div key={`${challenge.name}${ind}`}>
-                                        <h3>{challenge.name}</h3>
-                                        <h4>Overall: {questionStats.current[challenge.name.toLowerCase()].correct}/{questionStats.current[challenge.name.toLowerCase()].appearance}</h4>
-                                        <h4>Range: {challenge.min_val} - {challenge.max_val}</h4>
-                                    </div>
-                                )
-                            })}
-                            <p>Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}</p>
-                            <p>Percentage: {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}</p>
-                        </div>
-                    ) : ("")}
-                    
-
                     <div className={`end-nav ${mode}`}>
-                        <button onClick={() => {
+                        <button className="more-btn" onClick={() => {
                             setMore(!isMore)
                         }}>{isMore? ("see less"): ("see more")}</button>
 
@@ -220,6 +203,22 @@ export default function Game(props) {
                             navigate('../challenges')
                         }}>back to select</button>
                     </div>
+
+                    {isMore ? (
+                    <div className="game-stats-container">
+                        {parsedChallenges.map((challenge, ind) => {
+                            return (
+                                <div className={`challenge-stats ${mode}`} key={`${challenge.name}${ind}`}>
+                                    <h3 className={`challenge-name ${mode}`}>{challenge.name}</h3>
+                                    <h4 className="challenge-overall">Overall: {questionStats.current[challenge.name.toLowerCase()].correct}/{questionStats.current[challenge.name.toLowerCase()].appearance}</h4>
+                                    <h4 className="challenge-range">Range: {challenge.min_val} - {challenge.max_val}</h4>
+                                </div>
+                            )
+                        })}
+                        <p className={`game-total ${mode}`}>Total: {displayTotal(questionStats.current.correct, questionStats.current.mistake)}</p>
+                        <p className={`game-percent ${mode}`}>Percentage: {displayRightPercent(questionStats.current.correct, questionStats.current.mistake)}%</p>
+                    </div>
+                    ) : ("")}
                 </div>
             ) : (
             <div className={`gameplay ${mode}`}>
