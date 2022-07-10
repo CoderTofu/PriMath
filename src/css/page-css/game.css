@@ -209,6 +209,7 @@
 
     .time-taken {
         font-family: var(--secondary-font);
+        text-align: center;
         font-weight: 200;
         font-size: 1.5rem;
         letter-spacing: 1.5px;
@@ -258,7 +259,7 @@
 
     .game-stats-container {
         margin-bottom: 80px;
-        width: 40%;
+        width: 350px;
     }
 
     .challenge-stats {
@@ -282,12 +283,8 @@
 
     .challenge-name {
         font-size: 3rem;
-    }
-    .challenge-name.light {
-        border-bottom: 1px solid #000;
-    }
-    .challenge-name.dark {
-        border-bottom: 1px solid #fff;
+        text-align: center;
+        margin-bottom: 15px;
     }
 
     .challenge-overall {
@@ -306,6 +303,108 @@
         letter-spacing: 2px;
         font-weight: 100;
         text-align: center;
+    }
+
+    @media (max-width: 650px) {
+        .ratio-percent-container {
+            width: 400px;
+        }
+
+        .game-stats-container {
+            width: 300px;
+        }
+
+        .challenge-name {
+            font-size: 2.5rem;
+        }
+
+        .challenge-overall {
+            font-size: 1.8rem;
+        }
+
+        .challenge-range {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .question-num {
+            font-size: 45px;
+        }
+
+        .game-question {
+            font-size: 70px;
+        }
+
+        .challenge-type {
+            font-size: 40px;
+        }
+
+        .ratio-percent-container {
+            width: 350px;
+        }
+
+        .game-input {
+            width: 250px;
+            height: 50px;
+            font-size: 35px;
+        }
+
+        .end-nav button {
+            padding: 0.8rem 1.1rem;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .question-num {
+            font-size: 40px;
+        }
+    
+        .game-question {
+            font-size: 60px;
+        }
+    
+        .challenge-type {
+            font-size: 32px;
+        }
+
+        .game-input {
+            width: 200px;
+            height: 45px;
+            font-size: 28px;
+        }
+    
+        .ratio-percent-container {
+            width: 350px;
+        }
+
+        .ratio-percent-container {
+            width: 300px;
+        }
+
+        .end-nav {
+            display: grid;
+            grid-template: 
+            "see-btn back-btn"
+            "again-btn again-btn";
+        }
+
+        .more-btn {
+            grid-area: see-btn;
+        }
+
+        .back-btn {
+            grid-area: back-btn;
+        }
+
+        .again-btn {
+            grid-area: again-btn;
+        }
+
+        .game-total,
+        .game-percent {
+            font-size: 1.5rem;
+        }
     }
 
 /* End of End Screen */
