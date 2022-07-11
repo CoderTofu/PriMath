@@ -25,8 +25,8 @@ export default function About(props) {
                 <p className="about-msg">
                     Hey everyone! Thanks for checking out my website. I started to create this around June 2022.
                     I learned a lot throughout the process of building this site. 
-                    If you guys were to ever start encountering bugs, you can hit me up on my socials, 
-                    and I'll do my best to fix them for as fast as I could.
+                    If you guys were to ever start encountering bugs, you can hit me up on my socials,
+                    and I'll do my best to fix them as fast as I could.
                 </p>
                 <ul>
                     <a className="about-link" target={"_blank"} href="https://github.com/CoderTofu"><li>Github</li></a>

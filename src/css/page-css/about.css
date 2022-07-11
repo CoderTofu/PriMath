@@ -79,7 +79,7 @@
 }
 
 #msg-header {
-    font-weight: 400;
+    font-weight: 500;
     font-size: 3rem;
 }
 
@@ -111,4 +111,52 @@
 
 .about-link:hover {
     font-size: 1.7rem;
+}
+
+@media (max-width: 600px) {
+    .about-art,
+    .msg-footer {
+        padding: 3.5rem;
+    }
+
+    .about-headers {
+        font-size: 3.5rem;
+    }
+
+    .about-content {
+        font-size: 1rem;
+    }
+
+    #msg-header {
+        font-size: 2.5rem;
+    }
+
+    .about-msg {
+        font-size: 1rem;
+    }
+
+    .about-link {
+        font-size: 1.2rem;
+    }
+
+    .about-link:hover {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-container {
+        width: 100%;
+    }
+
+    .about-art,
+    .msg-footer {
+        border-radius: 0;
+        padding: 2rem 1rem 2rem 1rem;
+    }
+
+    .about-content,
+    .about-msg {
+        width: 100%;
+    }
 }
