@@ -7,7 +7,9 @@ export default function NotFound() {
 
     return (
         <div>
-            PAGE NOT FOUND
+            <h1>404</h1>
+            <h2>Page not found.</h2>
+            <p>Page may have been removed or have never existed in the first place.</p>
         </div>
     )
 }
