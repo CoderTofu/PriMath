@@ -24,6 +24,7 @@ export default function Menu(props) {
                 <li><Link onClick={closeMenu} className={`menu-link ${mode}`} to={"/"}>Home</Link></li>
                 <li><Link onClick={closeMenu} className={`menu-link ${mode}`} to={"/challenges"}>Challenges</Link></li>
                 <li><Link onClick={closeMenu} className={`menu-link ${mode}`} to={"/about"}>About</Link></li>
+                <li><a onClick={closeMenu} className={`menu-link ${mode}`} target={"_blank"} href="https://github.com/CoderTofu/PriMath">Repository</a></li>
             </ul>
         </div>
     )
