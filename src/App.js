@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import Home from './pages/home';
 import Challenges from './pages/challenges';
 import About from './pages/about';
-import SupportUs from "./pages/support_us";
 import ViewMode from "./components/view-mode";
 import NotFound from "./pages/not_found";
 import Game from "./pages/game"
@@ -37,7 +36,6 @@ function App() {
           <Route path="/challenges" element={<Challenges viewMode={mode} />} />
           <Route path="/challenges/game" element={<Game viewMode={mode} />} />
           <Route path="/about" element={<About viewMode={mode}/>} />
-          <Route path="/support" element={<SupportUs viewMode={mode}/>} />
           <Route path="*" element={<NotFound viewMode={mode} />} />
         </Routes>
       </main>
