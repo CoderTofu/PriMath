@@ -31,3 +31,10 @@ I needed a landing page for my site so I went with a pretty generic one. Thought
 I had to first have a selection page before actually starting the game. I figured four buttons to select four types of challenges were enough. But eventually, I decided to add a way to edit the value range for more versatility. 
 
 The hard part was actually changing and making sure that the values were valid. More on this later with this file's own documentation page.
+
+### about.jsx
+At this point I wanted the about page to be as simple as possible. I wanted the contents to be read and understood easily so
+I used some nice fonts I found then configured the page to work with the two display modes I have
+
+### not_found.jsx
+A generic 404 page nothing to really talk about.
