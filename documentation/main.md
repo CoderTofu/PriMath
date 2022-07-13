@@ -37,4 +37,4 @@ At this point I wanted the about page to be as simple as possible. I wanted the 
 I used some nice fonts I found then configured the page to work with the two display modes I have
 
 ### not_found.jsx
-A generic 404 page nothing to really talk about.
+A generic 404 page nothing to really talk about. Also added a redirect to home for convenience.
