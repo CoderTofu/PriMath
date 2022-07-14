@@ -17,10 +17,8 @@ I tried to divide my files as cleanly as possible so I created 3 folders in my s
 
 #### menu.jsx
 I wasted a lot of time writing "cool" menus only to find out it sucked.
-So in the end I just did the simplest one I could think of and by that I mean searching for the internet for the easiest one I could put in my site.
-
-#### view-mode.jsx
-I thought that having a view mode would have been very cool. So I made a single mock up, turns out it was cooler if the browser remembered my preference. In the end I used localStorage to save view mode preference.
+So in the end I just did the simplest one I could think of and by that I mean searching for the internet for the easiest one I could put in my site. By the first round of feedback they told me to put the dark mode settings in the menu so after 30 minutes of fixing it I left it in the menu
+as a setting.
 
 ### Pages
 

@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import Home from './pages/home';
 import Challenges from './pages/challenges';
 import About from './pages/about';
-import ViewMode from "./components/view-mode";
 import NotFound from "./pages/not_found";
 import Game from "./pages/game"
 
@@ -29,7 +28,7 @@ function App() {
 
   return (
     <div className={`App ${mode}`}>
-      <Menu viewMode={mode}/>
+      <Menu changeMode={changeMode} viewMode={mode}/>
       <main className="content">
         <Routes>
           <Route path="/" element={<Home viewMode={mode}/>} />
@@ -39,7 +38,6 @@ function App() {
           <Route path="*" element={<NotFound viewMode={mode} />} />
         </Routes>
       </main>
-      <ViewMode changeMode={changeMode} viewMode={mode}/>
     </div>
   );
 }
