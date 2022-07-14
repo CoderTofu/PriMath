@@ -10,6 +10,11 @@ The game consists of 20 questions based on the user's selection.
 The score is calculated with the base point being the time taken to answer the question.
 With additional score multipliers that is based with the challenge type, and range difference.
 
+## How to run on your local machine? 💻
+First and foremost make sure that you have npm installed.
+
+https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
 ## Final Thoughts 🤔💭
 This website took me over 115 days. I started this project by March 20, 2022 and finished by July 13, 2022.
 I built this website to mainly practice my react.js skills and my ui skills.
