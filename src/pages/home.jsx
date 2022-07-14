@@ -16,7 +16,7 @@ export default function Home(props) {
                 <h1 className={`title ${mode}`}>PriMath</h1>
                 <h3 className={`site-title ${mode}`}>For all the math lovers</h3>
             </div>
-            <Link className={`generate-btn ${mode}`} to={"/challenges"}>let's go</Link>
+            <Link className={`generate-btn ${mode}`} to={"/challenges"}>continue</Link>
         </div>
     )
 }
