@@ -13,21 +13,21 @@ With additional score multipliers that is based with the challenge type, and ran
 ## How to run on your local machine? 💻
 First and foremost make sure that you have npm installed.
 
-https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+`https://docs.npmjs.com/downloading-and-installing-node-js-and-npm`
 
-After that install git. 
+After that, install git. 
 
-https://git-scm.com/downloads
+`https://git-scm.com/downloads`
 
 Then, open your terminal and clone this repository with this command:
 
-git clone https://github.com/CoderTofu/PriMath.git
+`git clone https://github.com/CoderTofu/PriMath.git`
 
 Finally, run this command:
 
-npm start
+`npm start`
 
-And you're done! 🎉🎉
+Wait for it to finish, and you're done! 🎉🎉
 
 ## Final Thoughts 🤔💭
 This website took me over 115 days. I started this project by March 20, 2022 and finished by July 13, 2022.
