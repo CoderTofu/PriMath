@@ -198,7 +198,7 @@ export default function Challenges(props) {
             </div>
 
             <div className={`edit-container ${showEdit} ${mode}`}>
-                <div className="content-header">Edit the challenge range!</div>
+                <div className="content-header">Edit the range!</div>
                 <div className={`edit-input-container ${mode}`}>
                     <div className={`form-container ${mode}`}>
                         <h2 className={`selected-type ${mode}`}>~~{editSelect.name}~~</h2>
