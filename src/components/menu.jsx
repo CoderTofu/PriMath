@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom"
 import "../css/component-css/menu.css"
 
 export default function Menu(props) {
     let mode = props.viewMode;
     let changeMode = props.changeMode;
+    let [menuDisplay, setMenuDisplay] = useState("show")
 
     let [isChecked, setIsChecked] = useState(false);
 
@@ -33,8 +34,14 @@ export default function Menu(props) {
         changeMode(setViewTo)
     }
 
+    useEffect(() => {
+        if (window.location.pathname.toString() === "/challenges/game") {
+            setMenuDisplay("hide")
+        }
+    }, [window.location.pathname])
+
     return (
-        <div className="menu">
+        <div className={`menu ${menuDisplay}`}>
             <div onClick={openMenu} id="burger-menu" className={`burger-menu ${mode}`}><img className="burger-icon" src="/img/burger.png" alt="" /></div>
             <ul id="menu-list" className={`menu-list`}>
                 <div onClick={closeMenu} className={`close-btn ${mode}`}><h3 className="close-sign">X</h3></div>

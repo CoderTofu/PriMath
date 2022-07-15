@@ -5,6 +5,14 @@
     z-index: 100;
 }
 
+.menu.show {
+    display: block;
+}
+
+.menu.hide {
+    display: none;
+}
+
 .burger-menu {
     display: flex;
     justify-content: center;
