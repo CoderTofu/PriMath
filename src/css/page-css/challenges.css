@@ -10,7 +10,6 @@
 
 .content-header {
     font-family: var(--heading-font);
-    font-style: italic;
     font-size: 50px;
     padding-bottom: 10px;
     transition: var(--reg-animation);

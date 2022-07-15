@@ -37,6 +37,8 @@ export default function Menu(props) {
     useEffect(() => {
         if (window.location.pathname.toString() === "/challenges/game") {
             setMenuDisplay("hide")
+        } else {
+            setMenuDisplay("show")
         }
     }, [window.location.pathname])
 
