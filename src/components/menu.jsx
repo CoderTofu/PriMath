@@ -52,10 +52,13 @@ export default function Menu(props) {
                         <input
                             type="checkbox"
                             name="view"
+                            onChange={() => {
+                                setIsChecked(!isChecked)
+                            }}
                             checked={isChecked}
                         />
                         Dark Mode
-                        <span class="checkmark"></span>
+                        <span className="checkmark"></span>
                     </label>
                 </div>
             </ul>
