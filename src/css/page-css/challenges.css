@@ -46,7 +46,8 @@
     font-size: 30px;
     border-radius: 5px;
     transition: var(--short-animation);
-    font-family: var(--input-font);
+    font-family: var(--secondary-font);
+    font-weight: 400;
 }
 
 .available-container.light .available-btn {
@@ -88,7 +89,8 @@
     padding: 25px;
     border-radius: 10px;
     font-size: 20px;
-    font-family: var(--input-font);
+    font-family: var(--secondary-font);
+    font-weight: 500;
     transition: var(--short-animation);
 }
 
@@ -194,8 +196,8 @@
 }
 
 .edit-problems h3 {
-    font-family: var(--tertiary-font);
-    font-weight: 600;
+    font-family: var(--heading-font);
+    font-weight: 400;
     font-size: 1.3rem;
 }
 
@@ -254,7 +256,8 @@
 }
 
 .label-input {
-    font-family: var(--input-font);
+    font-family: var(--secondary-font);
+    font-weight: 300;
     padding-right: 0.5rem;
     font-size: 1.3rem;
 }
@@ -268,6 +271,7 @@
 
 .edit-input-container .selected-type {
     font-family: var(--secondary-font);
+    font-weight: 500;
     grid-area: title;
 }
 

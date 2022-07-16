@@ -39,6 +39,10 @@ export default function checkVals(selected) {
         if (!VALID_OPERATIONS.includes(value_name)) {
             problemList.push(`TypeError: ${value_name} operation not recognized.`)
         }
+
+        if (maximum_value === minimum_value) {
+            problemList.push(`In ${value_name} challenge: The maximum value can't be equal to minimum value.`)
+        }
     }
 
     if (problemList.length === 0) {

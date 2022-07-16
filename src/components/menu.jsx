@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom"
 import "../css/component-css/menu.css"
 
 export default function Menu(props) {
     let mode = props.viewMode;
     let changeMode = props.changeMode;
-    let [menuDisplay, setMenuDisplay] = useState("show")
+    let menuDisplay = props.menu_display;
 
     let [isChecked, setIsChecked] = useState(false);
 
@@ -33,14 +33,6 @@ export default function Menu(props) {
         window.localStorage.setItem("view_mode", setViewTo)
         changeMode(setViewTo)
     }
-
-    useEffect(() => {
-        if (window.location.pathname.toString() === "/challenges/game") {
-            setMenuDisplay("hide")
-        } else {
-            setMenuDisplay("show")
-        }
-    }, [window.location.pathname])
 
     return (
         <div className={`menu ${menuDisplay}`}>

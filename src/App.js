@@ -17,6 +17,7 @@ import Menu from "./components/menu";
 
 function App() {
   let localView = window.localStorage.getItem("view_mode");
+  let [menuDisplay, setMenuDisplay] = useState("show")
   if (localView === null) {
     localView = "light"
     window.localStorage.setItem("view_mode", "light")
@@ -28,12 +29,12 @@ function App() {
 
   return (
     <div className={`App ${mode}`}>
-      <Menu changeMode={changeMode} viewMode={mode}/>
+      <Menu changeMode={changeMode} viewMode={mode} menu_display={menuDisplay}/>
       <main className="content">
         <Routes>
           <Route path="/" element={<Home viewMode={mode}/>} />
           <Route path="/challenges" element={<Challenges viewMode={mode} />} />
-          <Route path="/challenges/game" element={<Game viewMode={mode} />} />
+          <Route path="/challenges/game" element={<Game viewMode={mode} menu_display={setMenuDisplay}/>} />
           <Route path="/about" element={<About viewMode={mode}/>} />
           <Route path="*" element={<NotFound viewMode={mode} />} />
         </Routes>

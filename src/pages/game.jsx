@@ -7,10 +7,11 @@ import checkVals from './gameFuncs/checkValue';
 import "../css/page-css/game.css"
 
 export default function Game(props) {
-    let mode = props.viewMode
+    let mode = props.viewMode;
+    let setMenuDisplay = props.menu_display;
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
-    let navigate = useNavigate()
+    let navigate = useNavigate();
 
     // Countdown to start the game
     const miliToSeconds = 1000;
@@ -48,6 +49,8 @@ export default function Game(props) {
         clearTimeout(timer);
         timeStarted.current = new Date();
         timeCheck.current = timeStarted.current;
+        // Hide menu
+        setMenuDisplay("hide")
     }
 
     function updateQuestion() {
@@ -115,6 +118,8 @@ export default function Game(props) {
         const stopWatch = new Date()
         timeFinished.current = (stopWatch.getTime() - timeStarted.current.getTime()) / miliToSeconds;
         setEnd(true)
+        // show menu
+        setMenuDisplay("show")
     }
 
     function displayTimeTaken(given_seconds){ // To give the appropriate time to the user properly.
@@ -157,6 +162,7 @@ export default function Game(props) {
             // STATS
             questionStats.current[generatedQuestion.type.toLowerCase()].appearance += 1
         }
+
         // Countdown timer
         timer = setInterval(() => {
             setCountdownTime(count => {
@@ -168,6 +174,8 @@ export default function Game(props) {
                 return count - 1
             })
         }, 1000)
+
+        
     }, [])
 
     return (
