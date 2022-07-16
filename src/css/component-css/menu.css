@@ -1,17 +1,26 @@
 .menu {
     position: absolute;
     top: 5px;
-    left: 5px;
+    right: 5px;
     z-index: 100;
+    transition: var(--reg-animation);
+}
+
+.menu.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.menu.hide {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .burger-menu {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #111;
     padding: 10px;
-    border-radius: 100%;
     transition: var(--reg-animation);
     cursor: pointer;
     transition: var(--short-animation);
@@ -21,21 +30,13 @@
     transform: scale(1.1);
 }
 
-.burger-menu.dark{
-    background-color: rgb(199, 199, 199);
-}
-
-.burger-menu.dark .burger-icon{
+.burger-menu.light .burger-icon{
     filter: invert(100%);
 }
 
-.burger-menu.light {
-    background-color: #111;
-}
-
 .burger-icon {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
 }
 
 .menu-list {
@@ -47,12 +48,12 @@
     position: fixed;
     background-color: #111;
     overflow-x: hidden;
-    border-radius: 0px 50px 50px 0px;
+    border-radius: 0px 0px 0px 0px;
     z-index: 1;
     top: 0;
     height: 100vh;
     width: var(--menu-list-width);
-    left: calc(var(--menu-list-width) * -1);
+    right: calc(var(--menu-list-width) * -1);
     padding: 0;
 
     transition: var(--reg-animation);
@@ -88,24 +89,99 @@
 
 .menu-list h2 {
     font-family: var(--heading-font);
-    font-style: italic;
     font-size: 40px;
     padding: 3rem;
     border-bottom: 1px solid #fff;
 }
 
-.menu-list li {
+.menu-list li,
+#set-mode label {
     font-family: var(--secondary-font);
     padding: 2rem;
     font-size: 18px;
 }
 
-.menu-link {
+.menu-link,
+#set-mode label {
     color: #fff;
     text-decoration: none;
     transition: var(--short-animation);
 }
 
-.menu-link:hover {
+.menu-link:hover,
+#set-mode label:hover {
     color: rgb(189, 189, 189);
 }
+
+#set-mode {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    padding: 2rem;
+    max-width: 80%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#set-mode label,
+.checkmark {
+    cursor: pointer;
+}
+
+#set-mode label {
+    padding: 0;
+    margin-left: 10px;
+}
+
+/* Hide the browser's default checkbox */
+#set-mode input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #fff;
+    border-radius: 3px;
+    transition: var(--short-animation);
+}
+
+.checkbox-container:hover input~.checkmark {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.checkbox-container input:checked~.checkmark {
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+

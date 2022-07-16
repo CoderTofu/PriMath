@@ -5,12 +5,11 @@
 .challenge-container > div {
     min-height: 150px;
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .content-header {
     font-family: var(--heading-font);
-    font-style: italic;
     font-size: 50px;
     padding-bottom: 10px;
     transition: var(--reg-animation);
@@ -45,9 +44,10 @@
     width: 300px;
     cursor: pointer;
     font-size: 30px;
-    border-radius: 150px;
+    border-radius: 5px;
     transition: var(--short-animation);
-    font-family: var(--input-font);
+    font-family: var(--secondary-font);
+    font-weight: 400;
 }
 
 .available-container.light .available-btn {
@@ -87,9 +87,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 25px;
-    border-radius: 300px;
+    border-radius: 10px;
     font-size: 20px;
-    font-family: var(--input-font);
+    font-family: var(--secondary-font);
+    font-weight: 500;
     transition: var(--short-animation);
 }
 
@@ -131,7 +132,7 @@
     cursor: pointer;
     border: none;
     color: #fff;
-    border-radius: 15px;
+    border-radius: 5px;
     transition: var(--short-animation);
 }
 
@@ -172,17 +173,17 @@
 }
 
 .form-container {
-    border-radius: 1rem;
+    border-radius: 0rem;
     padding: 1rem;
     transition: var(--reg-animation);
 }
 
 .form-container.light {
-    border: 1px solid #000;
+    border: 1px dashed #000;
 }
 
 .form-container.dark {
-    border: 1px solid #fff;
+    border: 1px dashed #fff;
 }
 
 .edit-problems {
@@ -195,8 +196,8 @@
 }
 
 .edit-problems h3 {
-    font-family: var(--tertiary-font);
-    font-weight: 600;
+    font-family: var(--heading-font);
+    font-weight: 400;
     font-size: 1.3rem;
 }
 
@@ -255,7 +256,8 @@
 }
 
 .label-input {
-    font-family: var(--input-font);
+    font-family: var(--secondary-font);
+    font-weight: 300;
     padding-right: 0.5rem;
     font-size: 1.3rem;
 }
@@ -269,6 +271,7 @@
 
 .edit-input-container .selected-type {
     font-family: var(--secondary-font);
+    font-weight: 500;
     grid-area: title;
 }
 

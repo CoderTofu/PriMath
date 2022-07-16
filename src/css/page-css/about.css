@@ -43,7 +43,7 @@
 }
 
 .about-art {
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 5rem;
     display: flex;
     flex-direction: column;
@@ -74,7 +74,7 @@
     text-align: right;
     background-color: rgba(0, 0, 0, 0.13);
     padding: 5rem;
-    border-radius: 20px;
+    border-radius: 10px;
     margin-bottom: 150px;
 }
 
