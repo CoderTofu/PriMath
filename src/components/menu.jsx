@@ -39,10 +39,7 @@ export default function Menu(props) {
         if (window.location.pathname !== "/challenges/game") {
             // show menu
             setMenuDisplay("show")
-        } else {
-            // Hide menu
-            setMenuDisplay("hide")
-        }
+        } 
     }, [window.location.pathname])
 
     return (

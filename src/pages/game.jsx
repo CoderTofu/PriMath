@@ -143,6 +143,7 @@ export default function Game(props) {
         return `${right} / ${right + wrongs}`
     }
 
+    // Game countdown
     useEffect(() => {
         document.title = "Game";
         // Checks if values are valid and can be used properly
@@ -175,6 +176,14 @@ export default function Game(props) {
 
         
     }, [])
+
+    // Removing Menu
+    useEffect(() => {
+        // Hide menu
+        if (timeStarted.current !== "") {
+            setMenuDisplay("hide")
+        }
+    }, [timeStarted.current])
 
     return (
         <div>
