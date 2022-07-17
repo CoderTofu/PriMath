@@ -11,7 +11,7 @@ export default function About(props) {
     return (
         <div className={`about-container ${mode}`}>
             <main className={`about-art ${mode}`}>
-                <h1 className="about-headers">🧮 About Primath</h1>
+                <h1 className="about-headers"><span role="img" aria-label="Abacus">🧮</span> About Primath</h1>
                 <p className="about-content">
                     Primath is a 20-question quiz web-game with the intention to be challenging yet easy to get into.
                     By being based like a quiz game, the game is intended for everyone who knows the four 
@@ -21,7 +21,7 @@ export default function About(props) {
             </main>
 
             <footer className={`msg-footer ${mode}`}>
-                <h1 id="msg-header" className="about-headers">📰 Message from the Creator</h1>
+                <h1 id="msg-header" className="about-headers"><span role="img" aria-label="Newspaper">📰</span> Message from the Creator</h1>
                 <p className="about-msg">
                     Hey everyone! Thanks for checking out my website. I started to create this around June 2022.
                     I learned a lot throughout the process of building this site. 

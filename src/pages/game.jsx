@@ -8,7 +8,7 @@ import "../css/page-css/game.css"
 
 export default function Game(props) {
     let mode = props.viewMode;
-    let setMenuDisplay = props.menu_display;
+    let setMenuDisplay = props.set_menu_display;
     let stringedChallenges = window.localStorage.getItem("challenges");
     let parsedChallenges = JSON.parse(stringedChallenges);
     let navigate = useNavigate();
@@ -49,8 +49,6 @@ export default function Game(props) {
         clearTimeout(timer);
         timeStarted.current = new Date();
         timeCheck.current = timeStarted.current;
-        // Hide menu
-        setMenuDisplay("hide")
     }
 
     function updateQuestion() {
@@ -145,6 +143,7 @@ export default function Game(props) {
         return `${right} / ${right + wrongs}`
     }
 
+    // Game countdown
     useEffect(() => {
         document.title = "Game";
         // Checks if values are valid and can be used properly
@@ -177,6 +176,14 @@ export default function Game(props) {
 
         
     }, [])
+
+    // Removing Menu
+    useEffect(() => {
+        // Hide menu
+        if (timeStarted.current !== "") {
+            setMenuDisplay("hide")
+        }
+    }, [timeStarted.current])
 
     return (
         <div>
@@ -247,6 +254,7 @@ export default function Game(props) {
                     <button className={`ans-submit ${mode}`} onClick={e => {
                         e.preventDefault();
                         updateQuestion()
+                        document.getElementsByClassName('game-input')[0].focus()
                     }}>Submit</button>
                 </form>
             </div>)
