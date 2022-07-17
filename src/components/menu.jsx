@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom"
 import "../css/component-css/menu.css"
 
@@ -6,8 +6,9 @@ export default function Menu(props) {
     let mode = props.viewMode;
     let changeMode = props.changeMode;
     let menuDisplay = props.menu_display;
+    let setMenuDisplay = props.set_menu_display;
 
-    let [isChecked, setIsChecked] = useState(false);
+    let [isChecked, setIsChecked] = useState(mode === "light" ? (false) : (true));
 
     function openMenu() {
         document.getElementById("menu-list").style.right = "0px";
@@ -33,6 +34,16 @@ export default function Menu(props) {
         window.localStorage.setItem("view_mode", setViewTo)
         changeMode(setViewTo)
     }
+
+    useEffect(() => {
+        if (window.location.pathname !== "/challenges/game") {
+            // show menu
+            setMenuDisplay("show")
+        } else {
+            // Hide menu
+            setMenuDisplay("hide")
+        }
+    }, [window.location.pathname])
 
     return (
         <div className={`menu ${menuDisplay}`}>

@@ -29,12 +29,12 @@ function App() {
 
   return (
     <div className={`App ${mode}`}>
-      <Menu changeMode={changeMode} viewMode={mode} menu_display={menuDisplay}/>
+      <Menu changeMode={changeMode} viewMode={mode} menu_display={menuDisplay} set_menu_display={setMenuDisplay} />
       <main className="content">
         <Routes>
           <Route path="/" element={<Home viewMode={mode}/>} />
           <Route path="/challenges" element={<Challenges viewMode={mode} />} />
-          <Route path="/challenges/game" element={<Game viewMode={mode} menu_display={setMenuDisplay}/>} />
+          <Route path="/challenges/game" element={<Game viewMode={mode} set_menu_display={setMenuDisplay}/>} />
           <Route path="/about" element={<About viewMode={mode}/>} />
           <Route path="*" element={<NotFound viewMode={mode} />} />
         </Routes>
