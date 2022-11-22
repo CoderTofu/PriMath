@@ -23,6 +23,10 @@ Then, open your terminal and clone this repository with this command:
 
 `git clone https://github.com/CoderTofu/PriMath.git`
 
+Make sure to download the node modules by, running this command:
+
+`npm install`
+
 Finally, run this command:
 
 `npm start`
